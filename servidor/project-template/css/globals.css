@@ -7,3 +7,71 @@
     --button-standby: #44af47;
     --button-hover: #3e8f41;
 }
+
+.header {
+    background-color: #27213C;
+    color: white;
+    display: flex;
+    height: 70px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 3;
+}
+  
+.menu {
+    height: inherit;
+}
+
+ol,ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+figure{
+    margin: 0;
+}
+  
+.header a{
+    color: white; 
+    text-decoration: none;
+}
+
+.header ol {
+    height: inherit;
+    display: flex;
+}
+
+.header ol li {
+    height: inherit;
+    font-family: 'Bebas Neue', cursive;
+}
+
+.header a {
+    display: flex;
+    align-items: center;
+    height: inherit;
+    padding: 0 10px;
+}
+
+.container {
+    max-width: 1000px;
+    width: 100%;
+    flex: 1;
+    margin: 0 auto;
+    display: inherit;
+    justify-content: inherit;
+    align-items: inherit;
+    height: inherit;
+    flex-wrap: inherit; 
+}
+
+.login-title {
+    font-family: 'Black Ops One', cursive;
+    font-size: xxx-large;
+    margin: 0;
+    color: var(--mark-title);
+}
