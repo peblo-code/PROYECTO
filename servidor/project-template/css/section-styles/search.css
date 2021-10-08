@@ -1,0 +1,36 @@
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.title-and-back {
+    width: auto;
+    gap: 1em;
+}
+
+.form-global-box {
+    grid-template-columns: 1fr;
+    width: 40em;
+}
+
+.form-item h4 {
+    margin: 0;
+    margin-right: 1em;
+}
+
+.form-item {
+    display: flex;
+    justify-content: center;
+    grid-gap: 0;
+    flex-direction: column;
+}
+
+.form-search {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.form-search-input {
+    width: 30em;
+}

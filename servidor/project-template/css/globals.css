@@ -138,4 +138,39 @@ iframe {
     justify-content: space-between;
     align-items: center;
     width: 25em;
+    font-family: 'Roboto', sans-serif;
+}
+
+.form-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-global-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 2em;
+  align-items: center;
+  margin: 0 auto;
+  font-family: 'Open Sans', sans-serif;
+  background-color: rgb(213, 213, 213);
+  border-radius: 5px;
+  box-shadow: 1px 0px 5px 0px rgba(0,0,0,0.75) inset;
+  -webkit-box-shadow: 1px 0px 5px 0px rgba(0,0,0,0.75) inset;
+  -moz-box-shadow: 1px 0px 5px 0px rgba(0,0,0,0.75) inset;
+}
+
+.form-section {
+  display: grid;
+  grid-gap: 3em;
+}
+
+.form-item {
+  display: grid;
+  justify-items: center;
+  grid-template-columns: 6em 16em;
+  grid-gap: .5em;
 }
