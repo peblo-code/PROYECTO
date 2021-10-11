@@ -21,9 +21,9 @@
         <legend><h1 class="login-title">Automóviles Benedix</h1></legend>
             <section class="login-box">
                 <h2 class="login-box-title">Iniciar Sesión</h2>
-                <form action="" class="login-box-form">
+                <form action="./" method="POST" class="login-box-form">
                     <div class="login-box-form-div">
-                        <input type="text" required class="login-box-form-div-input">
+                        <input type="text" required class="login-box-form-div-input" name="usuario">
                         <label class="lbl-nombre">
                             <span class=text-nomb>
                                 Usuario
@@ -31,14 +31,14 @@
                         </label>
                     </div>
                     <div class="login-box-form-div">
-                        <input type="password" required class="login-box-form-div-input">
+                        <input type="password" required class="login-box-form-div-input"  name="clave">
                         <label class="lbl-nombre">
                             <span class=text-nomb>
                                 Contraseña
                             </span>
                         </label>
                     </div>
-                    <input type="button" value="Ingresar" class="login-box-button">
+                    <button type="submit" class="login-box-button">Ingresar</button>
                 </form>
             </section>
     </fieldset>
