@@ -5,10 +5,83 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static '../static/index.css' %}" >
-    <title>TEST</title>
+    <title>Inicio: Automotores Benedix</title>
+    <link rel="stylesheet" href="{% static './css/globals.css' %}">
+    <link rel="stylesheet" href="{% static './css/header.css' %}">
+    <link rel="stylesheet" href="{% static './css/index.css' %}">
+     <!-- Fuentes de Google -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap" rel="stylesheet">
+     <!-- Fuentes de Google -->
 </head>
 <body>
-    <h1>HOLA MUNDO</h1>
+    <iframe src="{% static './header.html' %}" frameborder="0"></iframe>
+    <section class="menu-card">
+        <div class="container">
+            <div class="card">
+                <div class="card-icon">
+                    <span class="icon-box-add"></span>
+                </div>
+                <h4>Nuevo Producto</h4>
+                <p>Realizar la carga de un nuevo vehículo</p>
+                <a href="./sections/new-product.html">Ingresar</a>
+            </div>
+    
+            <div class="card">
+                <div class="card-icon">
+                    <span class="icon-search"></span>
+                </div>
+                <h4>Busqueda de Producto</h4>
+                <p>Ejecutar una busqueda dentro del Stock Disponible</p>
+                <a href="./sections/search.html">Ingresar</a>
+            </div>
+    
+            <div class="card">
+                <div class="card-icon">
+                    <span class="icon-file-text2"></span>
+                </div>
+                <h4>Informes</h4>
+                <p>Generar un reporte de stock, clientes o saldos.</p>
+                <a href="">Ingresar</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">
+                    <span class="icon-libreoffice"></span>
+                </div>
+                <h4>Generar Factura</h4>
+                <p>Emite la factura de un vehículo junto a sus respectivos pagarés</p>
+                <a href="">Ingresar</a>
+            </div>
+    
+            <div class="card">
+                <div class="card-icon">
+                    <span class="icon-checkbox-checked"></span>
+                </div>
+                <h4>Abonar Pagaré</h4>
+                <p>Cancela la cuota de uno o más pagarés</p>
+                <a href="">Ingresar</a>
+            </div>
+    
+            <div class="card">
+                <div class="card-icon">
+                    <span class="icon-man-woman"></span>
+                </div>
+                <h4>Nuevo Cliente</h4>
+                <p>Ingresar nuevo cliente para emitir una factura</p>
+                <a href="">Ingresar</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">
+                    <span class="icon-cog"></span>
+                </div>
+                <h4>Ajustes</h4>
+                <p>Configura el entorno del sistema</p>
+                <a href="">Ingresar</a>
+            </div>
+        </div>
+    </section>
 </body>
 </html>
