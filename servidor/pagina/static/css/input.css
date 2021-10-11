@@ -1,0 +1,52 @@
+.login-box-form-div-input{
+    width: 100%;
+    height: 25%;
+    background: none;
+    color: var(--black-tematic);
+    padding-top: 20px;
+    border: none;
+    outline: 0;
+}
+
+form .lbl-nombre {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 25%;
+    pointer-events: none;
+    border-bottom: 1px solid #838080;
+}
+
+form .lbl-nombre:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    height: 100%;
+    border-bottom: 3px solid var(--button-hover);
+    transform: translateX(-100%);
+    transition: all 0.3s ease;
+}
+
+.text-nomb {
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    transition: all 0.3s ease;
+    color: var(--black-tematic);
+}
+
+.login-box-form-div-input:focus + .lbl-nombre .text-nomb, 
+.login-box-form-div-input:valid + .lbl-nombre .text-nomb{
+    transform: translateY(-150%);
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--button-standby);
+}
+
+.login-box-form-div-input:focus + .lbl-nombre:after, 
+.login-box-form-div-input:valid + .lbl-nombre:after{
+    transform: translateX(0%);
+}

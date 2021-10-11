@@ -1,0 +1,176 @@
+@font-face {
+    font-family: 'icomoon';
+    src:  url('fonts/icomoon.eot?hk5jyx');
+    src:  url('fonts/icomoon.eot?hk5jyx#iefix') format('embedded-opentype'),
+      url('fonts/icomoon.ttf?hk5jyx') format('truetype'),
+      url('fonts/icomoon.woff?hk5jyx') format('woff'),
+      url('fonts/icomoon.svg?hk5jyx#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+  }
+  
+  [class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: never;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+  
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .icon-file-text2:before {
+    content: "\e926";
+  }
+  .icon-box-add:before {
+    content: "\e95e";
+  }
+  .icon-search:before {
+    content: "\e986";
+  }
+  .icon-cog:before {
+    content: "\e994";
+  }
+  .icon-man-woman:before {
+    content: "\e9de";
+  }
+  .icon-plus:before {
+    content: "\ea0a";
+  }
+  .icon-enter:before {
+    content: "\ea13";
+  }
+  .icon-circle-left:before {
+    content: "\ea44";
+  }
+  .icon-checkbox-checked:before {
+    content: "\ea52";
+  }
+  .icon-libreoffice:before {
+    content: "\eae3";
+  }  
+  
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&display=swap');
+
+a {
+  text-decoration: none;
+}
+
+.icon-enter {
+    color: white;
+    font-size: 1.3rem;
+}
+
+.icon-circle-left {
+    color: rgb(128 132 135);
+    font-size: 2rem;
+}
+
+.icon-circle-left:hover {
+  color: black;
+}
+
+.icon-box-add, 
+.icon-search, 
+.icon-file-text2,
+.icon-man-woman,
+.icon-checkbox-checked,
+.icon-libreoffice,
+.icon-cog {
+    color: #00b8ff;
+    font-size: 6rem;
+}
+
+.icon-plus {
+  color: white;
+}
+
+
+:root {
+    --background:#F2F2F2;
+    --mark-title: #212121;
+    --yelow-border: #FFC700;
+    --white-tematic: #D4D4D4;
+    --black-tematic: #363636;
+    --button-standby: #44af47;
+    --button-hover: #3e8f41;
+}
+
+body {
+    background-color: var(--background);
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+iframe {
+  width: 100%;
+  height: 5em;
+}
+
+.container {
+    width: 100%;
+    flex: 1;
+    margin: 0 auto;
+    display: inherit;
+    justify-content: inherit;
+    align-items: inherit;
+    height: inherit;
+    flex-wrap: inherit; 
+}
+
+.login-title {
+    font-family: 'Black Ops One', cursive;
+    font-size: xxx-large;
+    margin: 0;
+    color: var(--mark-title);
+}
+
+.title-and-back {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 25em;
+    font-family: 'Roboto', sans-serif;
+}
+
+.form-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-global-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 2em;
+  align-items: center;
+  margin: 0 auto;
+  font-family: 'Open Sans', sans-serif;
+  background-color: rgb(213, 213, 213);
+  border-radius: 5px;
+  box-shadow: 1px 0px 5px 0px rgba(0,0,0,0.75) inset;
+  -webkit-box-shadow: 1px 0px 5px 0px rgba(0,0,0,0.75) inset;
+  -moz-box-shadow: 1px 0px 5px 0px rgba(0,0,0,0.75) inset;
+}
+
+.form-section {
+  display: grid;
+  grid-gap: 3em;
+}
+
+.form-item {
+  display: grid;
+  justify-items: center;
+  grid-template-columns: 6em 16em;
+  grid-gap: .5em;
+}

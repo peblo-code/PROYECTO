@@ -1,0 +1,59 @@
+.header {
+    background-color: #002e42;
+    color: white;
+    display: flex;
+    height: 70px;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    -webkit-box-shadow: 0px 6px 6px -2px #000000; 
+    box-shadow: 0px 6px 6px -2px #000000;
+}
+  
+.menu {
+    height: inherit;
+}
+
+.menu p {
+    margin: 0;
+    color: rgb(7, 233, 253);
+}
+
+ol,ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+figure{
+    margin: 0;
+}
+  
+.header a{
+    color: white; 
+    text-decoration: none;
+}
+
+.header ol {
+    height: inherit;
+    display: flex;
+}
+
+.header ol li {
+    height: inherit;
+    font-family: 'Bebas Neue', cursive;
+}
+
+.header a {
+    display: flex;
+    align-items: center;
+    height: inherit;
+    padding: 0 10px;
+}
+
+.login-title {
+    color: white;
+}
