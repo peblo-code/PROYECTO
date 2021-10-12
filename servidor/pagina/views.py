@@ -31,7 +31,7 @@ def inicio(request):
         return render(request, 'login.html')
 
 def header(request):
-    return render(request, 'header.html', {"nombre_completo": request.session.get("nombre_completo")})
+    return render(request, 'header.html')
 
 def salir(request):
     request.session.flush()
