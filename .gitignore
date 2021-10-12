@@ -1,0 +1,8 @@
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+media
+servidor/project-template.rar
+servidor/pagina/migrations/0001_initial.py

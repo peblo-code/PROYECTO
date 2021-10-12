@@ -22,6 +22,7 @@
             <section class="login-box">
                 <h2 class="login-box-title">Iniciar Sesión</h2>
                 <form action="./" method="POST" class="login-box-form">
+                    {% csrf_token %}
                     <div class="login-box-form-div">
                         <input type="text" required class="login-box-form-div-input" name="usuario">
                         <label class="lbl-nombre">

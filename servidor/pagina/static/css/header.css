@@ -47,11 +47,16 @@ figure{
     font-family: 'Bebas Neue', cursive;
 }
 
-.header a {
+.header a, .menu-userinfo {
     display: flex;
     align-items: center;
     height: inherit;
     padding: 0 10px;
+}
+
+.menu-username {
+    color: aqua;
+    margin-left: .3em;
 }
 
 .login-title {

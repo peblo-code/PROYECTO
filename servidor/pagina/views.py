@@ -7,7 +7,7 @@ def login(request):
         if request.session.get("id_usuario"):
             return redirect("inicio")
         else:
-            return render(request, 'index.html')
+            return render(request, 'login.html')
 
     if request.method == 'POST':
         v_usuario = request.POST.get("usuario")
@@ -16,13 +16,23 @@ def login(request):
         if usuario_actual:
             datos_usuario=usuarios.objects.filter(usuario=v_usuario).first()
             if getattr(datos_usuario, "clave") == v_clave:
-                request.session["cod_usuario"]=getattr(datos_usuario, "cod_usuario")
+                request.session["id_usuario"]=getattr(datos_usuario, "id_usuario")
                 request.session["nombre_completo"]=getattr(datos_usuario, "nombre_completo")
                 return redirect("inicio")
+            else:
+                return render(request, 'login.html')
         else:
             return render(request, 'login.html')
 
-    return render(request, 'login.html')
-
 def inicio(request):
-    return render(request, 'index.html')
+    if request.session.get("id_usuario"):
+        return render(request, 'index.html', {"nombre_completo": request.session.get("nombre_completo")})
+    else:
+        return render(request, 'login.html')
+
+def header(request):
+    return render(request, 'header.html', {"nombre_completo": request.session.get("nombre_completo")})
+
+def salir(request):
+    request.session.flush()
+    return redirect("./")

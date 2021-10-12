@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static './css/globals.css'%}">
+    <link rel="stylesheet" href="{% static './css/header.css' %}">
+    <!-- Fuentes de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap" rel="stylesheet">
+    <!-- Fuentes de Google -->
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <figure class="logo">
+                <h1 class="login-title">Automóviles Benedix</h1>
+            </figure>
+            <nav class="menu">
+                <ol>
+                    <li>
+                        <span class="menu-userinfo">Bienvenido <span class="menu-username">{{nombre_completo}}</span></span>
+                    </li>
+                    <li>
+                        <a class="link" href="./salir"><span class="icon-enter"></a>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </header>
+    {% block cuerpo%}
+    
+    {% endblock %}
+</body>
+</html>

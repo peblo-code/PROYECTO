@@ -1,6 +1,8 @@
+{% extends 'header.html' %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+    {% block cuerpo %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,7 +18,6 @@
      <!-- Fuentes de Google -->
 </head>
 <body>
-    <iframe src="{% static './header.html' %}" frameborder="0"></iframe>
     <section class="menu-card">
         <div class="container">
             <div class="card">
@@ -83,5 +84,6 @@
             </div>
         </div>
     </section>
+    {% endblock %}
 </body>
 </html>
