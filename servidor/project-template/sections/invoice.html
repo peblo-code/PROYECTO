@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../css/globals.css">
     <link rel="stylesheet" href="../css/section-styles/globals-section.css">
     <link rel="stylesheet" href="../css/section-styles/invoice.css">
+    <link rel="stylesheet" href="../css/tables.css">
     <title>Generar Factura</title>
 </head>
 <body>
@@ -24,8 +25,38 @@
             <div class="form-global-box-container">
                 <div class="form-item">
                     <h4>Nro. Factura</h4>
-                    <input type="number">
+                    <input type="number" disabled>
                     </div>
+                    <div class="form-item">
+                        <h4>RUC:</h4>
+                        <input type="number">
+                    </div>
+                    <div class="form-item">
+                        <h4>Razon Social:</h4>
+                        <input type="text">
+                    </div>
+                </div>
+                <div class="main-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Descripcion</th><th>Mes</th><th>Costo</th>
+                            </tr>
+                        </thead>
+    
+                        <tr>
+                            <td>Agua</td><td>Enero</td><td>$ 3,000</td>
+                        </tr>
+                        <tr>
+                            <td>Luz</td><td>Febrero</td><td>$ 5,500</td>
+                        </tr>
+                        <tr>
+                            <td>Coche</td><td>Marzo</td><td>$ 10,100</td>
+                        </tr>
+                        <tr>
+                            <td>Internet</td><td>Abril</td><td>$ 450</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </form>
