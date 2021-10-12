@@ -1,0 +1,15 @@
+.form-global-box-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+}
+
+.form-global-box {
+    display: flex;
+    justify-content: center;
+    width: 50em;
+}
+
+.form-item {
+    grid-gap: .5em;
+}
