@@ -1,8 +1,7 @@
 .form-global-box-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     width: 100%;
-    justify-items: center;
     grid-gap: 1em;
 }
 
@@ -15,9 +14,35 @@
 
 .form-item {
     grid-gap: .5em;
-    width: 8em;
+    width:11em;
+}
+
+.large {
+    width: auto;
+}
+
+input {
+    font-size: 1.3rem;
 }
 
 input:disabled {
     background-color: #ebebeb;
+}
+
+.form-global-box {
+    width: 100vw;
+    max-width: 70vw;
+}
+
+.main-container {
+    margin: 1.3em auto;
+    width: 100%;
+}
+
+.bottom-form-global-box {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 2em;
+    margin-bottom: 1em;
 }
