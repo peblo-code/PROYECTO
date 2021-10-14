@@ -2,6 +2,13 @@ from django.shortcuts import redirect, render
 from pagina.models import usuarios
 
 # Create your views here.
+def validar(request, pageSuccess):
+    if request.session.get("id_usuario"):
+        return render(request, pageSuccess, {"nombre_completo": request.session.get("nombre_completo")})
+    else:
+        return render(request, 'login.html')
+
+
 def login(request):
     if request.method == 'GET':
         if request.session.get("id_usuario"):
@@ -20,15 +27,12 @@ def login(request):
                 request.session["nombre_completo"]=getattr(datos_usuario, "nombre_completo")
                 return redirect("inicio")
             else:
-                return render(request, 'login.html')
+                return render(request, 'login.html', {"mensaje": "Usuario o contraseña incorrecto"})
         else:
-            return render(request, 'login.html')
+            return render(request, 'login.html', {"mensaje": "Usuario o contraseña incorrecto"})
 
 def inicio(request):
-    if request.session.get("id_usuario"):
-        return render(request, 'index.html', {"nombre_completo": request.session.get("nombre_completo")})
-    else:
-        return render(request, 'login.html')
+    return validar(request, 'index.html')
 
 def header(request):
     return render(request, 'header.html', {"nombre_completo": request.session.get("nombre_completo")})
