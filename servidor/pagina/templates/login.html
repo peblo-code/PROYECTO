@@ -41,7 +41,17 @@
                     </div>
                     <button type="submit" class="login-box-button">Ingresar</button>
                 </form>
+                {% if mensaje %}
+                    <p class="message-error" hidden>{{mensaje}}</p>
+                {% endif %}
             </section>
     </fieldset>
+    <script>
+    var mensaje = document.getElementsByClassName("message-error")
+    setTimeout(showAlert, 200) 
+    function showAlert() {
+        alert(mensaje[0].innerHTML)
+    }
+    </script>
 </body>
 </html>
