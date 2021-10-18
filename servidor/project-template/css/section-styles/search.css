@@ -30,7 +30,3 @@ body {
     justify-content: center;
     flex-direction: row;
 }
-
-.form-search-input {
-    width: 30em;
-}

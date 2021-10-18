@@ -3,6 +3,10 @@ body {
     flex-direction: column;
 }
 
+input:disabled {
+    background-color: #ebebeb;
+}
+
 .title-and-back {
     width: auto;
     gap: 1em;
@@ -34,7 +38,6 @@ body {
 }
 
 .form-item input{
-    width: auto;
     border-radius: 3px;
     border-color: #dddddd;
     outline: none;
@@ -56,4 +59,8 @@ body {
     animation-duration: 3s;
     animation-name: color-change;
     animation-iteration-count: 3;
+}
+
+.form-search-input {
+    width: 30em;
 }
