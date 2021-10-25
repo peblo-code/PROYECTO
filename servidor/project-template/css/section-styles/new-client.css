@@ -1,0 +1,19 @@
+.form-global-box {
+    grid-template-columns: initial;
+    max-width: 50%;
+    width:50%;
+    min-width: 13%;
+    gap: 1em;
+    justify-items:center;
+}
+
+.form-global-box-container {
+    display: flex;
+    flex-direction: column;
+    width:50%;
+    gap: .5em;
+}
+
+.btn-cargar {
+    width: 15em;
+}
