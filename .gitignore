@@ -14,4 +14,4 @@ servidor/servidor/__pycache__/settings.cpython-39.pyc
 servidor/servidor/__pycache__/urls.cpython-39.pyc
 servidor/servidor/__pycache__/wsgi.cpython-39.pyc
 .vscode/c_cpp_properties.json
-~*.*
+/~*.*
