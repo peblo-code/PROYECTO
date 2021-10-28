@@ -60,16 +60,77 @@ fieldset {
     color: white;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 630px) {
     .login-title {
         font-size: xx-large;
     }
 
     .login-box {
-        grid-template-rows: 1.5em 1fr;
+        padding: .5em 3em;
+        grid-template-rows: 1em 1fr;
     }
 
     .login-box-title {
         font-size: 1.2em;
+    }
+
+    .text-nomb {
+        font-size: .7rem;
+    }
+
+    .login-box-form {
+        grid-template-rows: 1.8em 1.8em 1.8em;
+    }
+
+    .login-box-button {
+        padding: 6px 0;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    fieldset {
+        gap: 1em;
+        height: auto;
+        width: 75%;
+    }
+
+    legend {
+        text-align: center;
+    }
+
+    .login-title {
+        font-size: 1.3rem;
+    }
+
+    .login-box-title {
+        font-size: 1.2em;
+    }
+
+    .login-box-form {
+        grid-template-rows: 3.3em 3.3em 3em;
+        gap: 2em;
+    }
+
+    .login-box {
+        height: auto;
+        max-height: initial;
+        padding: .5em 1em;
+        grid-template-rows: 1.5em 1fr;
+        gap: 1em;
+    }
+
+    .text-nomb {
+        font-size: .8rem;
+    }
+
+    .login-box-button {
+        font-size: 15px;
+    }
+
+}
+
+@media screen and (max-width: 320px) {
+    .login-title {
+        font-size: 1rem;
     }
 }
