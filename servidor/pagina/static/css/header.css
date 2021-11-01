@@ -45,6 +45,8 @@ figure{
 .header ol li {
     height: inherit;
     font-family: 'Bebas Neue', cursive;
+    display: flex;
+    align-items: center;
 }
 
 .header a {
@@ -112,9 +114,10 @@ figure{
         border: 1px solid #0081b9;
         border-radius: 5px;
         height: inherit;
-        display: grid;
-        grid-template-columns: 7em 2em;
+        display: flex;
         align-content: center;
+        width: 50%;
+        justify-content: space-around;
     }
 
     .header ol li {
@@ -134,7 +137,7 @@ figure{
     }
 }
 
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 425px) {
     .login-title {
         font-size: x-large;
     }
@@ -145,6 +148,10 @@ figure{
 
     .icon-enter {
         font-size: .9rem;
+    }
+
+    .header ol {
+        width: 60%
     }
 }
 
@@ -157,5 +164,7 @@ figure{
         font-size: large;
     }
 
-    
+    .header ol {
+        width: 75%
+    }    
 }

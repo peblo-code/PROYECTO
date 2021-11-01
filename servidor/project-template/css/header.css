@@ -45,6 +45,8 @@ figure{
 .header ol li {
     height: inherit;
     font-family: 'Bebas Neue', cursive;
+    display: flex;
+    align-items: center;
 }
 
 .header a {
@@ -105,6 +107,7 @@ figure{
     .menu {
         display: flex;
         justify-content: center;
+        height: 20%;
     }
 
     .header ol {
@@ -112,9 +115,10 @@ figure{
         border: 1px solid #0081b9;
         border-radius: 5px;
         height: inherit;
-        display: grid;
-        grid-template-columns: 7em 2em;
+        display: flex;
         align-content: center;
+        width: 50%;
+        justify-content: space-around;
     }
 
     .header ol li {
@@ -131,6 +135,12 @@ figure{
         justify-content: center;
         height: 100%;
         padding: 0
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .login-title {
+        font-size: x-large;
     }
 }
 
