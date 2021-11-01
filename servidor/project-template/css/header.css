@@ -107,7 +107,6 @@ figure{
     .menu {
         display: flex;
         justify-content: center;
-        height: 20%;
     }
 
     .header ol {
@@ -142,12 +141,6 @@ figure{
     .login-title {
         font-size: x-large;
     }
-}
-
-@media screen and (max-width: 375px) {
-    .login-title {
-        font-size: x-large;
-    }
 
     .header ol li {
         font-size: .87rem;
@@ -155,6 +148,10 @@ figure{
 
     .icon-enter {
         font-size: .9rem;
+    }
+
+    .header ol {
+        width: 60%
     }
 }
 
@@ -167,5 +164,7 @@ figure{
         font-size: large;
     }
 
-    
+    .header ol {
+        width: 75%
+    }    
 }

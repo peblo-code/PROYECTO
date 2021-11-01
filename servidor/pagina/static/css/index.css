@@ -56,3 +56,13 @@
     text-decoration: none;
     color: #3498db;
 }
+
+@media screen and (max-width: 375px) {
+    .card {
+        width: 250px;
+    }
+
+    .card p {
+        font-size: 14px;
+    }
+}
