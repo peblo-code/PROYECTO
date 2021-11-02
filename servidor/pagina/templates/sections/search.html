@@ -1,5 +1,8 @@
+{% extends 'header.html' %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
+    {% block cuerpo %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,12 +18,9 @@
     <!-- Fuentes de Google -->
 </head>
 <body>
-    <header>
-        <iframe src="../header.html" frameborder="0"></iframe>
-    </header>
     <div class="form-container">
         <div class="title-and-back">
-            <a href="../index.html">
+            <a href="{static '../index.html'}">
                 <span class="icon-circle-left"></span>
             </a>
             <h1>Búsqueda</h1>
@@ -56,5 +56,6 @@
             </div>
         </form>
     </div>
+    {% endblock %}
 </body>
 </html>

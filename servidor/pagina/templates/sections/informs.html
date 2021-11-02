@@ -1,21 +1,22 @@
+{% extends 'header.html' %}
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
+    {% block cuerpo %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/globals.css">
-    <link rel="stylesheet" href="../css/section-styles/globals-section.css">
-    <link rel="stylesheet" href="../css/section-styles/informs.css">
+    <link rel="stylesheet" href="{static '../css/globals.css'}">
+    <link rel="stylesheet" href="{static '../css/section-styles/globals-section.css'}">
+    <link rel="stylesheet" href="{static '../css/section-styles/informs.css'}">
     <title>Informes</title>
 </head>
 <body>
-    <header>
-        <iframe src="../header.html" frameborder="0"></iframe>
-    </header>
     <div action="" class="form-container">
         <div class="title-and-back">
-            <a href="../index.html">
+            <a href="{static '../index.html'}">
                 <span class="icon-circle-left"></span>
             </a>
             <h1>Informes</h1>
@@ -45,5 +46,6 @@
             </div>
         </form>
     </div>
+    {% endblock %}
 </body>
 </html>

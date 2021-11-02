@@ -1,0 +1,44 @@
+.form-global-box-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 100%;
+    grid-gap: 1em;
+}
+
+.form-global-box {
+    display: flex;
+    justify-content: center;
+    width: 50em;
+    flex-direction: column;
+}
+
+.form-item {
+    grid-gap: .5em;
+    width:11em;
+}
+
+.large {
+    width: auto;
+}
+
+input {
+    font-size: 1.3rem;
+}
+
+.form-global-box {
+    width: 100vw;
+    max-width: 70vw;
+}
+
+.main-container {
+    margin: 1.3em auto;
+    width: 100%;
+}
+
+.bottom-form-global-box {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 2em;
+    margin-bottom: 1em;
+}

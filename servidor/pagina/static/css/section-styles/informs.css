@@ -1,0 +1,9 @@
+.form-global-box {
+    grid-template-columns: 1fr 1fr;
+    width: 30em;
+    justify-items: center;
+}
+
+.form-item {
+    grid-gap: 1em;
+}
