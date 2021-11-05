@@ -15,3 +15,13 @@ servidor/servidor/__pycache__/urls.cpython-39.pyc
 servidor/servidor/__pycache__/wsgi.cpython-39.pyc
 .vscode/c_cpp_properties.json
 ~$2090Avance01PabloBenedix.docx
+servidor/pagina/__pycache__/__init__.cpython-38.pyc
+servidor/pagina/__pycache__/admin.cpython-38.pyc
+servidor/pagina/__pycache__/apps.cpython-38.pyc
+servidor/pagina/__pycache__/models.cpython-38.pyc
+servidor/pagina/__pycache__/urls.cpython-38.pyc
+servidor/pagina/__pycache__/views.cpython-38.pyc
+servidor/pagina/migrations/__pycache__/__init__.cpython-38.pyc
+servidor/servidor/__pycache__/__init__.cpython-38.pyc
+servidor/servidor/__pycache__/settings.cpython-38.pyc
+servidor/servidor/__pycache__/urls.cpython-38.pyc
