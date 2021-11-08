@@ -1,0 +1,57 @@
+{% extends 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    {% block cuerpo %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busqueda</title>
+    <link rel="stylesheet" href="{% static './css/globals.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/search.css' %}">
+    <link rel="stylesheet" href="{% static './css/tables.css' %}">
+    <!-- Fuentes de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap" rel="stylesheet">
+    <!-- Fuentes de Google -->
+</head>
+<body>
+    <div class="form-container">
+        <div class="title-and-back">
+            <a href="config">
+                <span class="icon-circle-left"></span>
+            </a>
+            <h1>Búsqueda</h1>
+        </div>
+        <form action="" method="post" class="form-global-box">
+            <div class="form-item">
+                <div class="main-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Descripcion</th><th>Mes</th><th>Costo</th>
+                            </tr>
+                        </thead>
+    
+                        <tr>
+                            <td>Agua</td><td>Enero</td><td>$ 3,000</td>
+                        </tr>
+                        <tr>
+                            <td>Luz</td><td>Febrero</td><td>$ 5,500</td>
+                        </tr>
+                        <tr>
+                            <td>Coche</td><td>Marzo</td><td>$ 10,100</td>
+                        </tr>
+                        <tr>
+                            <td>Internet</td><td>Abril</td><td>$ 450</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% endblock %}
+</body>
+</html>

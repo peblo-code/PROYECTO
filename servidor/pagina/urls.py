@@ -11,4 +11,6 @@ urlpatterns = [
     path('factura', views.factura, name='factura'),
     path('cancelar_pagare', views.cancelar_pagare, name='cancelar_pagare'),
     path('nuevo_cliente', views.nuevo_cliente, name='nuevo_cliente'),
+    path('config', views.config, name='config'),
+    path('users', views.users, name='users'),
 ]

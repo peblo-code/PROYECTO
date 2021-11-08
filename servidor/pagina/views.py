@@ -48,13 +48,19 @@ def busqueda_producto(request):
     return render(request, 'sections/search.html')
 
 def informes(request):
-    return render(request, 'sections/informs')
+    return render(request, 'sections/informs.html')
 
 def factura(request):
-    return render(request, 'sections/invoice')
+    return render(request, 'sections/invoice.html')
+
+def config(request):
+    return validar(request, 'sections/config.html')
+
+def users(request):
+    return validar(request, 'sections/config/users.html')
 
 def cancelar_pagare(request):
-    return render(request, 'pay-fee')
+    return render(request, 'pay-fee.html')
 
 def nuevo_cliente(request):
-    return render(request, 'new-client')
+    return render(request, 'new-client.html')
