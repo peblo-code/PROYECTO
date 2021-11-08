@@ -130,7 +130,7 @@ iframe {
     font-family: 'Black Ops One', cursive;
     font-size: xxx-large;
     margin: 0;
-    color: var(--mark-title);
+    color: white;
 }
 
 .title-and-back {

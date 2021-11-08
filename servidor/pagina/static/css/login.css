@@ -60,6 +60,10 @@ fieldset {
     color: white;
 }
 
+.login-title {
+    color: var(--mark-title)
+}
+
 @media screen and (max-width: 630px) {
     .login-title {
         font-size: xx-large;
