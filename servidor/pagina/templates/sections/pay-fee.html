@@ -1,0 +1,60 @@
+{% extends 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    {% block cuerpo %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abonar Pagaré</title>
+    <link rel="stylesheet" href="{static '../css/globals.css'}">
+    <link rel="stylesheet" href="{static '../css/section-styles/globals-section.css'}">
+    <link rel="stylesheet" href="{static '../css/section-styles/pay-fee.css'}">
+
+    <!-- Fuentes de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap" rel="stylesheet">
+    <!-- Fuentes de Google -->
+</head>
+<body>
+    <div class="form-container">
+        <div class="title-and-back">
+            <a href="{static '../index.html'}">
+                <span class="icon-circle-left"></span>
+            </a>
+            <h1>Abonar Pagaré</h1>
+        </div>
+        <form action="" method="post" class="form-global-box">
+            <div class="form-item-container">
+                <div class="form-item">
+                    <h4>Nombre Cliente</h4>
+                    <input type="text" name="" id="" class="form-search-input" required>
+                </div>
+                <div class="form-item">
+                    <h4>Cantidad de Cuotas</h4>
+                    <input type="text" required>
+                </div>
+            </div>
+            <div class="form-item-container">
+                <div class="form-item">
+                    <h4>Intereses</h4>
+                    <input type="text" disabled>
+                </div>
+                <div class="form-item">
+                    <h4>Tiempo de morosidad</h4>
+                    <input type="text" disabled>
+                </div>
+                <div class="form-item">
+                    <h4>Monto Total</h4>
+                    <input type="text" disabled>
+                </div>
+            </div>
+            <button type="submit" class="btn-cargar">Pagar Cuota</button>
+        </form>
+
+    </div>
+    {% endblock %}
+</body>
+</html>

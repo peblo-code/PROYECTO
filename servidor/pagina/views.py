@@ -40,3 +40,21 @@ def header(request):
 def salir(request):
     request.session.flush()
     return redirect("./")
+
+def productos(request):
+    return render(request, 'sections/new-product.html')
+
+def busqueda_producto(request):
+    return render(request, 'sections/search.html')
+
+def informes(request):
+    return render(request, 'sections/informs')
+
+def factura(request):
+    return render(request, 'sections/invoice')
+
+def cancelar_pagare(request):
+    return render(request, 'pay-fee')
+
+def nuevo_cliente(request):
+    return render(request, 'new-client')

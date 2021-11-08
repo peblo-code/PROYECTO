@@ -1,0 +1,51 @@
+{% extends 'header.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    {% block cuerpo %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{static '../css/globals.css'}">
+    <link rel="stylesheet" href="{static '../css/section-styles/globals-section.css'}">
+    <link rel="stylesheet" href="{static '../css/section-styles/informs.css'}">
+    <title>Informes</title>
+</head>
+<body>
+    <div action="" class="form-container">
+        <div class="title-and-back">
+            <a href="{static '../index.html'}">
+                <span class="icon-circle-left"></span>
+            </a>
+            <h1>Informes</h1>
+        </div>
+        <form action="" class="form-global-box">
+            <div class="form-item">
+                <h4>Fecha Desde</h4><input type="date" name="" id="">
+                <h4>Fecha Hasta</h4><input type="date" name="" id="">
+                <button type="submit" class="btn-cargar">Cargar Producto</button>
+            </div>
+            <div class="form-item">
+                <h4>Tipo de informe</h4>
+                <div class="form-select-add">
+                    <select name="Marca" id="">
+                        <option value="toyota">Stock</option>
+                        <option value="toyota">Clientes</option>
+                        <option value="toyota">Balance</option>
+                    </select>
+                </div>
+                <h4>Ordenar de forma</h4>
+                <div class="form-select-add">
+                    <select name="Marca" id="">
+                        <option value="toyota">Ascendente</option>
+                        <option value="toyota">Descendente</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% endblock %}
+</body>
+</html>

@@ -174,3 +174,14 @@ iframe {
   grid-template-columns: 6em 16em;
   grid-gap: .5em;
 }
+
+@media screen and (max-width: 900px) {
+  .form-global-box {
+      width: 80%;
+      grid-template-columns: 50% 50%;
+  }
+
+  .form-section {
+    grid-gap: 2em;
+  }
+}
