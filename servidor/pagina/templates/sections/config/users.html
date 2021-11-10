@@ -24,26 +24,26 @@
             <a href="config">
                 <span class="icon-circle-left"></span>
             </a>
-            <h1>Búsqueda</h1>
+            <h1>Usuarios</h1>
         </div>
         <table>
             <thead>
                 <tr>
-                    <th>Descripcion</th><th>Mes</th><th>Costo</th>
+                    <th>Usuario</th><th>Nombre Completo</th><th>Acciones</th>
                 </tr>
             </thead>
-            <tr>
-                <td>Agua</td><td>Enero</td><td>$ 3,000</td>
-            </tr>
-            <tr>
-                <td>Luz</td><td>Febrero</td><td>$ 5,500</td>
-            </tr>
-            <tr>
-                <td>Coche</td><td>Marzo</td><td>$ 10,100</td>
-            </tr>
-            <tr>
-                <td>Internet</td><td>Abril</td><td>$ 450</td>
-            </tr>
+            <tbody>
+                {% for lista in listatabla %}
+                <tr>
+                    <td>{{ lista.usuario }}</td>
+                    <td>{{ lista.nombre_completo }}</td>
+                    <td>
+                        <a href="">Editar</a>
+                        <a href="">Borrar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
     </div>
     {% endblock %}

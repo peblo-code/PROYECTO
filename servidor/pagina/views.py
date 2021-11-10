@@ -57,7 +57,10 @@ def config(request):
     return validar(request, 'sections/config.html')
 
 def users(request):
-    return validar(request, 'sections/config/users.html')
+    listatabla = usuarios.objects.all()
+    
+    return render(request, 'sections/config/users.html',
+    {"listatabla":listatabla})
 
 def cancelar_pagare(request):
     return render(request, 'pay-fee.html')

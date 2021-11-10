@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&display=swap');
 .main-container {
     margin: 35px auto;
     width: 600px;
@@ -8,6 +9,7 @@ table {
     text-align: left;
     border-collapse: collapse;
     width: 100%;
+    font-family: 'Open Sans', sans-serif;
 }
 
 th, td {
