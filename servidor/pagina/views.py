@@ -2,9 +2,9 @@ from django.shortcuts import redirect, render
 from pagina.models import usuarios
 
 # Create your views here.
-def validar(request, pageSuccess):
+def validar(request, pageSuccess, parameters={}):
     if request.session.get("id_usuario"):
-        return render(request, pageSuccess, {"nombre_completo": request.session.get("nombre_completo")})
+        return render(request, pageSuccess, {"nombre_completo": request.session.get("nombre_completo"), "parameters": parameters})
     else:
         return render(request, 'login.html')
 
@@ -42,33 +42,33 @@ def salir(request):
     return redirect("./")
 
 def productos(request):
-    return render(request, 'sections/new-product.html')
+    return validar(request, 'sections/new-product.html')
 
 def busqueda_producto(request):
-    return render(request, 'sections/search.html')
+    return validar(request, 'sections/search.html')
 
 def informes(request):
-    return render(request, 'sections/informs.html')
+    return validar(request, 'sections/informs.html')
 
 def factura(request):
-    return render(request, 'sections/invoice.html')
+    return validar(request, 'sections/invoice.html')
 
 def config(request):
     return validar(request, 'sections/config.html')
 
 def users(request):
     listatabla = usuarios.objects.all()
-    return render(request, 'sections/config/users.html',{"listatabla":listatabla, "usuario_actual": request.session["nombre_completo"]})
+    return validar(request, 'sections/config/users.html',{"listatabla":listatabla})
 
 def edit_user(request, usu_actual=0):
     if request.method=="GET":
         usuario_actual=usuarios.objects.filter(id_usuario=usu_actual).exists()
         if usuario_actual:
             datos_usuario=usuarios.objects.filter(id_usuario=usu_actual).first()
-            return render(request, 'sections/config/edit_user.html',
+            return validar(request, 'sections/config/edit_user.html',
             {"datos_act":datos_usuario, "usu_actual":usu_actual, "titulo":"Editar Usuario"})
         else:
-            return render(request, "sections/config/edit_user.html",
+            return validar(request, "sections/config/edit_user.html",
             {"nombre_completo":request.session.get("nombre_completo"), "usu_actual":usu_actual, "titulo":"Cargar Usuario"})
 
     if request.method=="POST":
@@ -83,7 +83,7 @@ def edit_user(request, usu_actual=0):
             usuario_actual.clave=request.POST.get("clave")
             usuario_actual.save()
         
-        return redirect('../users')
+        return redirect("../users")
 
 def delete_user(request, usu_actual):
     usuarios.objects.filter(id_usuario=usu_actual).delete()

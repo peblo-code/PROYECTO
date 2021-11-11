@@ -36,13 +36,13 @@
                 </tr>
             </thead>
             <tbody>
-                {% for lista in listatabla %}
+                {% for lista in parameters.listatabla %}
                 <tr>
                     <td>{{ lista.usuario }}</td>
                     <td>{{ lista.nombre_completo }}</td>
                     <td>
                         <a href="{% url 'edit_user' lista.id_usuario %}">Editar</a>
-                        {%if usuario_actual != lista.nombre_completo %}
+                        {%if nombre_completo != lista.nombre_completo %}
                         <a href="{% url 'delete_user' lista.id_usuario %}">Borrar</a>
                         {%endif%}
                     </td>

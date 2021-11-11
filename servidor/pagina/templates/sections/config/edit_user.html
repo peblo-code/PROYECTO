@@ -23,22 +23,22 @@
             <a href="../users">
                 <span class="icon-circle-left"></span>
             </a>
-            <h1>{{titulo}}</h1>
+            <h1>{{parameters.titulo}}</h1>
         </div>
-        <form action="{% url 'edit_user' usu_actual %}" class="form-global-box" method="POST">
+        <form action="{% url 'edit_user' parameters.usu_actual %}" class="form-global-box" method="POST">
             {% csrf_token %}
             <div class="form-global-box-container">
                 <div class="form-item">
                     <h4>Nombre de Usuario</h4>
-                    <input type="text" name="usuario" required value="{{datos_act.usuario}}">
+                    <input type="text" name="usuario" required value="{{parameters.datos_act.usuario}}">
                 </div>
                 <div class="form-item">
                     <h4>Nombre Completo</h4>
-                    <input type="text" name="nombre_completo" required value="{{datos_act.nombre_completo}}">
+                    <input type="text" name="nombre_completo" required value="{{parameters.datos_act.nombre_completo}}">
                 </div>
                 <div class="form-item large">
                     <h4>Clave</h4>
-                    <input type="password" name="clave" required value="{{datos_act.clave}}">
+                    <input type="password" name="clave" required value="{{parameters.datos_act.clave}}">
                 </div>
             </div>
             <button type="submit" class="btn-cargar">Cargar Usuario</button>
