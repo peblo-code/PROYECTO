@@ -13,4 +13,6 @@ urlpatterns = [
     path('nuevo_cliente', views.nuevo_cliente, name='nuevo_cliente'),
     path('config', views.config, name='config'),
     path('users', views.users, name='users'),
+    path('edit_user/<int:usu_actual>', views.edit_user, name='edit_user'),
+    path('delete_user/<int:usu_actual>', views.delete_user, name='delete_user'),
 ]

@@ -1,0 +1,50 @@
+{% extends 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+{% block cuerpo %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static './css/globals.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/globals-section.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/new-client.css' %}">
+    <!-- Fuentes de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap" rel="stylesheet">
+    <!-- Fuentes de Google -->
+    <title>Nuevo Cliente</title>
+</head>
+<body>
+    <div class="form-container">
+        <div class="title-and-back">
+            <a href="../users">
+                <span class="icon-circle-left"></span>
+            </a>
+            <h1>Nuevo Cliente</h1>
+        </div>
+        <form action="{% url 'edit_user' usu_actual %}" class="form-global-box" method="POST">
+            {% csrf_token %}
+            <div class="form-global-box-container">
+                <div class="form-item">
+                    <h4>Nombre de Usuario</h4>
+                    <input type="text" name="usuario" required value="{{datos_act.usuario}}">
+                </div>
+                <div class="form-item">
+                    <h4>Nombre Completo</h4>
+                    <input type="text" name="nombre_completo" required value="{{datos_act.nombre_completo}}">
+                </div>
+                <div class="form-item large">
+                    <h4>Clave</h4>
+                    <input type="password" name="clave" required value="{{datos_act.clave}}">
+                </div>
+            </div>
+            <button type="submit" class="btn-cargar">Cargar Usuario</button>
+        </div>
+        </form>
+    </div>
+    {% endblock %}
+</body>
+</html>

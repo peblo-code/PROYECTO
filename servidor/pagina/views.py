@@ -58,9 +58,36 @@ def config(request):
 
 def users(request):
     listatabla = usuarios.objects.all()
-    
-    return render(request, 'sections/config/users.html',
-    {"listatabla":listatabla})
+    return render(request, 'sections/config/users.html',{"listatabla":listatabla, "usuario_actual": request.session["nombre_completo"]})
+
+def edit_user(request, usu_actual=0):
+    if request.method=="GET":
+        usuario_actual=usuarios.objects.filter(id_usuario=usu_actual).exists()
+        if usuario_actual:
+            datos_usuario=usuarios.objects.filter(id_usuario=usu_actual).first()
+            return render(request, 'sections/config/edit_user.html',
+            {"datos_act":datos_usuario, "usu_actual":usu_actual})
+        else:
+            return render(request, "sections/config/edit_user.html",
+            {"nombre_completo":request.session.get("nombre_completo"), "usu_actual":usu_actual})
+
+    if request.method=="POST":
+        if usu_actual==0:
+            usuario_nuevo=usuarios(usuario=request.POST.get('usuario'),
+            clave=request.POST.get('clave'), nombre_completo=request.POST.get("nombre_completo"))
+            usuario_nuevo.save()
+        else:
+            usuario_actual=usuarios.objects.get(id_usuario=usu_actual)
+            usuario_actual.nombre_completo=request.POST.get("nombre_completo")
+            usuario_actual.usuario=request.POST.get("usuario")
+            usuario_actual.clave=request.POST.get("clave")
+            usuario_actual.save()
+        
+        return redirect('../users')
+
+def delete_user(request, usu_actual):
+    usuarios.objects.filter(id_usuario=usu_actual).delete()
+    return redirect("../users")
 
 def cancelar_pagare(request):
     return render(request, 'pay-fee.html')
