@@ -66,10 +66,10 @@ def edit_user(request, usu_actual=0):
         if usuario_actual:
             datos_usuario=usuarios.objects.filter(id_usuario=usu_actual).first()
             return render(request, 'sections/config/edit_user.html',
-            {"datos_act":datos_usuario, "usu_actual":usu_actual})
+            {"datos_act":datos_usuario, "usu_actual":usu_actual, "titulo":"Editar Usuario"})
         else:
             return render(request, "sections/config/edit_user.html",
-            {"nombre_completo":request.session.get("nombre_completo"), "usu_actual":usu_actual})
+            {"nombre_completo":request.session.get("nombre_completo"), "usu_actual":usu_actual, "titulo":"Cargar Usuario"})
 
     if request.method=="POST":
         if usu_actual==0:
