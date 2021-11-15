@@ -29,7 +29,11 @@
                 <button>Nuevo Usuario</button> 
             </a>
         </div>
-        <table>
+        <div class="buscador">
+            <p>Buscar:</p> 
+            <input type="text" name="buscar" id="buscar" />
+        </div>
+        <table id="tabla">
             <thead>
                 <tr>
                     <th>Usuario</th><th>Nombre Completo</th><th>Acciones</th>
@@ -51,6 +55,7 @@
             </tbody>
         </table>
     </div>
+    <script src="{% static 'js/search.js' %}"></script>
     {% endblock %}
 </body>
 </html>
