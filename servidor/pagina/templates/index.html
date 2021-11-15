@@ -73,7 +73,7 @@
                 <p>Ingresar nuevo cliente para emitir una factura</p>
                 <a href="nuevo_cliente">Ingresar</a>
             </div>
-
+            {% if parameters.datos_usuario.tipo_usuario == 1 %}
             <div class="card">
                 <div class="card-icon">
                     <span class="icon-cog"></span>
@@ -82,6 +82,7 @@
                 <p>Configura el entorno del sistema</p>
                 <a href="config">Ingresar</a>
             </div>
+            {% endif %}
         </div>
     </section>
     {% endblock %}

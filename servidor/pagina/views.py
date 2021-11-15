@@ -5,7 +5,7 @@ from pagina.models import tipo_usuario
 # Create your views here.
 def validar(request, pageSuccess, parameters={}):
     if request.session.get("id_usuario"):
-        return render(request, pageSuccess, {"nombre_completo": request.session.get("nombre_completo"), "parameters": parameters})
+        return render(request, pageSuccess, {"nombre_completo": request.session.get("nombre_completo"),"parameters": parameters})
     else:
         return render(request, 'login.html')
 
@@ -33,7 +33,9 @@ def login(request):
             return render(request, 'login.html', {"mensaje": "Usuario o contraseña incorrecto"})
 
 def inicio(request):
-    return validar(request, 'index.html')
+    usu_actual = request.session.get("id_usuario")
+    datos_usuario=usuarios.objects.filter(id_usuario=usu_actual).first()
+    return validar(request, 'index.html', {"datos_usuario": datos_usuario})
 
 def header(request):
     return render(request, 'header.html')
