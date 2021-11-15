@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from pagina.models import usuarios
+from pagina.models import tipo_usuario
 
 # Create your views here.
 def validar(request, pageSuccess, parameters={}):
@@ -61,26 +62,29 @@ def users(request):
     return validar(request, 'sections/config/users.html',{"listatabla":listatabla})
 
 def edit_user(request, usu_actual=0):
+    tipo_usu = tipo_usuario.objects.all()
     if request.method=="GET":
         usuario_actual=usuarios.objects.filter(id_usuario=usu_actual).exists()
         if usuario_actual:
             datos_usuario=usuarios.objects.filter(id_usuario=usu_actual).first()
             return validar(request, 'sections/config/edit_user.html',
-            {"datos_act":datos_usuario, "usu_actual":usu_actual, "titulo":"Editar Usuario"})
+            {"datos_act":datos_usuario, "usu_actual":usu_actual, "titulo":"Editar Usuario", "tipo_usu":tipo_usu})
         else:
             return validar(request, "sections/config/edit_user.html",
-            {"nombre_completo":request.session.get("nombre_completo"), "usu_actual":usu_actual, "titulo":"Cargar Usuario"})
+            {"nombre_completo":request.session.get("nombre_completo"), "usu_actual":usu_actual, "titulo":"Cargar Usuario", "tipo_usu":tipo_usu})
 
     if request.method=="POST":
         if usu_actual==0:
             usuario_nuevo=usuarios(usuario=request.POST.get('usuario'),
-            clave=request.POST.get('clave'), nombre_completo=request.POST.get("nombre_completo"))
+            clave=request.POST.get('clave'), nombre_completo=request.POST.get("nombre_completo"),
+            tipo_usuario=request.POST.get(tipo_usuario))
             usuario_nuevo.save()
         else:
             usuario_actual=usuarios.objects.get(id_usuario=usu_actual)
             usuario_actual.nombre_completo=request.POST.get("nombre_completo")
             usuario_actual.usuario=request.POST.get("usuario")
             usuario_actual.clave=request.POST.get("clave")
+            usuario_actual.tipo_usuario=request.POST.get("tipo_usuario")
             usuario_actual.save()
         
         return redirect("../users")

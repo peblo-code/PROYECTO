@@ -40,6 +40,19 @@
                     <h4>Clave</h4>
                     <input type="password" name="clave" required value="{{parameters.datos_act.clave}}">
                 </div>
+                <div class="form-item">
+                    <h4>Tipo de Usuario</h4>
+                    <select name="tipo_usuario" id="tipo_usuario" required>
+                        {% for usuario in parameters.tipo_usu %}
+                            {% if usuario.id_tipo_usuario == parameters.datos_act.tipo_usuario %}
+                            <option value="{{usuario.id_tipo_usuario}}" id="opcion_select" selected>{{usuario.descripcion_tipo_usuario}}</option>
+                            {% else %}
+                            <option value="{{usuario.id_tipo_usuario}}" id="opcion_select">{{usuario.descripcion_tipo_usuario}}</option>
+                            {% endif %}
+                        
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
             <button type="submit" class="btn-cargar">Cargar Usuario</button>
         </div>
