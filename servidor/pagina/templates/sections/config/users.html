@@ -43,7 +43,7 @@
                     <td>
                         <a href="{% url 'edit_user' lista.id_usuario %}">Editar</a>
                         {%if nombre_completo != lista.nombre_completo %}
-                        <a href="{% url 'delete_user' lista.id_usuario %}">Borrar</a>
+                        <a href="{% url 'delete_user' lista.id_usuario %}" onclick="return confirm('Eliminar el registro?')" >Borrar</a>
                         {%endif%}
                     </td>
                 </tr>
@@ -51,7 +51,6 @@
             </tbody>
         </table>
     </div>
-
     {% endblock %}
 </body>
 </html>
