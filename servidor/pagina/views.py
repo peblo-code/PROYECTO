@@ -5,7 +5,10 @@ from pagina.models import tipo_usuario
 # Create your views here.
 def validar(request, pageSuccess, parameters={}):
     if request.session.get("id_usuario"):
-        return render(request, pageSuccess, {"nombre_completo": request.session.get("nombre_completo"),"parameters": parameters})
+        if (request.session.get("tipo_usuario") == 2) and (pageSuccess == 'sections/config.html'):
+            return render(request, "index.html", {"nombre_completo": request.session.get("nombre_completo"), "mensaje": "Este usuario no cuenta con los privilegios suficientes"})
+        else: 
+            return render(request, pageSuccess, {"nombre_completo": request.session.get("nombre_completo"),"parameters": parameters})
     else:
         return render(request, 'login.html')
 
@@ -26,6 +29,7 @@ def login(request):
             if getattr(datos_usuario, "clave") == v_clave:
                 request.session["id_usuario"]=getattr(datos_usuario, "id_usuario")
                 request.session["nombre_completo"]=getattr(datos_usuario, "nombre_completo")
+                request.session["tipo_usuario"]=getattr(datos_usuario, "tipo_usuario")
                 return redirect("inicio")
             else:
                 return render(request, 'login.html', {"mensaje": "Usuario o contraseña incorrecto"})
@@ -61,7 +65,8 @@ def config(request):
 
 def users(request):
     listatabla = usuarios.objects.all()
-    return validar(request, 'sections/config/users.html',{"listatabla":listatabla})
+    tipo_usu = tipo_usuario.objects.all()
+    return validar(request, 'sections/config/users.html',{"listatabla":listatabla, "tipo_usu":tipo_usu})
 
 def edit_user(request, usu_actual=0):
     tipo_usu = tipo_usuario.objects.all()
@@ -78,8 +83,9 @@ def edit_user(request, usu_actual=0):
     if request.method=="POST":
         if usu_actual==0:
             usuario_nuevo=usuarios(usuario=request.POST.get('usuario'),
-            clave=request.POST.get('clave'), nombre_completo=request.POST.get("nombre_completo"),
-            tipo_usuario=request.POST.get(tipo_usuario))
+            clave=request.POST.get('clave'), 
+            nombre_completo=request.POST.get("nombre_completo"),
+            tipo_usuario=request.POST.get("tipo_usuario"))
             usuario_nuevo.save()
         else:
             usuario_actual=usuarios.objects.get(id_usuario=usu_actual)
@@ -87,6 +93,7 @@ def edit_user(request, usu_actual=0):
             usuario_actual.usuario=request.POST.get("usuario")
             usuario_actual.clave=request.POST.get("clave")
             usuario_actual.tipo_usuario=request.POST.get("tipo_usuario")
+            print(usuario_actual.tipo_usuario)
             usuario_actual.save()
         
         return redirect("../users")

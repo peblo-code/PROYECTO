@@ -36,7 +36,7 @@
         <table id="tabla">
             <thead>
                 <tr>
-                    <th>Usuario</th><th>Nombre Completo</th><th>Acciones</th>
+                    <th>Usuario</th><th>Nombre Completo</th><th>Tipo de Usuario</th><th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,6 +44,11 @@
                 <tr>
                     <td>{{ lista.usuario }}</td>
                     <td>{{ lista.nombre_completo }}</td>
+                    {% for tipo_usuario in parameters.tipo_usu %}
+                        {% if tipo_usuario.id_tipo_usuario == lista.tipo_usuario %}
+                            <td>{{tipo_usuario.descripcion_tipo_usuario}}</td>
+                        {% endif %}
+                    {% endfor %}
                     <td>
                         <a href="{% url 'edit_user' lista.id_usuario %}">Editar</a>
                         {%if nombre_completo != lista.nombre_completo %}

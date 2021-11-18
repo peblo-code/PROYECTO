@@ -73,6 +73,11 @@
                 <p>Ingresar nuevo cliente para emitir una factura</p>
                 <a href="nuevo_cliente">Ingresar</a>
             </div>
+            <p id="msjError" style="display: none">
+                {% if mensaje %}
+                    <p class="message-error" hidden>{{mensaje}}</p>
+                {% endif %}
+            </p>
             {% if parameters.datos_usuario.tipo_usuario == 1 %}
             <div class="card">
                 <div class="card-icon">
@@ -85,6 +90,13 @@
             {% endif %}
         </div>
     </section>
+    <script>
+        var mensaje = document.getElementsByClassName("message-error")
+        setTimeout(showAlert, 200) 
+        function showAlert() {
+            alert(mensaje[0].innerHTML)
+        }
+    </script>
     {% endblock %}
 </body>
 </html>
