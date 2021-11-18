@@ -1,0 +1,26 @@
+.form-container {
+    padding: 0 24em;
+    gap: 2em;
+}
+
+.buscador {
+    width: 26em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.buscador p {
+    margin: 0;
+}
+
+#buscar{ 
+    width: 80%;
+    outline: none;
+    border-radius: 5px;
+    border-style: solid;
+}
+
+.title-and-back h1 {
+    margin: 0;
+}
+

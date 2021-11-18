@@ -1,0 +1,44 @@
+{% extends 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    {% block cuerpo %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio: Automotores Benedix</title>
+    <link rel="stylesheet" href="{% static './css/globals.css' %}">
+    <link rel="stylesheet" href="{% static './css/header.css' %}">
+    <link rel="stylesheet" href="{% static './css/index.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/config.css' %}">
+     <!-- Fuentes de Google -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap" rel="stylesheet">
+     <!-- Fuentes de Google -->
+</head>
+<body>
+    <section class="menu-card">
+        <div class="container">
+            <div class="card">
+                <div class="card-icon">
+                    <span class="icon-circle-left"></span>
+                </div>
+                <h4>Regresar</h4>
+                <p>Regresa al menu principal</p>
+                <a href="inicio">Ingresar</a>
+            </div>
+            <div class="card">
+                <div class="card-icon">
+                    <span class="icon-cog"></span>
+                </div>
+                <h4>Usuarios</h4>
+                <p>Consulta, modifica, elimina y crea nuevos usuarios</p>
+                <a href="users">Ingresar</a>
+            </div>
+        </div>
+    </section>
+    {% endblock %}
+</body>
+</html>

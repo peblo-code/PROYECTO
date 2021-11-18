@@ -130,7 +130,7 @@ iframe {
     font-family: 'Black Ops One', cursive;
     font-size: xxx-large;
     margin: 0;
-    color: var(--mark-title);
+    color: white;
 }
 
 .title-and-back {
@@ -173,4 +173,15 @@ iframe {
   justify-items: center;
   grid-template-columns: 6em 16em;
   grid-gap: .5em;
+}
+
+@media screen and (max-width: 900px) {
+  .form-global-box {
+      width: 80%;
+      grid-template-columns: 50% 50%;
+  }
+
+  .form-section {
+    grid-gap: 2em;
+  }
 }

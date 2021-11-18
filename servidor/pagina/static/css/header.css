@@ -45,20 +45,136 @@ figure{
 .header ol li {
     height: inherit;
     font-family: 'Bebas Neue', cursive;
+    display: flex;
+    align-items: center;
 }
 
-.header a, .menu-userinfo {
+.header a {
     display: flex;
     align-items: center;
     height: inherit;
     padding: 0 10px;
 }
 
-.menu-username {
-    color: aqua;
-    margin-left: .3em;
-}
-
 .login-title {
     color: white;
+}
+
+.menu-username {
+    color: #838383;
+}
+
+@media screen and (max-width: 1024px) {
+    .login-title {
+        font-size: xx-large;
+    }
+
+    .header ol li {
+        font-size: .9rem;
+    }
+
+    .icon-enter {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .login-title {
+        font-size: x-large;
+    }
+
+    .header ol li {
+        font-size: .87rem;
+    }
+
+    .icon-enter {
+        font-size: .9rem;
+    }
+}
+
+@media screen and (max-width: 585px) {
+    .header {
+        display: grid;
+        height: auto;
+        padding-top: 1em;
+    }
+
+    .container {
+        grid-template-rows: 2.3em 3em
+
+    }
+
+    .login-title {
+        font-size: xx-large;
+    }
+
+    .menu {
+        display: flex;
+        justify-content: center;
+    }
+
+    .menu-username {
+        color: #00ccff;
+    }
+
+    .header ol {
+        background: #007bb1;
+        border: 1px solid #0081b9;
+        border-radius: 5px;
+        height: inherit;
+        display: flex;
+        align-content: center;
+        width: 50%;
+        justify-content: space-around;
+    }
+
+    .header ol li {
+        font-size: 1rem;
+    }
+
+    .icon-enter {
+        font-size: 1rem;
+    }
+
+    .header a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        padding: 0
+    }
+}
+
+
+
+@media screen and (max-width: 425px) {
+    .login-title {
+        font-size: x-large;
+    }
+
+    .header ol li {
+        font-size: .87rem;
+    }
+
+    .icon-enter {
+        font-size: .9rem;
+    }
+
+    .header ol {
+        width: 60%
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .container {
+        grid-template-rows: 2em 3em;
+    }
+
+    .login-title {
+        font-size: large;
+    }
+
+    .header ol {
+        width: 75%
+    }    
 }

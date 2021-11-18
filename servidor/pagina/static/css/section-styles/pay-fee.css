@@ -1,0 +1,15 @@
+.form-global-box {
+    grid-template-columns: 1fr;
+    gap: 1em;
+}
+
+.form-item-container {
+    display: grid;
+    grid-template-columns: 1fr 11em;
+    gap: 1em;
+}
+
+.form-item-container:nth-child(2n) {
+    grid-template-columns: 8em 15em 8em;
+    gap: 1em;
+}

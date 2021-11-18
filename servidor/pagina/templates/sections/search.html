@@ -1,13 +1,16 @@
+{% extends 'header.html' %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
+    {% block cuerpo %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Busqueda</title>
-    <link rel="stylesheet" href="../css/globals.css">
-    <link rel="stylesheet" href="../css/section-styles/search.css">
-    <link rel="stylesheet" href="../css/tables.css">
+    <link rel="stylesheet" href="{% static './css/globals.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/search.css' %}">
+    <link rel="stylesheet" href="{% static './css/tables.css'%}">
     <!-- Fuentes de Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,12 +18,9 @@
     <!-- Fuentes de Google -->
 </head>
 <body>
-    <header>
-        <iframe src="../header.html" frameborder="0"></iframe>
-    </header>
     <div class="form-container">
         <div class="title-and-back">
-            <a href="../index.html">
+            <a href="inicio">
                 <span class="icon-circle-left"></span>
             </a>
             <h1>Búsqueda</h1>
@@ -38,6 +38,7 @@
                                 <th>Descripcion</th><th>Mes</th><th>Costo</th>
                             </tr>
                         </thead>
+    
                         <tr>
                             <td>Agua</td><td>Enero</td><td>$ 3,000</td>
                         </tr>
@@ -55,5 +56,6 @@
             </div>
         </form>
     </div>
+    {% endblock %}
 </body>
 </html>

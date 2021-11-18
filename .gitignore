@@ -25,3 +25,4 @@ servidor/pagina/migrations/__pycache__/__init__.cpython-38.pyc
 servidor/servidor/__pycache__/__init__.cpython-38.pyc
 servidor/servidor/__pycache__/settings.cpython-38.pyc
 servidor/servidor/__pycache__/urls.cpython-38.pyc
+servidor/servidor/__pycache__/*.*

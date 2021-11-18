@@ -1,0 +1,66 @@
+{% extends 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    {% block cuerpo %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios</title>
+    <link rel="stylesheet" href="{% static './css/globals.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/search.css' %}">
+    <link rel="stylesheet" href="{% static './css/tables.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/config/users.css' %}">
+    <!-- Fuentes de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap" rel="stylesheet">
+    <!-- Fuentes de Google -->
+</head>
+<body>
+    <div class="form-container">
+        <div class="title-and-back">
+            <a href="config">
+                <span class="icon-circle-left"></span>
+            </a>
+            <h1>Usuarios</h1>
+            <a href="{% url 'edit_user' 0 %}">
+                <button>Nuevo Usuario</button> 
+            </a>
+        </div>
+        <div class="buscador">
+            <p>Buscar:</p> 
+            <input type="text" name="buscar" id="buscar" />
+        </div>
+        <table id="tabla">
+            <thead>
+                <tr>
+                    <th>Usuario</th><th>Nombre Completo</th><th>Tipo de Usuario</th><th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lista in parameters.listatabla %}
+                <tr>
+                    <td>{{ lista.usuario }}</td>
+                    <td>{{ lista.nombre_completo }}</td>
+                    {% for tipo_usuario in parameters.tipo_usu %}
+                        {% if tipo_usuario.id_tipo_usuario == lista.tipo_usuario %}
+                            <td>{{tipo_usuario.descripcion_tipo_usuario}}</td>
+                        {% endif %}
+                    {% endfor %}
+                    <td>
+                        <a href="{% url 'edit_user' lista.id_usuario %}">Editar</a>
+                        {%if nombre_completo != lista.nombre_completo %}
+                        <a href="{% url 'delete_user' lista.id_usuario %}" onclick="return confirm('Eliminar el registro?')" >Borrar</a>
+                        {%endif%}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="{% static 'js/search.js' %}"></script>
+    {% endblock %}
+</body>
+</html>
