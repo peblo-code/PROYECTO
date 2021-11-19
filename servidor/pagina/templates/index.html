@@ -94,7 +94,9 @@
         var mensaje = document.getElementsByClassName("message-error")
         setTimeout(showAlert, 200) 
         function showAlert() {
-            alert(mensaje[0].innerHTML)
+            if(mensaje[0]){
+                alert(mensaje[0].innerHTML)
+            }
         }
     </script>
     {% endblock %}
