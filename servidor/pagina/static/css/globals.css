@@ -163,6 +163,7 @@ iframe {
   font-family: 'Open Sans', sans-serif;
   background-color: rgb(213, 213, 213);
   border-radius: 5px;
+  gap: 3em;
   box-shadow: 1px 0px 5px 0px rgba(0,0,0,0.75) inset;
   -webkit-box-shadow: 1px 0px 5px 0px rgba(0,0,0,0.75) inset;
   -moz-box-shadow: 1px 0px 5px 0px rgba(0,0,0,0.75) inset;
@@ -170,15 +171,17 @@ iframe {
 
 .form-section {
   display: grid;
-  grid-gap: 3em;
+  grid-gap: 2.5em;
 }
 
 .form-item {
   display: grid;
-  justify-items: center;
-  grid-template-columns: 6em 16em;
-  grid-gap: .5em;
+  justify-content: space-between;
+  grid-template-columns: 6em 12em;
+  height: 1.6em;
+  width: 19em;
 }
+
 
 @media screen and (max-width: 900px) {
   .form-global-box {

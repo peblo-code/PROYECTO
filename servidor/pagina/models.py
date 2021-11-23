@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.aggregates import Max
 
 # Create your models here.
 
@@ -12,3 +13,28 @@ class usuarios(models.Model):
 class tipo_usuario(models.Model):
     id_tipo_usuario=models.AutoField(primary_key=True)
     descripcion_tipo_usuario=models.CharField(max_length=50)
+
+class marca(models.Model):
+    id_marca = models.AutoField(primary_key=True)
+    descripcion_marca = models.CharField(max_length=50)
+
+class modelo(models.Model):
+    id_modelo = models.AutoField(primary_key=True)
+    id_marca = models.ForeignKey(marca, on_delete=models.CASCADE)
+    descripcion_modelo = models.CharField(max_length=50)
+
+class color(models.Model):
+    id_color = models.AutoField(primary_key=True)
+    descripcion_color = models.CharField(max_length=50)
+
+class vehiculo(models.Model):
+    id_vehiculo = models.AutoField(primary_key=True)
+    id_marca = models.ForeignKey(marca, on_delete=models.CASCADE)
+    id_modelo = models.ForeignKey(modelo, on_delete=models.CASCADE, null=True)
+    id_color = models.ForeignKey(color, on_delete=models.CASCADE)
+    transmision_vehiculo = models.CharField(max_length=50)
+    motor_vehiculo = models.IntegerField()
+    anio_vehiculo = models.IntegerField()
+    nro_chassis_vehiculo = models.CharField(max_length=100)
+    precio_costo = models.IntegerField()
+    precio_venta = models.IntegerField()

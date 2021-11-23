@@ -1,6 +1,10 @@
 from django.shortcuts import redirect, render
 from pagina.models import usuarios
 from pagina.models import tipo_usuario
+from pagina.models import vehiculo
+from pagina.models import marca
+from pagina.models import modelo
+from pagina.models import color
 
 # Create your views here.
 def validar(request, pageSuccess, parameters={}):
@@ -49,10 +53,51 @@ def salir(request):
     return redirect("./")
 
 def productos(request):
-    return validar(request, 'sections/new-product.html')
+    listaproducto = vehiculo.objects.all()
+    listamarca = marca.objects.all()
+    listamodelo = modelo.objects.all()
+    listacolor = color.objects.all()
+    return validar(request, 'sections/products/products.html',{"listaproducto":listaproducto, "listamarca":listamarca, 
+    "listamodelo": listamodelo, "listacolor":listacolor})
 
-def busqueda_producto(request):
-    return validar(request, 'sections/search.html')
+def edit_product(request, product_actual = 0):
+    tipo_marca = marca.objects.all()
+    tipo_modelo = modelo.objects.all()
+    tipo_color = color.objects.all()
+    if request.method=="GET":
+        vehiculo_actual=vehiculo.objects.filter(id_vehiculo=product_actual).exists()
+        if vehiculo_actual:
+            datos_vehiculo=vehiculo.objects.filter(id_vehiculo=product_actual).first()
+            return validar(request, 'sections/products/edit_product.html',
+            {"datos_act":datos_vehiculo, "product_actual":product_actual, "titulo":"Editar Producto", "tipo_usu":tipo_usu})
+        else:
+            return validar(request, "sections/config/edit_user.html",
+            {"nombre_completo":request.session.get("nombre_completo"), "product_actual":product_actual, "titulo":"Cargar Usuario", "marca":tipo_marca, "modelo": tipo_modelo, "color": tipo_color})
+
+    if request.method=="POST":
+        if product_actual==0:
+            vehiculo_nuevo=vehiculo(marca_vehiculo=request.POST.get('marca'),
+            modelo_vehiculo=request.POST.get('modelo'), 
+            color_vehiculo=request.POST.get("color"),
+            transmision_vehiculo=request.POST.get("transmision"),
+            motor_vehiculo=request.POST.get("motor"),
+            anio_vehiculo=request.POST.get("chasis"),
+            precio_costo=request.POST.get("costo"),
+            precio_venta=request.POST.get("venta"))
+            vehiculo_nuevo.save()
+        else:
+            vehiculo_actual=vehiculo.objects.get(id_vehiculo=product_actual)
+            vehiculo_actual.marca_vehiculo=request.POST.get("marca")
+            vehiculo_actual.modelo_vehiculo=request.POST.get("modelo")
+            vehiculo_actual.color_vehiculo=request.POST.get("color")
+            vehiculo_actual.transmision_vehiculo=request.POST.get("transmision")
+            vehiculo_actual.motor_vehiculo=request.POST.get("motor")
+            vehiculo_actual.anio_vehiculo=request.POST.get("chasis")
+            vehiculo_actual.precio_costo=request.POST.get("costo")
+            vehiculo_actual.precio_venta=request.POST.get("venta") 
+            vehiculo_actual.save()
+        
+        return redirect("../users")
 
 def informes(request):
     return validar(request, 'sections/informs.html')

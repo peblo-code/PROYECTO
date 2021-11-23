@@ -1,0 +1,84 @@
+{% extends 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    {% block cuerpo %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios</title>
+    <link rel="stylesheet" href="{% static './css/globals.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/search.css' %}">
+    <link rel="stylesheet" href="{% static './css/tables.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/config/users.css' %}">
+    <!-- Fuentes de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap" rel="stylesheet">
+    <!-- Fuentes de Google -->
+</head>
+<body>
+    <div class="form-container">
+        <div class="title-and-back">
+            <a href="inicio">
+                <span class="icon-circle-left"></span>
+            </a>
+            <h1>Productos</h1>
+            <a href="{% url 'edit_product' 0 %}">
+                <button>Nuevo Producto</button> 
+            </a>
+        </div>
+        <div class="buscador">
+            <p>Buscar:</p> 
+            <input type="text" name="buscar" id="buscar" />
+        </div>
+        <table id="tabla">
+            <thead>
+                <tr>
+                    <th>Marca</th><th>Modelo</th><th>Transmision</th><th>Motor</th><th>Anio</th><th>Color</th><th>Chasis</th><th>Precio Venta</th><th>Editar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lista in parameters.listaproducto %}
+                <tr>
+                    {% for marca in parameters.listamarca %}
+                        {% if marca.id_marca == lista.id_marca_id %}
+                            <td>{{marca.descripcion_marca}}</td>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for modelo in parameters.listamodelo %}
+                        {% if modelo.id_modelo == lista.id_modelo_id %}
+                            <td>{{modelo.descripcion_modelo}}</td>
+                        {% endif %}
+                    {% endfor %}
+
+                    <td>{{ lista.transmision_vehiculo }}</td>
+
+                    <td>{{ lista.motor_vehiculo }}</td>
+
+                    <td>{{ lista.anio_vehiculo }}</td>
+
+                    {% for color in parameters.listacolor %}
+                        {% if color.id_color == lista.id_color_id %}
+                            <td>{{color.descripcion_color}}</td>
+                        {% endif %}
+                    {% endfor %}
+
+                    <td>{{ lista.nro_chassis_vehiculo }}</td>
+
+                    <td>{{ lista.precio_venta }}</td>
+
+                    <td>
+                        <a href="{% url 'edit_product' lista.id_vehiculo %}">Editar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="{% static 'js/search.js' %}"></script>
+    {% endblock %}
+</body>
+</html>
