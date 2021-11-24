@@ -18,21 +18,26 @@
 <body>
     <div class="form-container">
         <div class="title-and-back">
-            <a href="inicio">
+            <a href="../productos">
                 <span class="icon-circle-left"></span>
             </a>
             <h1>Cargar Nuevo Producto</h1>
         </div>
-        <form action="{% url 'edit_user' parameters.usu_actual %}" method="post" class="form-global-box">
+        <form action="{% url 'edit_product' parameters.product_actual %}" method="POST" class="form-global-box">
             {% csrf_token %}
             <section class="form-section">
                 <div class="form-item">
                     <h4>Marca</h4>
                     <div class="form-select-add">
-                        <select name="Marca" id="">
-                            <option value="toyota">Toyota</option>
-                            <option value="toyota">Nissan</option>
-                            <option value="toyota">Hyundai</option>
+                        <select name="marca" id="marca">
+                            <option value="0" data-chained="0" selected>------</option>
+                            {% for marca in parameters.listamarca %}
+                                {% if marca.id_marca == parameters.datos_act.id_marca_id %}
+                                <option value="{{marca.id_marca}}" id="opcion_select" selected>{{marca.descripcion_marca}}</option>
+                                {% else %}
+                                <option value="{{marca.id_marca}}" id="opcion_select">{{marca.descripcion_marca}}</option>
+                                {% endif %}
+                            {% endfor %}
                         </select>
                         <div class="form-add-icon">
                             <a href="">
@@ -44,10 +49,15 @@
                 <div class="form-item">
                     <h4>Modelo</h4>
                     <div class="form-select-add">
-                        <select name="Modelo" id="">
-                            <option value="toyota">Corolla</option>
-                            <option value="toyota">Auris</option>
-                            <option value="toyota">Premio</option>
+                        <select name="modelo" id="modelo">
+                            <option value="0" data-chained="0" selected>------</option>
+                            {% for modelo in parameters.listamodelo %}
+                                {% if modelo.id_modelo == parameters.datos_act.id_modelo_id %}
+                                <option value="{{modelo.id_modelo}}" id="opcion_select" data-chained="{{modelo.id_marca_id}}" selected>{{modelo.descripcion_modelo}}</option>
+                                {% else %}
+                                <option value="{{modelo.id_modelo}}" id="opcion_select" data-chained="{{modelo.id_marca_id}}" >{{modelo.descripcion_modelo}}</option>
+                                {% endif %}
+                            {% endfor %}
                         </select>
                         <div class="form-add-icon">
                             <a href="">
@@ -60,10 +70,14 @@
                 <div class="form-item">
                     <h4>Color</h4>
                     <div class="form-select-add">
-                        <select name="Color" id="">
-                            <option value="toyota">Blanco</option>
-                            <option value="toyota">Gris</option>
-                            <option value="toyota">Negro</option>
+                        <select name="color" id="">
+                            {% for color in parameters.listacolor %}
+                                {% if color.id_color == parameters.datos_act.id_color_id %}
+                                <option value="{{color.id_color}}" id="opcion_select" selected>{{color.descripcion_color}}</option>
+                                {% else %}
+                                <option value="{{color.id_color}}" id="opcion_select" >{{color.descripcion_color}}</option>
+                                {% endif %}
+                            {% endfor %}
                         </select>
                         <div class="form-add-icon">
                             <a href="">
@@ -75,38 +89,48 @@
     
                 <div class="form-item">
                     <h4>Transmision</h4>
-                    <select name="Transmision" id="">
-                        <option value="toyota">Automática</option>
-                        <option value="toyota">Manual</option>
+                    <select name="transmision" id="">
+                        {% if parameters.datos_act.transmision_vehiculo == 'Manual'%}
+                        <option value="Automatica">Automática</option>
+                        <option value="Manual" selected>Manual</option>
+                        {% else %}
+                        <option value="Automatica" selected>Automática</option>
+                        <option value="Manual">Manual</option>
+                        {% endif %}
                     </select>
                 </div>
     
                 <div class="form-item">
                     <h4>Motor</h4>
-                    <input type="number" name="Motor" id="">
+                    <input type="number" name="motor" id="" value="{{ parameters.datos_act.motor_vehiculo }}">
                 </div>
             </section>
             <section class="form-section">
                 <div class="form-item">
                     <h4>Año</h4>
-                    <input type="year" name="Anio" id="">
+                    <input type="year" name="anio" id="" value="{{ parameters.datos_act.anio_vehiculo }}">
                 </div>
                 <div class="form-item">
                     <h4>Nro. Chasis</h4>
-                    <input type="text" name="Chasis">
+                    <input type="text" name="chasis" value="{{ parameters.datos_act.nro_chassis_vehiculo }}">
                 </div>
                 <div class="form-item">
                     <h4>Precio Costo</h4>
-                    <input type="number" name="Costo">
+                    <input type="number" name="costo" value="{{ parameters.datos_act.precio_costo }}">
                 </div>
                 <div class="form-item">
                     <h4>Precio Venta</h4>
-                    <input type="number" name="Venta">
+                    <input type="number" name="venta" value="{{ parameters.datos_act.precio_venta }}">
                 </div>
                 <button type="submit" class="btn-cargar">Cargar Producto</button>
             </section>
         </form>
     </div>
+    <script src="{% static './js/jquery.js' %}"></script>
+    <script src="{% static './js/jquery.chained.js' %}"></script>
+    <script>
+        $("#modelo").chained("#marca")
+    </script>
     {% endblock %}
 </body>
 </html>
