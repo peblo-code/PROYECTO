@@ -38,3 +38,4 @@ class vehiculo(models.Model):
     nro_chassis_vehiculo = models.CharField(max_length=100)
     precio_costo = models.IntegerField()
     precio_venta = models.IntegerField()
+    estado_vehiculo = models.IntegerField()

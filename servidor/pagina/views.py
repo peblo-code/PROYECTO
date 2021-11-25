@@ -69,10 +69,10 @@ def edit_product(request, product_actual = 0):
         if vehiculo_actual:
             datos_vehiculo=vehiculo.objects.filter(id_vehiculo=product_actual).first()
             return validar(request, 'sections/products/edit_product.html',
-            {"datos_act":datos_vehiculo, "product_actual":product_actual, "titulo":"Editar Producto", 
+            {"datos_act":datos_vehiculo, "product_actual":product_actual, "titulo":"Editar un Producto", 
             "listamarca":listamarca, "listamodelo": listamodelo, "listacolor":listacolor})
         else:
-            return validar(request, "sections/products/edit_product.html", {"titulo":"Cargar Usuario",
+            return validar(request, "sections/products/edit_product.html", {"titulo":"Cargar nuevo Producto",
             "listamarca":listamarca, "listamodelo": listamodelo, "listacolor": listacolor, "product_actual": product_actual})
 
     if request.method=="POST":
@@ -85,7 +85,8 @@ def edit_product(request, product_actual = 0):
             anio_vehiculo=request.POST.get("anio"),
             nro_chassis_vehiculo=request.POST.get("chasis"),
             precio_costo=request.POST.get("costo"),
-            precio_venta=request.POST.get("venta"))
+            precio_venta=request.POST.get("venta"),
+            estado_vehiculo=request.POST.get("existencia"))
             vehiculo_nuevo.save()
         else:
             vehiculo_actual=vehiculo.objects.get(id_vehiculo=product_actual)
@@ -97,7 +98,8 @@ def edit_product(request, product_actual = 0):
             vehiculo_actual.anio_vehiculo=request.POST.get("anio")
             vehiculo_actual.nro_chassis_vehiculo=request.POST.get("chasis")
             vehiculo_actual.precio_costo=request.POST.get("costo")
-            vehiculo_actual.precio_venta=request.POST.get("venta") 
+            vehiculo_actual.precio_venta=request.POST.get("venta")
+            vehiculo_actual.estado_vehiculo=request.POST.get("existencia")
             vehiculo_actual.save()
         
         return redirect("../productos")

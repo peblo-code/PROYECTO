@@ -36,7 +36,7 @@
         <table id="tabla">
             <thead>
                 <tr>
-                    <th>Marca</th><th>Modelo</th><th>Transmision</th><th>Motor</th><th>Año</th><th>Color</th><th>Chasis</th><th>Precio Venta</th><th>Editar</th>
+                    <th>Marca</th><th>Modelo</th><th>Transmision</th><th>Motor</th><th>Año</th><th>Color</th><th>Chasis</th><th>Precio Venta</th><th>Disponibilidad</th><th>Editar</th>
                 </tr>
             </thead>
             <tbody>
@@ -69,6 +69,12 @@
                     <td>{{ lista.nro_chassis_vehiculo }}</td>
 
                     <td>{{ lista.precio_venta }}</td>
+
+                    {% if lista.estado_vehiculo == 0 %}
+                        <td style="color: red;" id="estado">No Disponible</td>
+                    {% else %}
+                        <td>Disponible</td>
+                    {% endif %}
 
                     <td>
                         <a href="{% url 'edit_product' lista.id_vehiculo %}">Editar</a>

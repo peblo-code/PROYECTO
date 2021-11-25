@@ -7,6 +7,15 @@ body {
     margin: 0;
 }
 
+.form-item-radio{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.form-item-radio h4 {
+    margin: 0
+}
+
 .form-item select {
     width: 100%;
     border-radius: 3px;
@@ -61,4 +70,8 @@ body {
     animation-duration: 3s;
     animation-name: color-change;
     animation-iteration-count: 3;
+}
+
+.form-section:nth-child(1) {
+    grid-template-rows: 1fr;
 }

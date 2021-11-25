@@ -10,6 +10,9 @@ table {
     border-collapse: collapse;
     width: 100%;
     font-family: 'Open Sans', sans-serif;
+    box-shadow: 10px 11px 11px -2px rgb(0 0 0 / 50%);
+    -webkit-box-shadow: 10px 11px 11px -2px rgb(0 0 0 / 50%);
+    -moz-box-shadow: 10px 11px 11px -2px rgba(0,0,0,0.5);
 }
 
 th, td {
