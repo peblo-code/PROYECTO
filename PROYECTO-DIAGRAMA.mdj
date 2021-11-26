@@ -1015,7 +1015,7 @@
 											"top": 678,
 											"width": 91,
 											"height": 13,
-											"text": "Emitir Pagaré"
+											"text": "Saldar Pagaré"
 										},
 										{
 											"_type": "LabelView",
@@ -4309,7 +4309,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": -48,
+									"left": -56,
 									"top": 128,
 									"width": 10,
 									"height": 10
@@ -4325,7 +4325,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": -48,
+									"left": -56,
 									"top": 128,
 									"width": 10,
 									"height": 10
@@ -4341,7 +4341,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": -48,
+									"left": -56,
 									"top": 128,
 									"width": 10,
 									"height": 10
@@ -4357,7 +4357,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": -48,
+									"left": -56,
 									"top": 128,
 									"width": 10,
 									"height": 10
@@ -4373,7 +4373,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": -48,
+									"left": -56,
 									"top": 128,
 									"width": 10,
 									"height": 10
@@ -6249,7 +6249,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFElm6BOFNpegQ="
 					},
-					"name": "Emitir Pagaré",
+					"name": "Saldar Pagaré",
 					"ownedElements": [
 						{
 							"_type": "UMLInclude",
