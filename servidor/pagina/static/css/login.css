@@ -43,21 +43,6 @@ fieldset {
     position: relative;
     overflow: hidden;
 }
-/*
-.login-box-form-input p {
-    margin-top: 0;
-    width: 100%;
-    text-align: start;
-    font-weight: bolder;
-}
-
-.login-box-form-input input {
-    border-color: var(--black-tematic);
-    border-radius: 5px;
-    border-style: solid;
-    max-width: 20em;
-    width: 100%;
-} */
 
 .login-box-button {
     background-color: var(--button-standby); /* Green */
