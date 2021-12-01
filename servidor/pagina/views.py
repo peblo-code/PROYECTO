@@ -68,7 +68,7 @@ def edit_product(request, product_actual = 0):
         vehiculo_actual=vehiculo.objects.filter(id_vehiculo=product_actual).exists()
         if vehiculo_actual:
             datos_vehiculo=vehiculo.objects.filter(id_vehiculo=product_actual).first()
-            return validar(request, 'sections/products/edit_product.html',
+            return validar(request, 'sections/products/modal.html',
             {"datos_act":datos_vehiculo, "product_actual":product_actual, "titulo":"Editar un Producto", 
             "listamarca":listamarca, "listamodelo": listamodelo, "listacolor":listacolor})
         else:

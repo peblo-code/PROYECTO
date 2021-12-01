@@ -1,0 +1,140 @@
+{% load static %}
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-modal-header">
+            <h2 class="modal-title">Editar Producto</h2>
+            <button class="close" type="button" aria-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Cargar Nuevo Producto</title>
+            <link rel="stylesheet" href="{% static './css/section-styles/new-product.css' %}">
+            <!-- Fuentes de Google -->
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link
+                href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap"
+                rel="stylesheet">
+            <!-- Fuentes de Google -->
+        </div>
+        <div class="modal-body">
+
+            <form action="{% url 'edit_product' parameters.product_actual %}" method="POST" class="form-global-box">
+                {% csrf_token %}
+                <section class="form-section">
+                    <div class="form-item">
+                        <h4>Marca</h4>
+                        <div class="form-select-add">
+                            <select name="marca" id="marca">
+                                <option value="0" data-chained="0" selected>------</option>
+                                {% for marca in parameters.listamarca %}
+                                {% if marca.id_marca == parameters.datos_act.id_marca_id %}
+                                <option value="{{marca.id_marca}}" id="opcion_select" selected>
+                                    {{marca.descripcion_marca}}</option>
+                                {% else %}
+                                <option value="{{marca.id_marca}}" id="opcion_select">{{marca.descripcion_marca}}
+                                </option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <h4>Modelo</h4>
+                        <div class="form-select-add">
+                            <select name="modelo" id="modelo">
+                                <option value="0" data-chained="0" selected>------</option>
+                                {% for modelo in parameters.listamodelo %}
+                                {% if modelo.id_modelo == parameters.datos_act.id_modelo_id %}
+                                <option value="{{modelo.id_modelo}}" id="opcion_select"
+                                    data-chained="{{modelo.id_marca_id}}" selected>{{modelo.descripcion_modelo}}
+                                </option>
+                                {% else %}
+                                <option value="{{modelo.id_modelo}}" id="opcion_select"
+                                    data-chained="{{modelo.id_marca_id}}">{{modelo.descripcion_modelo}}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-item">
+                        <h4>Color</h4>
+                        <div class="form-select-add">
+                            <select name="color" id="">
+                                {% for color in parameters.listacolor %}
+                                {% if color.id_color == parameters.datos_act.id_color_id %}
+                                <option value="{{color.id_color}}" id="opcion_select" selected>
+                                    {{color.descripcion_color}}</option>
+                                {% else %}
+                                <option value="{{color.id_color}}" id="opcion_select">{{color.descripcion_color}}
+                                </option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-item">
+                        <h4>Transmision</h4>
+                        <select name="transmision" id="">
+                            {% if parameters.datos_act.transmision_vehiculo == 'Manual'%}
+                            <option value="Automatica">Automática</option>
+                            <option value="Manual" selected>Manual</option>
+                            {% else %}
+                            <option value="Automatica" selected>Automática</option>
+                            <option value="Manual">Manual</option>
+                            {% endif %}
+                        </select>
+                    </div>
+
+                    <div class="form-item">
+                        <h4>Motor</h4>
+                        <input type="number" name="motor" id="" value="{{ parameters.datos_act.motor_vehiculo }}">
+                    </div>
+                    <div class="form-item">
+                        <h4>Año</h4>
+                        <input type="year" name="anio" id="" value="{{ parameters.datos_act.anio_vehiculo }}">
+                    </div>
+                    <div class="form-item">
+                        <h4>Nro. Chasis</h4>
+                        <input type="text" name="chasis" value="{{ parameters.datos_act.nro_chassis_vehiculo }}">
+                    </div>
+                    <div class="form-item">
+                        <h4>Precio Costo</h4>
+                        <input type="number" name="costo" value="{{ parameters.datos_act.precio_costo }}">
+                    </div>
+                    <div class="form-item">
+                        <h4>Precio Venta</h4>
+                        <input type="number" name="venta" value="{{ parameters.datos_act.precio_venta }}">
+                    </div>
+                    <div class="form-item-radio">
+                        {% if parameters.datos_act.estado_vehiculo == 0%}
+                        <input type="radio" name="existencia" id="si" value=1>
+                        <h4>Disponible</h4>
+                        <input type="radio" name="existencia" id="no" checked value=0>
+                        <h4>No Disponible</h4>
+                        {% else %}
+                        <input type="radio" name="existencia" id="si" checked value=1>
+                        <h4>Disponible</h4>
+                        <input type="radio" name="existencia" id="no" value=0>
+                        <h4>No Disponible</h4>
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="btn-cargar">Cargar Producto</button>
+                </section>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
+            <button class="btn btn-primary" type="submit">Confirmar</button>
+        </div>
+    </div>
+
+    <script src="{% static './js/jquery.chained.js' %}"></script>
+    <script>
+        $("#modelo").chained("#marca")
+    </script>
+</div>
