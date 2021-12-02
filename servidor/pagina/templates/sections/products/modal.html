@@ -2,14 +2,13 @@
 <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
         <div class="modal-modal-header">
-            <h2 class="modal-title">Editar Producto</h2>
-            <button class="close" type="button" aria-dismiss="modal" aria-label="Close">
+            <h2 class="modal-title">{{parameters.titulo}}</h2>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="stylesheet" href="{% static 'css/modal.css' %}">
         </div>
         <div class="modal-body">
 
@@ -17,9 +16,11 @@
                 {% csrf_token %}
                 <section class="form-section">
                     <div class="form-item">
-                        <h4>Marca</h4>
-                        <div class="form-select-add">
-                            <select name="marca" id="marca">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <label class="input-group-text" for="marca">Marca</label>
+                            </div>
+                            <select class="custom-select" id="marca"  name="marca">
                                 <option value="0" data-chained="0" selected>------</option>
                                 {% for marca in parameters.listamarca %}
                                 {% if marca.id_marca == parameters.datos_act.id_marca_id %}
@@ -31,12 +32,14 @@
                                 {% endif %}
                                 {% endfor %}
                             </select>
-                        </div>
+                          </div>
                     </div>
                     <div class="form-item">
-                        <h4>Modelo</h4>
-                        <div class="form-select-add">
-                            <select name="modelo" id="modelo">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <label class="input-group-text" for="modelo">Modelo</label>
+                            </div>
+                            <select class="custom-select" id="modelo"  name="modelo">
                                 <option value="0" data-chained="0" selected>------</option>
                                 {% for modelo in parameters.listamodelo %}
                                 {% if modelo.id_modelo == parameters.datos_act.id_modelo_id %}
@@ -49,72 +52,113 @@
                                 {% endif %}
                                 {% endfor %}
                             </select>
-                        </div>
+                          </div>
                     </div>
 
                     <div class="form-item">
-                        <h4>Color</h4>
-                        <div class="form-select-add">
-                            <select name="color" id="">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <label class="input-group-text" for="color">Color</label>
+                            </div>
+                            <select class="custom-select" id="color" name="color">
                                 {% for color in parameters.listacolor %}
-                                {% if color.id_color == parameters.datos_act.id_color_id %}
-                                <option value="{{color.id_color}}" id="opcion_select" selected>
-                                    {{color.descripcion_color}}</option>
-                                {% else %}
-                                <option value="{{color.id_color}}" id="opcion_select">{{color.descripcion_color}}
-                                </option>
-                                {% endif %}
+                                    {% if color.id_color == parameters.datos_act.id_color_id %}
+                                    <option value="{{color.id_color}}" id="opcion_select" selected>{{color.descripcion_color}}</option>
+                                    {% else %}
+                                    <option value="{{color.id_color}}" id="opcion_select">{{color.descripcion_color}}</option>
+                                    {% endif %}
                                 {% endfor %}
+                            </select>
+                          </div>    
+                    </div>
+
+                    <div class="form-item">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <label class="input-group-text" for="transmision">Transmision</label>
+                            </div>
+                            <select class="custom-select" id="transmision" name="transmision">
+                                {% if parameters.datos_act.transmision_vehiculo == 'Manual'%}
+                                <option value="Automatica">Automática</option>
+                                <option value="Manual" selected>Manual</option>
+                                {% else %}
+                                <option value="Automatica" selected>Automática</option>
+                                <option value="Manual">Manual</option>
+                                {% endif %}
                             </select>
                         </div>
                     </div>
 
                     <div class="form-item">
-                        <h4>Transmision</h4>
-                        <select name="transmision" id="">
-                            {% if parameters.datos_act.transmision_vehiculo == 'Manual'%}
-                            <option value="Automatica">Automática</option>
-                            <option value="Manual" selected>Manual</option>
-                            {% else %}
-                            <option value="Automatica" selected>Automática</option>
-                            <option value="Manual">Manual</option>
-                            {% endif %}
-                        </select>
-                    </div>
-
-                    <div class="form-item">
-                        <h4>Motor</h4>
-                        <input type="number" name="motor" id="" value="{{ parameters.datos_act.motor_vehiculo }}">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" id="inputGroup-sizing-default">Motor</span>
+                            </div>
+                            <input type="number" name="motor" value="{{ parameters.datos_act.motor_vehiculo }}"
+                            class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                        </div>
                     </div>
                 </section>
                 <section class="form-section">
                     <div class="form-item">
-                        <h4>Año</h4>
-                        <input type="year" name="anio" id="" value="{{ parameters.datos_act.anio_vehiculo }}">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" id="inputGroup-sizing-default">Año</span>
+                            </div>
+                            <input type="number" name="anio" class="form-control" aria-label="Default"
+                            aria-describedby="inputGroup-sizing-default" value="{{ parameters.datos_act.anio_vehiculo }}">
+                        </div>
+                    </div>
+
+                    <div class="form-item">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" id="inputGroup-sizing-default">Chasis</span>
+                            </div>
+                            <input type="text" name="chasis" value="{{ parameters.datos_act.nro_chassis_vehiculo }}" 
+                            class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                        </div>
                     </div>
                     <div class="form-item">
-                        <h4>Nro. Chasis</h4>
-                        <input type="text" name="chasis" value="{{ parameters.datos_act.nro_chassis_vehiculo }}">
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" id="inputGroup-sizing-default">Costo</span>
+                            </div>
+                            <input type="number" name="costo" value="{{ parameters.datos_act.precio_costo }}" 
+                            class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                        </div>
                     </div>
                     <div class="form-item">
-                        <h4>Precio Costo</h4>
-                        <input type="number" name="costo" value="{{ parameters.datos_act.precio_costo }}">
+                        <div class="input-group mb-3"> 
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Venta</span>
+                              </div>
+                              <input type="number" name="venta" value="{{ parameters.datos_act.precio_venta }}" 
+                              class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                        </div>
+
                     </div>
-                    <div class="form-item">
-                        <h4>Precio Venta</h4>
-                        <input type="number" name="venta" value="{{ parameters.datos_act.precio_venta }}">
-                    </div>
+
                     <div class="form-item-radio">
                         {% if parameters.datos_act.estado_vehiculo == 0%}
-                        <input type="radio" name="existencia" id="si" value=1>
-                        <h4>Disponible</h4>
-                        <input type="radio" name="existencia" id="no" checked value=0>
-                        <h4>No Disponible</h4>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="si" name="existencia" class="custom-control-input" value=1>
+                            <label class="custom-control-label" for="si">Disponible</label>
+                          </div>
+                          <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="no" name="existencia" class="custom-control-input" value=0 checked>
+                            <label class="custom-control-label" for="no">No disponible</label>
+                        </div>
                         {% else %}
-                        <input type="radio" name="existencia" id="si" checked value=1>
-                        <h4>Disponible</h4>
-                        <input type="radio" name="existencia" id="no" value=0>
-                        <h4>No Disponible</h4>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="si" name="existencia" class="custom-control-input" checked value=1>
+                            <label class="custom-control-label" for="si">Disponible</label>
+                          </div>
+                          <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="no" name="existencia" class="custom-control-input" value=0>
+                            <label class="custom-control-label" for="no">No disponible</label>
+                        </div>
                         {% endif %}
                     </div>
 

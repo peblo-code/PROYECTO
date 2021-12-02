@@ -1,4 +1,14 @@
+.modal-modal-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 3em;
+    background: slateblue;
+    color: white;
+}
+
 form {
     width: 100%;
-    display: grid;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 2em;
 }
