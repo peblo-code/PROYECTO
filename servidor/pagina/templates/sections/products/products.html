@@ -91,7 +91,11 @@
                         <button class="btn btn-info">Info</button>
                         <button onclick="abrirModalEdicion('{% url 'edit_product' lista.id_vehiculo %}')"
                             class="btn btn-warning">Editar</button>
-                        <button class="btn btn-danger" >Borrar</button>
+                        <button class="btn btn-danger" onclick="alertaConfirmar()">
+                            <a href="">
+                                Borrar
+                            </a>
+                        </button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -111,6 +115,12 @@
         function abrirModalEdicion(url) {
             $('#edicion').load(url, function () {
                 $(this).modal('show');
+            })
+        }
+
+        function alertaConfirmar(){
+            return swal('Precaución', 'Estas seguro de eliminar este producto?', 'warning', {
+            buttons: ["Cancelar", "Si, eliminar!"],
             })
         }
     </script>
