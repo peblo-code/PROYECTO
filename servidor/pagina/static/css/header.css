@@ -28,8 +28,12 @@ ol,ul {
     list-style: none;
 }
 
-figure{
+.logo{
     margin: 0;
+}
+
+a {
+    text-decoration: none;
 }
   
 .header a{

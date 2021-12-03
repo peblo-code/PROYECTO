@@ -166,10 +166,21 @@
             </form>
         </div>
         <div class="modal-footer">
+            <button class="btn btn-primary" onclick="alertaConfirmar('',argsModal)">Confirmar</button>
             <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
-            <button class="btn btn-primary" type="submit" form="editarProducto">Confirmar</button>
         </div>
     </div>
+
+    <script>
+        var argsModal = {
+            TITLE: 'Advertencia!', 
+            TEXT: 'Estás seguro de modificar este Producto?',
+            ICON: 'warning', 
+            successPhrase:'actualizado',
+            typeOfMethod:'submitAndConfirm',
+            btnId: 'editarProducto'
+        }
+    </script>
 
     <script src="{% static './js/jquery.chained.js' %}"></script>
     <script>
