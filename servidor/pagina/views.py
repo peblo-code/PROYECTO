@@ -105,7 +105,7 @@ def edit_product(request, product_actual = 0):
         return redirect("../productos")
 
 def delete_product(request, product_actual):
-    usuarios.objects.filter(id_vehiculo=product_actual).delete()
+    vehiculo.objects.filter(id_vehiculo=product_actual).delete()
     return redirect("../productos")
 
 def informes(request):

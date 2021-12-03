@@ -91,10 +91,8 @@
                         <button class="btn btn-info">Info</button>
                         <button onclick="abrirModalEdicion('{% url 'edit_product' lista.id_vehiculo %}')"
                             class="btn btn-warning">Editar</button>
-                        <button class="btn btn-danger" onclick="alertaConfirmar()">
-                            <a href="">
-                                Borrar
-                            </a>
+                        <button class="btn btn-danger" onclick="alertaConfirmar('{% url 'delete_product' lista.id_vehiculo %}')">
+                            Borrar
                         </button>
                     </td>
                 </tr>
@@ -111,6 +109,8 @@
     <script src="{% static 'js/search.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script type="text/javascript">
+        alertaConfirmarAccion('{{parameter.bandera}}')
+
         var $ = jQuery.noConflict();
         function abrirModalEdicion(url) {
             $('#edicion').load(url, function () {
@@ -118,9 +118,12 @@
             })
         }
 
-        function alertaConfirmar(){
+        function alertaConfirmar(url) {
+
             return swal('Precaución', 'Estas seguro de eliminar este producto?', 'warning', {
             buttons: ["Cancelar", "Si, eliminar!"],
+            }).then(() => {
+                window.location.pathname = url
             })
         }
     </script>
