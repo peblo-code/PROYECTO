@@ -109,32 +109,41 @@ def delete_product(request, product_actual):
     return redirect("../productos")
 
 def mark_and_model(request, marcaModelo_actual = 0, tipo_carga = 0):
-    print(marcaModelo_actual)
+    listamarca = marca.objects.all()
+    if tipo_carga==0:
+        titulo = 'Nueva Marca'
+    else:
+        titulo = 'Nuevo Modelo'
     if request.method=="GET":
         marca_actual=marca.objects.filter(id_marca=marcaModelo_actual).exists()
         if marca_actual:
             datos_marca_modelo=marca.objects.filter(id_marca=marca_actual).first()
             return validar(request, 'sections/products/mark_and_model.html',
-            {"datos_act":datos_marca_modelo, "marca_actual":marca_actual, "titulo":"Editar Marca", 
-            "marcaModelo_actual":marcaModelo_actual, "tipo_carga": tipo_carga})
+            {"datos_act":datos_marca_modelo, "marca_actual":marca_actual, "titulo":titulo, 
+            "marcaModelo_actual":marcaModelo_actual, "tipo_carga": tipo_carga, "listamarca":listamarca})
         else:
             return validar(request, "sections/products/mark_and_model.html",
             {"nombre_completo":request.session.get("nombre_completo"), "marca_actual":marca_actual, 
-            "titulo":"Cargar Usuario", "marcaModelo_actual":marcaModelo_actual, "tipo_carga": tipo_carga})
+            "titulo":titulo, "marcaModelo_actual":marcaModelo_actual, "tipo_carga": tipo_carga, "listamarca":listamarca})
 
     if request.method=="POST":
         marcas = marca.objects.all()
         if marcaModelo_actual==0:
-            marca_nueva=marca(descripcion_marca=request.POST.get('marca')) 
-            marca_nueva.save()
-
+            if tipo_carga==0:
+                marca_nueva=marca(descripcion_marca=request.POST.get('marca')) 
+                marca_nueva.save()
+            else:
+                modelo_nuevo=modelo(descripcion_modelo=request.POST.get('modelo'),
+                id_marca_id=request.POST.get('marca'))
+                modelo_nuevo.save()
         else:
             marcaModelo_actual=usuarios.objects.get(descripcion_marca=marcaModelo_actual)
             marcaModelo_actual.usuario=request.POST.get("modelo")
             print(marcaModelo_actual)
             marcaModelo_actual.save()
+
+    return redirect('../../edit_product/0')
         
-        return redirect("../users")
 
 def informes(request):
     return validar(request, 'sections/informs.html')

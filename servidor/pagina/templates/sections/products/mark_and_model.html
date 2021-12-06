@@ -27,7 +27,6 @@
                     </div>
                     {% else %}
                     <div class="form-item">
-
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="inputGroup-sizing-default">Nuevo Modelo</span>
@@ -35,6 +34,19 @@
                             <input type="text" name="modelo" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
                         </div>
                     </div>
+                    <div class="form-item">
+                        <div class="input-group">
+                            <select class="custom-select" name="marca" id="marca">
+                                <option value="0" selected>------</option>
+                                {% for marca in parameters.listamarca %}
+                                    {% if marca.id_marca == parameters.datos_act.id_marca_id %}
+                                    <option value="{{marca.id_marca}}" id="opcion_select" selected>{{marca.descripcion_marca}}</option>
+                                    {% else %}
+                                    <option value="{{marca.id_marca}}" id="opcion_select">{{marca.descripcion_marca}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
                     {% endif %}
                 </section>
             </form>
