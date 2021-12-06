@@ -39,7 +39,7 @@
                             {% endfor %}
                         </select>
                         <div class="input-group-append">
-                          <button class="btn btn-outline-secondary" type="button">Nueva marca</button>
+                          <button class="btn btn-outline-secondary" type="button" onclick="abrirModalEdicion('{% url 'mark_and_model' 0 0 %}')">Nueva marca</button>
                         </div>
                     </div>
                 </div>
@@ -170,6 +170,9 @@
                 </div>
             </section>
         </form>
+        <div class="modal fade" id="edicion" role="dialog">
+
+        </div>
         <button class="btn btn-success" onclick="alertaConfirmar('',args)" style="margin-top: 1em">Cargar Nuevo Producto</button>
     </div>
     <script src="{% static './js/jquery.js' %}"></script>
@@ -186,6 +189,15 @@
         }
 
         $("#modelo").chained("#marca")
+
+        var $ = jQuery.noConflict();
+        function abrirModalEdicion(url) {
+            console.log(url)
+            $('#edicion').load(url, function () {
+                $(this).modal('show');
+            })
+        }
+
     </script>
     {% endblock %}
 </body>
