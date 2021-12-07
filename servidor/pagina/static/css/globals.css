@@ -158,6 +158,7 @@ iframe {
 .form-global-box {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    height: auto;
     padding: 2em;
     align-items: center;
     margin: 0 auto;

@@ -1,0 +1,15 @@
+.modal-modal-header{
+    display: flex;
+    background: white;
+    justify-content: space-between;
+    padding: 0 1em
+}
+
+.modal-body {
+    min-height: 4em;
+    background: rgb(213, 213, 213);
+}
+
+.nueva-marca{
+    margin: 0!important;
+}
