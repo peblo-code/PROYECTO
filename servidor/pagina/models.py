@@ -40,7 +40,15 @@ class vehiculo(models.Model):
     precio_venta = models.IntegerField()
     estado_vehiculo = models.IntegerField()
 
+class tipo_cliente(models.Model):
+    id_tipo_documento = models.AutoField(primary_key=True)
+    descripcion_tipo_documento = models.CharField(max_length=30)
+
 class cliente(models.Model):
     id_cliente = models.AutoField(primary_key=True)
+    documento_cliente = models.CharField(max_length=10)
     nombre_cliente = models.CharField(max_length=50)
     apellido_cliente = models.CharField(max_length=50)
+    telefono_cliente = models.CharField(max_length=20)
+    genero_cliente = models.IntegerField()
+    id_tipo_documento = models.ForeignKey(tipo_cliente, on_delete=models.CASCADE)
