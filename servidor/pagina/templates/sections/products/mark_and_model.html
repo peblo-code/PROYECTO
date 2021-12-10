@@ -24,7 +24,7 @@
                     <input type="text" name="marca" class="form-control" aria-label="Default"
                         aria-describedby="inputGroup-sizing-default">
                 </div>
-                {% else %}
+                {% elif parameters.tipo_carga == 1 %}
                 <div class="input-group mb-3 nuevo-modelo">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Nuevo Modelo</span>
@@ -46,6 +46,16 @@
                         {% endfor %}
                     </select>
                 </div>
+                {% else %}
+
+                <div class="input-group mb-3 nueva-marca">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default" onclick="">Nuevo Color</span>
+                    </div>
+                    <input type="text" name="color" class="form-control" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default">
+                </div>
+
                 {% endif %}
             </form>
         </div>

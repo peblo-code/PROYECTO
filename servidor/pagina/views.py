@@ -112,8 +112,10 @@ def mark_and_model(request, marcaModelo_actual = 0, tipo_carga = 0):
     listamarca = marca.objects.all()
     if tipo_carga==0:
         titulo = 'Nueva Marca'
-    else:
+    elif tipo_carga==1:
         titulo = 'Nuevo Modelo'
+    else:
+        titulo = 'Nuevo Color'
     if request.method=="GET":
         marca_actual=marca.objects.filter(id_marca=marcaModelo_actual).exists()
         if marca_actual:
@@ -132,10 +134,13 @@ def mark_and_model(request, marcaModelo_actual = 0, tipo_carga = 0):
             if tipo_carga==0:
                 marca_nueva=marca(descripcion_marca=request.POST.get('marca')) 
                 marca_nueva.save()
-            else:
+            elif tipo_carga==1:
                 modelo_nuevo=modelo(descripcion_modelo=request.POST.get('modelo'),
                 id_marca_id=request.POST.get('marca'))
                 modelo_nuevo.save()
+            else:
+                color_nuevo=color(descripcion_color=request.POST.get('color')) 
+                color_nuevo.save()
         else:
             marcaModelo_actual=usuarios.objects.get(descripcion_marca=marcaModelo_actual)
             marcaModelo_actual.usuario=request.POST.get("modelo")
