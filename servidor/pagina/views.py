@@ -104,6 +104,18 @@ def edit_product(request, product_actual = 0):
         
         return redirect("../productos")
 
+def modal_info(request, product_actual):
+    listamarca = marca.objects.all()
+    listamodelo = modelo.objects.all()
+    listacolor = color.objects.all()
+    if request.method=="GET":
+        vehiculo_actual=vehiculo.objects.filter(id_vehiculo=product_actual).exists()
+        if vehiculo_actual:
+            datos_vehiculo=vehiculo.objects.filter(id_vehiculo=product_actual).first()
+            return validar(request, 'sections/products/modal_info.html',
+            {"datos_act":datos_vehiculo, "product_actual":product_actual, "titulo":"Info de Producto", 
+            "listamarca":listamarca, "listamodelo": listamodelo, "listacolor":listacolor})
+
 def delete_product(request, product_actual):
     vehiculo.objects.filter(id_vehiculo=product_actual).delete()
     return redirect("../productos")
