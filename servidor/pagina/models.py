@@ -39,3 +39,8 @@ class vehiculo(models.Model):
     precio_costo = models.IntegerField()
     precio_venta = models.IntegerField()
     estado_vehiculo = models.IntegerField()
+
+class cliente(models.Model):
+    id_cliente = models.AutoField(primary_key=True)
+    nombre_cliente = models.CharField(max_length=50)
+    apellido_cliente = models.CharField(max_length=50)
