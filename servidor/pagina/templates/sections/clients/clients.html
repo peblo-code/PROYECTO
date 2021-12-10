@@ -28,8 +28,8 @@
             <a href="inicio" class="back" style="text-decoration: none;">
                 <span class="icon-circle-left"></span>
             </a>
-            <h1>Productos</h1>
-            <a href="{% url 'edit_product' 0 %}">
+            <h1>Clientes</h1>
+            <a href="{% url 'edit_client' 0 %}">
                 <button class="btn btn-dark">Nuevo Cliente</button>
             </a>
         </div>
@@ -43,13 +43,11 @@
         <table id="tabla">
             <thead>
                 <tr>
-                    <th>Marca</th>
-                    <th>Modelo</th>
-                    <th>Motor</th>
-                    <th>Año</th>
-                    <th>Color</th>
-                    <th>Precio Venta</th>
-                    <th>Disponibilidad</th>
+                    <th>Nro. Documento</th>
+                    <th>Tipo Documento</th>
+                    <th>Nombre y Apellido</th>
+                    <th>Telefono</th>
+                    <th>Genero</th>
                     <th>Acciones</th>
                 </tr>
             </thead>

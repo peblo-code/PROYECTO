@@ -208,5 +208,5 @@ def delete_user(request, usu_actual):
 def cancelar_pagare(request):
     return render(request, 'pay-fee.html')
 
-def nuevo_cliente(request):
-    return render(request, 'new-client.html')
+def clientes(request):
+    return render(request, 'sections/clients/clients.html')
