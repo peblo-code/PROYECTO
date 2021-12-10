@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Usuarios</title>
+    <title>Productos</title>
     <link rel="stylesheet" href="{% static './css/section-styles/search.css' %}">
     <link rel="stylesheet" href="{% static './css/tables.css' %}">
     <link rel="stylesheet" href="{% static './css/section-styles/config/users.css' %}">
@@ -87,7 +87,7 @@
                     {% endif %}
 
                     <td class="actions">
-                        <button class="btn btn-info">Info</button>
+                        <button onclick="abrirModalEdicion('{% url 'modal_info' lista.id_vehiculo %}')" class="btn btn-info">Info</button>
                         <button onclick="abrirModalEdicion('{% url 'edit_product' lista.id_vehiculo %}')"
                             class="btn btn-warning">Editar</button>
                         <button class="btn btn-danger"
@@ -125,6 +125,7 @@
                 $(this).modal('show');
             })
         }
+
 
     </script>
     {% endblock %}
