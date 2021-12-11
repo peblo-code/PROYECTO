@@ -29,7 +29,7 @@
                 <span class="icon-circle-left"></span>
             </a>
             <h1>Clientes</h1>
-            <a href="{% url 'edit_client' 0 %}">
+            <a href="">
                 <button class="btn btn-dark">Nuevo Cliente</button>
             </a>
         </div>
@@ -52,37 +52,21 @@
                 </tr>
             </thead>
             <tbody>
-                {% for lista in parameters.listaproducto %}
+                {% for cliente in parameters.listaclientes %}
                 <tr>
-                    {% for marca in parameters.listamarca %}
-                    {% if marca.id_marca == lista.id_marca_id %}
-                    <td>{{marca.descripcion_marca}}</td>
+                    <td>{{ cliente.documento_cliente }}</td>
+
+                    {% for documento in parameters.listadocumentos %}
+                    {% if documento.id_tipo_documento == cliente.id_tipo_documento_id %}
+                    <td>{{documento.id_tipo_documento}}</td>
                     {% endif %}
                     {% endfor %}
 
-                    {% for modelo in parameters.listamodelo %}
-                    {% if modelo.id_modelo == lista.id_modelo_id %}
-                    <td>{{modelo.descripcion_modelo}}</td>
-                    {% endif %}
-                    {% endfor %}
+                    <td>{{ cliente.nombre_cliente }} {{ cliente.apellido_cliente }}</td>
 
-                    <td>{{ lista.motor_vehiculo }}cc</td>
+                    <td>{{ cliente.telefono_cliente }}</td>
 
-                    <td>{{ lista.anio_vehiculo }}</td>
-
-                    {% for color in parameters.listacolor %}
-                    {% if color.id_color == lista.id_color_id %}
-                    <td>{{color.descripcion_color}}</td>
-                    {% endif %}
-                    {% endfor %}
-
-                    <td>{{ lista.precio_venta }}</td>
-
-                    {% if lista.estado_vehiculo == 0 %}
-                    <td style="color: red;" id="estado">No Disponible</td>
-                    {% else %}
-                    <td style="color: green">Disponible</td>
-                    {% endif %}
+                    <td>{{ cliente.genero_cliente }}</td>
 
                     <td class="actions">
                         <button onclick="abrirModalEdicion('{% url 'modal_info' lista.id_vehiculo %}')" class="btn btn-info">Info</button>

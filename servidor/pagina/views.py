@@ -5,6 +5,10 @@ from pagina.models import vehiculo
 from pagina.models import marca
 from pagina.models import modelo
 from pagina.models import color
+from pagina.models import tipo_documento
+from pagina.models import pais
+from pagina.models import ciudad
+from pagina.models import cliente
 
 # Create your views here.
 def validar(request, pageSuccess, parameters={}):
@@ -209,4 +213,11 @@ def cancelar_pagare(request):
     return render(request, 'pay-fee.html')
 
 def clientes(request):
-    return render(request, 'sections/clients/clients.html')
+    listaclientes = cliente.objects.all()
+    listadocumentos = tipo_documento.objects.all()
+    listapais = pais.objects.all()
+    listaciudad = ciudad.objects.all()
+    return validar(request, 'sections/clients/clients.html',
+    {"listadocumentos":listadocumentos, "listapais":listapais, 
+    "listaciudad":listaciudad, "listaclientes":listaclientes})
+
