@@ -10,9 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clientes</title>
     <link rel="stylesheet" href="{% static './css/section-styles/search.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/clients/clients.css' %}">
     <link rel="stylesheet" href="{% static './css/tables.css' %}">
-    <link rel="stylesheet" href="{% static './css/section-styles/config/users.css' %}">
-    <link rel="stylesheet" href="{% static './css/section-styles/products/products.css'%}">
     <link rel="stylesheet" href="{% static 'css/modal.css' %}">
     <!-- Fuentes de Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +28,7 @@
                 <span class="icon-circle-left"></span>
             </a>
             <h1>Clientes</h1>
-            <a href="">
+            <a href="{% url 'edit_client' 0 %}">
                 <button class="btn btn-dark">Nuevo Cliente</button>
             </a>
         </div>
@@ -58,7 +57,7 @@
 
                     {% for documento in parameters.listadocumentos %}
                     {% if documento.id_tipo_documento == cliente.id_tipo_documento_id %}
-                    <td>{{documento.id_tipo_documento}}</td>
+                    <td>{{documento.descripcion_tipo_documento}}</td>
                     {% endif %}
                     {% endfor %}
 
@@ -66,14 +65,17 @@
 
                     <td>{{ cliente.telefono_cliente }}</td>
 
-                    <td>{{ cliente.genero_cliente }}</td>
+                    {% if cliente.genero_cliente == 0 %}
+                        <td>Femenino</td>
+                    {% else %}
+                        <td>Masculino</td>
+                    {%endif%}
 
                     <td class="actions">
-                        <button onclick="abrirModalEdicion('{% url 'modal_info' lista.id_vehiculo %}')" class="btn btn-info">Info</button>
-                        <button onclick="abrirModalEdicion('{% url 'edit_product' lista.id_vehiculo %}')"
+                        <button onclick=""
                             class="btn btn-warning">Editar</button>
                         <button class="btn btn-danger"
-                            onclick="alertaConfirmar('{% url 'delete_product' lista.id_vehiculo %}', args)">
+                            onclick="">
                             Borrar
                         </button>
                     </td>

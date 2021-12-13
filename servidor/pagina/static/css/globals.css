@@ -184,6 +184,12 @@ iframe {
     width: 19em;
 }
 
+.actions {
+  display: flex;
+  gap: .5em;
+  height: 100%;
+}
+
 
 @media screen and (max-width: 900px) {
   .form-global-box {

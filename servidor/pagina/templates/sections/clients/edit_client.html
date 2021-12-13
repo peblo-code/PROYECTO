@@ -2,59 +2,170 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+{% block cuerpo %}
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{static '../css/globals.css'}">
-    <link rel="stylesheet" href="{static '../css/section-styles/globals-section.css'}">
-    <link rel="stylesheet" href="{static '../css/section-styles/new-client.css'}">
+    <link rel="stylesheet" href="{% static './css/globals.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/globals-section.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/clients/edit_client.css' %}">
     <!-- Fuentes de Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap"
+        rel="stylesheet">
     <!-- Fuentes de Google -->
-    <title>Nuevo Cliente</title>
+    <title>{{ parameters.titulo }}</title>
 </head>
+
 <body>
     <div class="form-container">
         <div class="title-and-back">
-            <a href="{static '../index.html'}">
+            <a href="../clientes">
                 <span class="icon-circle-left"></span>
             </a>
-            <h1>Nuevo Cliente</h1>
+            <h1>{{ parameters.titulo }}</h1>
         </div>
-        <form action="" class="form-global-box">
-            <div class="form-global-box-container">
-                <div class="form-item">
-                    <h4>Documento</h4>
-                    <input type="number">
-                </div>
-                <div class="form-item">
-                    <h4>Tipo Documento</h4>
-                    <select name="" id="">
-                        <option value="toyota">CI</option>
-                        <option value="toyota">RUC</option>
-                        <option value="toyota">DNI</option>
-                    </select>
-                </div>
-                <div class="form-item">
-                    <h4>Nombre Completo</h4>
-                    <input type="number" required>
-                </div>
-                <div class="form-item large">
-                    <h4>Direccion</h4>
-                    <input type="text">
-                </div>
-                <div class="form-item large">
-                    <h4>Numero de Telefono</h4>
-                    <input type="text">
+        <form action="{% url 'edit_client' parameters.clie_actual %}" method="POST" class="form-global-box" id="cargarCliente">
+            {% csrf_token %}
+            <div class="input-group">
+                <select class="custom-select" name="tipo_documento" id="tipo_documento">
+                    <option value="0" data-chained="0" selected>------</option>
+                    {% for tipo_documento in parameters.listatipodoc %}
+                    {% if tipo_documento.id_tipo_documento == parameters.datos_act.id_tipo_documento_id %}
+                    <option value="{{tipo_documento.id_tipo_documento}}" id="opcion_select" selected>
+                        {{tipo_documento.descripcion_tipo_documento}}</option>
+                    {% else %}
+                    <option value="{{tipo_documento.id_tipo_documento}}" id="opcion_select">
+                        {{tipo_documento.descripcion_tipo_documento}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button"
+                        onclick="abrirModalEdicion('{% url 'mark_and_model' 0 0 %}')">Nuevo documento</button>
                 </div>
             </div>
-            <button type="submit" class="btn-cargar">Cargar Producto</button>
-        </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Documento</span>
+                </div>
+                <input type="text" name="documento_cliente" value="{{ parameters.datos_act.documento_cliente }}"
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Nombre</span>
+                </div>
+                <input type="text" name="nombre_cliente" value="{{ parameters.datos_act.nombre_cliente }}"
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Apellido</span>
+                </div>
+                <input type="text" name="apellido_cliente" value="{{ parameters.datos_act.apellido_cliente }}"
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Telefono</span>
+                </div>
+                <input type="text" name="telefono_cliente" value="{{ parameters.datos_act.telefono_cliente }}"
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+
+            <div class="input-group">
+                <select class="custom-select" name="pais" id="pais">
+                    <option value="0" data-chained="0" selected>------</option>
+                    {% for pais in parameters.listapais %}
+                    {% if pais.id_pais == parameters.datos_act.id_pais_id %}
+                    <option value="{{pais.id_pais}}" id="opcion_select" data-chained="{{pais.id_pais}}" selected>{{pais.descripcion_pais}}</option>
+                    {% else %}
+                    <option value="{{pais.id_pais}}" id="opcion_select" data-chained="{{pais.id_pais}}">{{pais.descripcion_pais}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button"
+                        onclick="abrirModalEdicion('{% url 'mark_and_model' 0 0 %}')">Nuevo pais</button>
+                </div>
+            </div>
+
+
+            <div class="input-group">
+                <select class="custom-select" name="ciudad" id="ciudad">
+                    <option value="0" data-chained="0" selected>------</option>
+                    {% for ciudad in parameters.listaciudad %}
+                    {% if ciudad.id_ciudad == parameters.datos_act.id_ciudad_id %}
+                    <option value="{{ciudad.id_ciudad}}" id="opcion_select" data-chained="{{ciudad.id_ciudad}}" selected>{{ciudad.descripcion_ciudad}}
+                    </option>
+                    {% else %}
+                    <option value="{{ciudad.id_ciudad}}" id="opcion_select" data-chained="{{ciudad.id_ciudad}}">{{ciudad.descripcion_ciudad}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button"
+                        onclick="abrirModalEdicion('{% url 'mark_and_model' 0 0 %}')">Nueva ciudad</button>
+                </div>
+            </div>
+
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="genero_cliente">Género</label>
+                </div>
+                <select class="custom-select" id="genero_cliente" name="genero_cliente">
+                    {% if parameters.datos_act.genero_cliente == 0%}
+                    <option value=0>Femenino</option>
+                    <option value=1 selected>Masculino</option>
+                    {% else %}
+                    <option value=0 selected>Femenino</option>
+                    <option value=1>Masculino</option>
+                    {% endif %}
+                </select>
+            </div>
         </form>
+        <div class="modal fade" id="edicion" role="dialog">
+
+        </div>
+        <button class="btn btn-success" onclick="alertaConfirmar('',args)" style="margin-top: 1em">Cargar Nuevo
+            Producto</button>
     </div>
+    <script src="{% static './js/jquery.js' %}"></script>
+    <script src="{% static './js/jquery.chained.js' %}"></script>
+    <script src="{% static 'js/alerts.js' %}"></script>
+    <script>
+        var args = {
+            TITLE: '', 
+            TEXT: '',
+            ICON: '', 
+            successPhrase: 'registrado',
+            typeOfMethod: 'submit',
+            btnId: 'cargarCliente'
+        }
+
+        $("#ciudad").chained("#pais")
+
+        var $ = jQuery.noConflict();
+        function abrirModalEdicion(url) {
+            console.log(url)
+            $('#edicion').load(url, function () {
+                $(this).modal('show');
+            })
+        }
+
+    </script>
     {% endblock %}
 </body>
+
 </html>

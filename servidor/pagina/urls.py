@@ -14,6 +14,7 @@ urlpatterns = [
     path('factura', views.factura, name='factura'),
     path('cancelar_pagare', views.cancelar_pagare, name='cancelar_pagare'),
     path('clientes', views.clientes, name='clientes'),
+    path('edit_client/<int:clie_actual>', views.edit_client, name="edit_client"),
     path('config', views.config, name='config'),
     path('users', views.users, name='users'),
     path('edit_user/<int:usu_actual>', views.edit_user, name='edit_user'),

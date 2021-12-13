@@ -50,6 +50,7 @@ class pais(models.Model):
 
 class ciudad(models.Model):
     id_ciudad = models.AutoField(primary_key=True)
+    id_pais = models.ForeignKey(pais, on_delete=models.CASCADE, null=True)
     descripcion_ciudad = models.CharField(max_length=50)
 
 class cliente(models.Model):

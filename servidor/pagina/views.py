@@ -221,3 +221,42 @@ def clientes(request):
     {"listadocumentos":listadocumentos, "listapais":listapais, 
     "listaciudad":listaciudad, "listaclientes":listaclientes})
 
+def edit_client(request, clie_actual=0):
+    listatipodoc = tipo_documento.objects.all()
+    listapais = pais.objects.all()
+    listaciudad = ciudad.objects.all()
+    if request.method=="GET":
+        cliente_actual=cliente.objects.filter(id_cliente=clie_actual).exists()
+        if cliente_actual:
+            datos_cliente=cliente.objects.filter(id_cliente=clie_actual).first()
+            return validar(request, 'sections/clients/modal_client.html',
+            {"datos_act":datos_cliente, "clie_actual":clie_actual, "titulo":"Editar un Cliente", 
+            "listatipodoc":listatipodoc, "listapais":listapais, "listaciudad":listaciudad})
+        else:
+            return validar(request, "sections/clients/edit_client.html", {"titulo":"Cargar nuevo Cliente",
+            "listatipodoc":listatipodoc, "listapais":listapais, "listaciudad":listaciudad, "clie_actual": clie_actual})
+
+    if request.method=="POST":
+        if clie_actual==0:
+            cliente_nuevo=cliente(documento_cliente=request.POST.get('documento_cliente'),
+            nombre_cliente=request.POST.get('nombre_cliente'),
+            apellido_cliente=request.POST.get("apellido_cliente"),
+            telefono_cliente=request.POST.get("telefono_cliente"),
+            genero_cliente=request.POST.get("genero_cliente"),
+            id_tipo_documento_id=request.POST.get("tipo_documento"),
+            id_pais_id=request.POST.get("pais"),
+            id_ciudad_id=request.POST.get("ciudad"))
+            cliente_nuevo.save()
+        else:
+            cliente_actual=cliente.objects.get(id_cliente=clie_actual)
+            cliente_actual.documento_cliente=request.POST.get("documento_cliente")
+            cliente_actual.nombre_cliente=request.POST.get("nombre_cliente")
+            cliente_actual.apellido_cliente=request.POST.get("apellido_cliente")
+            cliente_actual.telefono_cliente=request.POST.get("telefono_cliente")
+            cliente_actual.genero_cliente=request.POST.get("genero_cliente")
+            cliente_actual.id_tipo_documento_id=request.POST.get("tipo_documento")
+            cliente_actual.id_pais_id=request.POST.get("pais")
+            cliente_actual.id_ciudad_id=request.POST.get("ciudad")
+            cliente_actual.save()
+        
+        return redirect("../clientes")
