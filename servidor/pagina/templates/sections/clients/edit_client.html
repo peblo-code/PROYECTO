@@ -45,7 +45,7 @@
                 </select>
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button"
-                        onclick="abrirModalEdicion('{% url 'mark_and_model' 0 0 %}')">Nuevo documento</button>
+                        onclick="abrirModalEdicion('{% url 'parameters_modal_client' 0 0 %}')">Nuevo documento</button>
                 </div>
             </div>
 
@@ -96,7 +96,7 @@
                 </select>
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button"
-                        onclick="abrirModalEdicion('{% url 'mark_and_model' 0 0 %}')">Nuevo pais</button>
+                        onclick="abrirModalEdicion('{% url 'parameters_modal_client' 0 1 %}')">Nuevo pais</button>
                 </div>
             </div>
 
@@ -106,16 +106,16 @@
                     <option value="0" data-chained="0" selected>------</option>
                     {% for ciudad in parameters.listaciudad %}
                     {% if ciudad.id_ciudad == parameters.datos_act.id_ciudad_id %}
-                    <option value="{{ciudad.id_ciudad}}" id="opcion_select" data-chained="{{ciudad.id_ciudad}}" selected>{{ciudad.descripcion_ciudad}}
+                    <option value="{{ciudad.id_ciudad}}" id="opcion_select" data-chained="{{ciudad.id_pais_id}}" selected>{{ciudad.descripcion_ciudad}}
                     </option>
                     {% else %}
-                    <option value="{{ciudad.id_ciudad}}" id="opcion_select" data-chained="{{ciudad.id_ciudad}}">{{ciudad.descripcion_ciudad}}</option>
+                    <option value="{{ciudad.id_ciudad}}" id="opcion_select" data-chained="{{ciudad.id_pais_id}}">{{ciudad.descripcion_ciudad}}</option>
                     {% endif %}
                     {% endfor %}
                 </select>
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button"
-                        onclick="abrirModalEdicion('{% url 'mark_and_model' 0 0 %}')">Nueva ciudad</button>
+                        onclick="abrirModalEdicion('{% url 'parameters_modal_client' 0 2 %}')">Nueva ciudad</button>
                 </div>
             </div>
 
@@ -138,8 +138,7 @@
         <div class="modal fade" id="edicion" role="dialog">
 
         </div>
-        <button class="btn btn-success" onclick="alertaConfirmar('',args)" style="margin-top: 1em">Cargar Nuevo
-            Producto</button>
+        <button class="btn btn-success" onclick="alertaConfirmar('',args)" style="margin-top: 1em">{{ parameters.titulo }}</button>
     </div>
     <script src="{% static './js/jquery.js' %}"></script>
     <script src="{% static './js/jquery.chained.js' %}"></script>

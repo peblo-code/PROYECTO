@@ -13,38 +13,46 @@
         </div>
         <div class="modal-body">
 
-            <form action="{% url 'parameters_modal' parameters.paisCiudad_actual parameters.tipo_carga %}" method="POST"
-                id="cargarParametros">
+            <form action="{% url 'parameters_modal_client' parameters.paisCiudad_actual parameters.tipo_carga %}" method="POST"
+                id="cargarPaisCiudad">
                 {% csrf_token %}
                 {% if parameters.tipo_carga == 0%}
-                <div class="input-group mb-3 nueva-marca">
+                <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-default" onclick="">Nueva Marca</span>
+                        <span class="input-group-text" id="inputGroup-sizing-default">Nuevo Documento</span>
                     </div>
-                    <input type="text" name="marca" class="form-control" aria-label="Default"
-                        aria-describedby="inputGroup-sizing-default">
+                    <input type="text" name="tipo_documento" class="form-control" aria-label="Default" 
+                    aria-describedby="inputGroup-sizing-default">
                 </div>
-                {% else %}
+                {% elif parameters.tipo_carga == 1 %}
                 <div class="input-group mb-3 nuevo-modelo">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Nuevo Modelo</span>
+                        <span class="input-group-text" id="inputGroup-sizing-default">Nuevo Pais</span>
                     </div>
-                    <input type="text" name="modelo" class="form-control" aria-label="Default"
+                    <input type="text" name="pais" class="form-control" aria-label="Default"
                         aria-describedby="inputGroup-sizing-default">
                 </div>
-
+                {% elif parameters.tipo_carga == 2 %}
                 <div class="input-group">
-                    <select class="custom-select" name="marca" id="marca">
+                    <select class="custom-select" name="pais" id="pais">
                         <option value="0" selected>------</option>
-                        {% for marca in parameters.listamarca %}
-                        {% if marca.id_marca == parameters.datos_act.id_marca_id %}
-                        <option value="{{marca.id_marca}}" id="opcion_select" selected>{{marca.descripcion_marca}}
+                        {% for pais in parameters.listapais %}
+                        {% if pais.id_pais == parameters.datos_act.id_pais_id %}
+                        <option value="{{pais.id_pais}}" id="opcion_select" selected>{{pais.descripcion_pais}}
                         </option>
                         {% else %}
-                        <option value="{{marca.id_marca}}" id="opcion_select">{{marca.descripcion_marca}}</option>
+                        <option value="{{pais.id_pais}}" id="opcion_select">{{pais.descripcion_pais}}</option>
                         {% endif %}
                         {% endfor %}
                     </select>
+                </div>
+
+                <div class="input-group mb-3 nuevo-modelo">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Nueva Ciudad</span>
+                    </div>
+                    <input type="text" name="ciudad" class="form-control" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default">
                 </div>
                 {% endif %}
             </form>
@@ -62,7 +70,7 @@
                 ICON: '',
                 successPhrase: 'actualizado',
                 typeOfMethod: 'submit',
-                btnId: 'editarMarcaModelo'
+                btnId: 'cargarPaisCiudad'
             }
         </script>
 

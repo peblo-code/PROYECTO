@@ -258,5 +258,45 @@ def edit_client(request, clie_actual=0):
             cliente_actual.id_pais_id=request.POST.get("pais")
             cliente_actual.id_ciudad_id=request.POST.get("ciudad")
             cliente_actual.save()
-        
         return redirect("../clientes")
+
+def parameters_modal_client(request, paisCiudad_actual=0, tipo_carga=0):
+    listapais = pais.objects.all()
+    if tipo_carga==0:
+        titulo = 'Nuevo Tipo Documento'
+    elif tipo_carga==1:
+        titulo = 'Nuevo Pais'
+    else:
+        titulo = 'Nueva Ciudad'
+    if request.method=="GET":
+        pais_actual=pais.objects.filter(id_pais=paisCiudad_actual).exists()
+        if pais_actual:
+            datos_pais_ciudad=pais.objects.filter(id_pais=paisCiudad_actual).first()
+            return validar(request, 'sections/clients/parameters_modal_client.html',
+            {"datos_act":datos_pais_ciudad, "pais_actual":pais_actual, "titulo":titulo, 
+            "paisCiudad_actual":paisCiudad_actual, "tipo_carga": tipo_carga, "listapais":listapais})
+        else:
+            return validar(request, "sections/clients/parameters_modal_client.html",
+            {"nombre_completo":request.session.get("nombre_completo"), "pais_actual":pais_actual, 
+            "titulo":titulo, "paisCiudad_actual":paisCiudad_actual, "tipo_carga": tipo_carga, "listapais":listapais})
+
+    if request.method=="POST":
+        listapais = pais.objects.all()
+        if paisCiudad_actual==0:
+            if tipo_carga==0:
+                tipo_documento_nuevo=tipo_documento(descripcion_tipo_documento=request.POST.get('tipo_documento'))
+                tipo_documento_nuevo.save()
+            elif tipo_carga==1:
+                pais_nuevo=pais(descripcion_pais=request.POST.get('pais')) 
+                pais_nuevo.save()
+            else:
+                ciudad_nueva=ciudad(descripcion_ciudad=request.POST.get('ciudad'),
+                id_pais_id=request.POST.get('pais'))
+                ciudad_nueva.save()
+        else:
+            paisCiudad_actual=usuarios.objects.get(descripcion_pais=paisCiudad_actual)
+            paisCiudad_actual.usuarios=request.POST.get("modelo")
+            print(paisCiudad_actual)
+            paisCiudad_actual.save()
+
+    return redirect('../../edit_client/0')
