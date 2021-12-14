@@ -11,8 +11,8 @@
     <title>Clientes</title>
     <link rel="stylesheet" href="{% static './css/section-styles/search.css' %}">
     <link rel="stylesheet" href="{% static './css/section-styles/clients/clients.css' %}">
-    <link rel="stylesheet" href="{% static './css/tables.css' %}">
     <link rel="stylesheet" href="{% static 'css/modal.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static './css/DataTables/datatables.min.css' %}"/>
     <!-- Fuentes de Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,13 +31,6 @@
             <a href="{% url 'edit_client' 0 %}">
                 <button class="btn btn-dark">Nuevo Cliente</button>
             </a>
-        </div>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">Buscar</span>
-            </div>
-            <input type="text" name="buscar" id="buscar" class="form-control" placeholder="Producto"
-                aria-label="Producto" aria-describedby="basic-addon1">
         </div>
         <table id="tabla">
             <thead>
@@ -75,7 +68,7 @@
                         <button onclick="abrirModalEdicion('{% url 'edit_client' cliente.id_cliente %}')"
                             class="btn btn-warning">Editar</button>
                         <button class="btn btn-danger"
-                            onclick="">
+                        onclick="alertaConfirmar('{% url 'delete_client' cliente.id_cliente %}', args)">
                             Borrar
                         </button>
                     </td>
@@ -89,15 +82,42 @@
 
     </div>
 
-    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/search.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/alerts.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'js/DataTables/js/datatables.min.js' %}"></script>
     <script type="text/javascript">
+        
+
+        $(document).ready(function() {
+            $('#tabla').DataTable({
+                "language": {
+                    "emptyTable":     "La tabla se encuentra vacia.",
+                    "info":           "Mostrando _END_ de _MAX_ registros",
+                    "infoEmpty":      "",
+                    "infoFiltered":   "",
+                    "infoPostFix":    "",
+                    "thousands":      ",",
+                    "lengthMenu":     "Mostrando _MENU_ registros por página",
+                    "loadingRecords": "Cargando...",
+                    "processing":     "Procesando...",
+                    "search":         "Buscar:",
+                    "zeroRecords":    "No se obtuvo ninguna coincidencia",
+                    oPaginate: {
+                        sNext: '<i class="fa fa-forward"></i>',
+                        sPrevious: '<i class="fa fa-backward"></i>',
+                        sFirst: '<i class="fa fa-step-backward"></i>',
+                        sLast: '<i class="fa fa-step-forward"></i>'
+                        }
+                }
+            } );
+        });
 
         var args = {
             TITLE: 'Precaución!', 
-            TEXT: 'Estás seguro de eliminar este Producto?',
+            TEXT: 'Estás seguro de eliminar este Cliente?',
             ICON: 'warning', 
             successPhrase:'eliminado',
             typeOfMethod:'url',

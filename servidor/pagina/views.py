@@ -260,6 +260,10 @@ def edit_client(request, clie_actual=0):
             cliente_actual.save()
         return redirect("../clientes")
 
+def delete_client(clie_actual):
+    cliente.objects.filter(id_cliente=clie_actual).delete()
+    return redirect("../clients")
+
 def parameters_modal_client(request, paisCiudad_actual=0, tipo_carga=0):
     listapais = pais.objects.all()
     if tipo_carga==0:
