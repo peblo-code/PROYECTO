@@ -1,0 +1,142 @@
+{% load static %}
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-modal-header">
+            <h2 class="modal-title">{{parameters.titulo}}</h2>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        </div>
+        <div class="modal-body">
+            <style>
+                form {
+                    display: flex;
+                    flex-direction: column;
+                    margin-top: 0;
+                }
+                .input-group {
+                    margin-bottom: 1em;
+                }
+            </style>
+            <form action="{% url 'edit_client' parameters.clie_actual %}" method="POST" id="cargarCliente">
+                {% csrf_token %}
+                <div class="input-group">
+                    <select class="custom-select" name="tipo_documento" id="tipo_documento">
+                        <option value="0" data-chained="0" selected>------</option>
+                        {% for tipo_documento in parameters.listatipodoc %}
+                        {% if tipo_documento.id_tipo_documento == parameters.datos_act.id_tipo_documento_id %}
+                        <option value="{{tipo_documento.id_tipo_documento}}" id="opcion_select" selected>
+                            {{tipo_documento.descripcion_tipo_documento}}</option>
+                        {% else %}
+                        <option value="{{tipo_documento.id_tipo_documento}}" id="opcion_select">
+                            {{tipo_documento.descripcion_tipo_documento}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+    
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Documento</span>
+                    </div>
+                    <input type="text" name="documento_cliente" value="{{ parameters.datos_act.documento_cliente }}"
+                        class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+    
+    
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Nombre</span>
+                    </div>
+                    <input type="text" name="nombre_cliente" value="{{ parameters.datos_act.nombre_cliente }}"
+                        class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+    
+    
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Apellido</span>
+                    </div>
+                    <input type="text" name="apellido_cliente" value="{{ parameters.datos_act.apellido_cliente }}"
+                        class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+    
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Telefono</span>
+                    </div>
+                    <input type="text" name="telefono_cliente" value="{{ parameters.datos_act.telefono_cliente }}"
+                        class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+    
+                <div class="input-group">
+                    <select class="custom-select" name="pais" id="pais">
+                        <option value="0" data-chained="0" selected>------</option>
+                        {% for pais in parameters.listapais %}
+                        {% if pais.id_pais == parameters.datos_act.id_pais_id %}
+                        <option value="{{pais.id_pais}}" id="opcion_select" data-chained="{{pais.id_pais}}" selected>{{pais.descripcion_pais}}</option>
+                        {% else %}
+                        <option value="{{pais.id_pais}}" id="opcion_select" data-chained="{{pais.id_pais}}">{{pais.descripcion_pais}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+    
+    
+                <div class="input-group">
+                    <select class="custom-select" name="ciudad" id="ciudad">
+                        <option value="0" data-chained="0" selected>------</option>
+                        {% for ciudad in parameters.listaciudad %}
+                        {% if ciudad.id_ciudad == parameters.datos_act.id_ciudad_id %}
+                        <option value="{{ciudad.id_ciudad}}" id="opcion_select" data-chained="{{ciudad.id_ciudad}}" selected>{{ciudad.descripcion_ciudad}}
+                        </option>
+                        {% else %}
+                        <option value="{{ciudad.id_ciudad}}" id="opcion_select" data-chained="{{ciudad.id_ciudad}}">{{ciudad.descripcion_ciudad}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+    
+    
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="genero_cliente">Género</label>
+                    </div>
+                    <select class="custom-select" id="genero_cliente" name="genero_cliente">
+                        {% if parameters.datos_act.genero_cliente == 0%}
+                        <option value=0>Femenino</option>
+                        <option value=1 selected>Masculino</option>
+                        {% else %}
+                        <option value=0 selected>Femenino</option>
+                        <option value=1>Masculino</option>
+                        {% endif %}
+                    </select>
+                </div>
+            </form>
+ 
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" onclick="alertaConfirmar('',argsModal)">Confirmar</button>
+            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
+        </div>
+    </div>
+
+    <script>
+        var argsModal = {
+            TITLE: 'Advertencia!', 
+            TEXT: 'Estás seguro de modificar este Producto?',
+            ICON: 'warning', 
+            successPhrase:'actualizado',
+            typeOfMethod:'submitAndConfirm',
+            btnId: 'editarProducto'
+        }
+    </script>
+
+    <script src="{% static './js/jquery.chained.js' %}"></script>
+    <script>
+        $("#modelo").chained("#marca")
+    </script>
+</div>
