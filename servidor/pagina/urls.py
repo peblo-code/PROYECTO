@@ -20,5 +20,4 @@ urlpatterns = [
     path('edit_user/<int:usu_actual>', views.edit_user, name='edit_user'),
     path('delete_user/<int:usu_actual>', views.delete_user, name='delete_user'),
     path('parameters_modal_client/<int:paisCiudad_actual>/<int:tipo_carga>', views.parameters_modal_client, name='parameters_modal_client'),
-    path('delete_client/<int:clie_actual>', views.delete_client, name='delete_client'),
 ]
