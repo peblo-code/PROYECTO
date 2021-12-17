@@ -269,7 +269,7 @@ def parameters_modal_client(request, paisCiudad_actual=0, tipo_carga=0):
     if tipo_carga==0:
         titulo = 'Nuevo Tipo Documento'
     elif tipo_carga==1:
-        titulo = 'Nuevo Pais'
+        titulo = 'Nuevo País'
     else:
         titulo = 'Nueva Ciudad'
     if request.method=="GET":
