@@ -109,8 +109,10 @@
     <script src="{% static 'js/search.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/alerts.js' %}"></script>
+    <script src="{% static 'js/datatables.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/DataTables/js/datatables.min.js' %}"></script>
     <script type="text/javascript">
-
+        dataTable()
         var args = {
             TITLE: 'Precaución!', 
             TEXT: 'Estás seguro de eliminar este Producto?',
@@ -125,7 +127,6 @@
                 $(this).modal('show');
             })
         }
-
 
     </script>
     {% endblock %}
