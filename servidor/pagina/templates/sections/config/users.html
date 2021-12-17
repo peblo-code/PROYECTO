@@ -10,7 +10,6 @@
     <title>Usuarios</title>
     <link rel="stylesheet" href="{% static './css/globals.css' %}">
     <link rel="stylesheet" href="{% static './css/section-styles/search.css' %}">
-    <link rel="stylesheet" href="{% static './css/tables.css' %}">
     <link rel="stylesheet" href="{% static './css/section-styles/config/users.css' %}">
     <!-- Fuentes de Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,10 +27,6 @@
             <a href="{% url 'edit_user' 0 %}">
                 <button>Nuevo Usuario</button> 
             </a>
-        </div>
-        <div class="buscador">
-            <p>Buscar:</p> 
-            <input type="text" name="buscar" id="buscar" />
         </div>
         <table id="tabla">
             <thead>
@@ -61,6 +56,11 @@
         </table>
     </div>
     <script src="{% static 'js/search.js' %}"></script>
+    <script src="{% static 'js/datatables.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/DataTables/js/datatables.min.js' %}"></script>
+    <script>
+        dataTable()
+    </script>
     {% endblock %}
 </body>
 </html>
