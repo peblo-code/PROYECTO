@@ -60,6 +60,7 @@ class cliente(models.Model):
     apellido_cliente = models.CharField(max_length=50)
     telefono_cliente = models.CharField(max_length=20)
     genero_cliente = models.IntegerField()
+    estado_cliente = models.IntegerField()
     id_tipo_documento = models.ForeignKey(tipo_documento, on_delete=models.CASCADE)
     id_pais = models.ForeignKey(pais, on_delete=models.CASCADE, null=True)
     id_ciudad = models.ForeignKey(ciudad, on_delete=models.CASCADE, null=True)
