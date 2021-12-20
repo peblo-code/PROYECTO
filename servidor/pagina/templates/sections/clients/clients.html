@@ -34,6 +34,11 @@
                 <button class="btn " id="btnMostrarOcultar">{{parameters.buttonText}}</button>
             </a>
         </div>
+        {% if parameters.mode == 1%}
+        <div class="alert alert-warning" role="alert">
+            Los clientes que se encuentren en esta lista no aparecerán disponibles para efectuar ventas
+        </div>
+        {% endif %}
         <table id="tabla">
             <thead>
                 <tr>
