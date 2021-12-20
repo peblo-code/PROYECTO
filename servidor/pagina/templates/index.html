@@ -71,7 +71,7 @@
                 </div>
                 <h4>Clientes</h4>
                 <p>Ingrese nuevos clientes y gestiónalos</p>
-                <a href="clientes">Ingresar</a>
+                <a href="{% url 'clientes' 0 %}">Ingresar</a>
             </div>
             <p id="msjError" style="display: none">
                 {% if mensaje %}

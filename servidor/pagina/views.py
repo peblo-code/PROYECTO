@@ -212,14 +212,21 @@ def delete_user(request, usu_actual):
 def cancelar_pagare(request):
     return render(request, 'pay-fee.html')
 
-def clientes(request):
+def clientes(request, mode=0):
     listaclientes = cliente.objects.all()
     listadocumentos = tipo_documento.objects.all()
     listapais = pais.objects.all()
     listaciudad = ciudad.objects.all()
+    if mode == 0:
+        buttonText="Ver deshabilitados"
+        urlSwitch=1
+    else:
+        buttonText="Ocultar deshabilitados"
+        urlSwitch=0
     return validar(request, 'sections/clients/clients.html',
     {"listadocumentos":listadocumentos, "listapais":listapais, 
-    "listaciudad":listaciudad, "listaclientes":listaclientes})
+    "listaciudad":listaciudad, "listaclientes":listaclientes, 
+    "buttonText":buttonText, "urlSwitch":urlSwitch, "mode":mode})
 
 def edit_client(request, clie_actual=0):
     listatipodoc = tipo_documento.objects.all()

@@ -23,12 +23,15 @@
 <body>
     <div class="form-container">
         <div class="title-and-back">
-            <a href="inicio" class="back" style="text-decoration: none;">
+            <a href="../inicio" class="back" style="text-decoration: none;">
                 <span class="icon-circle-left"></span>
             </a>
             <h1>Clientes</h1>
             <a href="{% url 'edit_client' 0 %}">
                 <button class="btn btn-dark">Nuevo Cliente</button>
+            </a>
+            <a href="{% url 'clientes' parameters.urlSwitch %}">
+                <button class="btn " id="btnMostrarOcultar">{{parameters.buttonText}}</button>
             </a>
         </div>
         <table id="tabla">
@@ -44,7 +47,7 @@
             </thead>
             <tbody>
                 {% for cliente in parameters.listaclientes %}
-                {% if cliente.estado_cliente == 1 %}
+                {% if cliente.estado_cliente == parameters.mode %}
                 <tr>
                     <td>{{ cliente.documento_cliente }}</td>
 
@@ -91,6 +94,15 @@
 
     <script type="text/javascript" src="{% static 'js/DataTables/js/datatables.min.js' %}"></script>
     <script type="text/javascript">
+        window.onload = function colorBoton() {
+            boton = document.getElementById("btnMostrarOcultar")
+            if(boton.innerHTML == 'Ver deshabilitados') {
+                boton.className = "btn btn-danger"
+            } else {
+                boton.className = "btn btn-dark"
+            }
+        }
+
        dataTable()
 
         var args = {
