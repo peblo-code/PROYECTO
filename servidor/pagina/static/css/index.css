@@ -42,11 +42,11 @@
     font-weight: 600;
     font-family: 'Roboto', sans-serif;
     margin-bottom: 0;
-    margin: 1em auto;
+    margin: .5em auto;
 }
 
 .card p {
-    padding: 0 1rem;
+    padding: 0 .5rem;
     font-size: 16px;
     font-weight: 300;
 }

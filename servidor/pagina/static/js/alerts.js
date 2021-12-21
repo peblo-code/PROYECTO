@@ -57,3 +57,16 @@ function alertaConfirmar(url, args) {
     }
 
 }
+
+function alerta(args){
+    Swal.fire({
+        title: args.TITLE,
+        text: args.TEXT,
+        icon: args.ICON,
+        showCancelButton: false,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Aceptar',
+    }).then((result) => {
+
+    })
+}
