@@ -9,13 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static './css/globals.css' %}">
     <link rel="stylesheet" href="{% static './css/section-styles/globals-section.css' %}">
-    <link rel="stylesheet" href="{% static './css/section-styles/new-client.css' %}">
     <!-- Fuentes de Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap" rel="stylesheet">
     <!-- Fuentes de Google -->
-    <title>{{titulo}}</title>
+    <title>{{parameters.titulo}}</title>
 </head>
 <body>
     <div class="form-container">
@@ -27,36 +26,50 @@
         </div>
         <form action="{% url 'edit_user' parameters.usu_actual %}" class="form-global-box" method="POST">
             {% csrf_token %}
-            <div class="form-global-box-container">
-                <div class="form-item">
-                    <h4>Nombre de Usuario</h4>
-                    <input type="text" name="usuario" required value="{{parameters.datos_act.usuario}}">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Nombre de Usuario</span>
                 </div>
-                <div class="form-item">
-                    <h4>Nombre Completo</h4>
-                    <input type="text" name="nombre_completo" required value="{{parameters.datos_act.nombre_completo}}">
-                </div>
-                <div class="form-item large">
-                    <h4>Clave</h4>
-                    <input type="password" name="clave" required value="{{parameters.datos_act.clave}}">
-                </div>
-                <div class="form-item">
-                    <h4>Tipo de Usuario</h4>
-                    <select name="tipo_usuario" id="tipo_usuario" required>
-                        {% for usuario in parameters.tipo_usu %}
-                            {% if usuario.id_tipo_usuario == parameters.datos_act.tipo_usuario %}
-                            <option value="{{usuario.id_tipo_usuario}}" id="opcion_select" selected>{{usuario.descripcion_tipo_usuario}}</option>
-                            {% else %}
-                            <option value="{{usuario.id_tipo_usuario}}" id="opcion_select">{{usuario.descripcion_tipo_usuario}}</option>
-                            {% endif %}
-                        
-                        {% endfor %}
-                    </select>
-                </div>
+                <input type="text" name="usuario" value="{{ parameters.datos_act.usuario }}"
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
             </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Nombre de Usuario</span>
+                </div>
+                <input type="text" name="nombre_completo" value="{{parameters.datos_act.nombre_completo}}"
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Clave</span>
+                </div>
+                <input type="password" name="clave" value="{{parameters.datos_act.clave}}"
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="genero_cliente">Tipo de Usuario</label>
+                </div>
+                <select name="tipo_usuario" id="tipo_usuario" required>
+                    {% for usuario in parameters.tipo_usu %}
+                        {% if usuario.id_tipo_usuario == parameters.datos_act.tipo_usuario %}
+                        <option value="{{usuario.id_tipo_usuario}}" id="opcion_select" selected>{{usuario.descripcion_tipo_usuario}}</option>
+                        {% else %}
+                        <option value="{{usuario.id_tipo_usuario}}" id="opcion_select">{{usuario.descripcion_tipo_usuario}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+
             <button type="submit" class="btn-cargar">Cargar Usuario</button>
         </div>
         </form>
+        <button class="btn btn-success" onclick="alertaConfirmar('',args)" style="margin-top: 1em">{{ parameters.titulo }}</button>
     </div>
     {% endblock %}
 </body>

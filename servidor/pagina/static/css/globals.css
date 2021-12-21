@@ -156,8 +156,8 @@ iframe {
 }
 
 .form-global-box {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     height: auto;
     padding: 2em;
     align-items: center;
@@ -165,7 +165,6 @@ iframe {
     font-family: 'Open Sans', sans-serif;
     background-color: rgb(213, 213, 213);
     border-radius: 5px;
-    gap: 3em;
     box-shadow: 1px 0px 5px 0px rgba(0,0,0,0.75) inset;
     -webkit-box-shadow: 1px 0px 5px 0px rgba(0,0,0,0.75) inset;
     -moz-box-shadow: 1px 0px 5px 0px rgba(0,0,0,0.75) inset;

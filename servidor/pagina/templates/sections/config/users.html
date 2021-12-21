@@ -2,7 +2,8 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-    {% block cuerpo %}
+{% block cuerpo %}
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,9 +15,11 @@
     <!-- Fuentes de Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap"
+        rel="stylesheet">
     <!-- Fuentes de Google -->
 </head>
+
 <body>
     <div class="form-container">
         <div class="title-and-back">
@@ -25,13 +28,16 @@
             </a>
             <h1>Usuarios</h1>
             <a href="{% url 'edit_user' 0 %}">
-                <button>Nuevo Usuario</button> 
+                <button class="btn btn-dark">Nuevo Usuario</button>
             </a>
         </div>
         <table id="tabla">
             <thead>
                 <tr>
-                    <th>Usuario</th><th>Nombre Completo</th><th>Tipo de Usuario</th><th>Acciones</th>
+                    <th>Usuario</th>
+                    <th>Nombre Completo</th>
+                    <th>Tipo de Usuario</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,14 +46,24 @@
                     <td>{{ lista.usuario }}</td>
                     <td>{{ lista.nombre_completo }}</td>
                     {% for tipo_usuario in parameters.tipo_usu %}
-                        {% if tipo_usuario.id_tipo_usuario == lista.tipo_usuario %}
-                            <td>{{tipo_usuario.descripcion_tipo_usuario}}</td>
-                        {% endif %}
+                    {% if tipo_usuario.id_tipo_usuario == lista.tipo_usuario %}
+                    <td>{{tipo_usuario.descripcion_tipo_usuario}}</td>
+                    {% endif %}
                     {% endfor %}
                     <td>
-                        <a href="{% url 'edit_user' lista.id_usuario %}">Editar</a>
-                        {%if nombre_completo != lista.nombre_completo %}
-                        <a href="{% url 'delete_user' lista.id_usuario %}" onclick="return confirm('Eliminar el registro?')" >Borrar</a>
+                        <button class="btn btn-warning"
+                            onclick="alertaConfirmar('{% url 'edit_user' lista.id_usuario %}', args)">
+                            Editar
+                        </button>
+                        {% if nombre_completo != lista.nombre_completo %}
+                        <button class="btn btn-danger"
+                            onclick="alertaConfirmar('{% url 'delete_user' lista.id_usuario %}', args)">
+                            Eliminar
+                        </button>
+                        {% else %}
+                        <button class="btn btn-danger" disabled>
+                            Eliminar
+                        </button>
                         {%endif%}
                     </td>
                 </tr>
@@ -63,4 +79,5 @@
     </script>
     {% endblock %}
 </body>
+
 </html>
