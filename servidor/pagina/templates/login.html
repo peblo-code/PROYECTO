@@ -46,14 +46,25 @@
                 {% endif %}
             </section>
     </fieldset>
+    <script src="{% static 'js/sweetalert2.all.min.js'%}"></script>
+    <script src="{% static 'js/alerts.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script>
-    var mensaje = document.getElementsByClassName("message-error")
-    setTimeout(showAlert, 200) 
-    function showAlert() {
-        if(mensaje[0]) {
-            alert(mensaje[0].innerHTML)
+           var mensaje = document.getElementsByClassName("message-error")
+        setTimeout(showAlert, 200) 
+        function showAlert() {
+            if(mensaje[0]) {
+                alerta(args)
+            }
         }
-    }
+
+        var args = {
+            TITLE: 'Usuario o Contraseña incorrectos', 
+            TEXT: `${mensaje[0].innerHTML}`,
+            ICON: 'error', 
+            typeOfMethod: '',
+            btnId: 'cargarCliente'
+        }
     </script>
 </body>
 </html>

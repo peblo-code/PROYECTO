@@ -40,9 +40,9 @@ def login(request):
                 request.session["tipo_usuario"]=getattr(datos_usuario, "tipo_usuario")
                 return redirect("inicio")
             else:
-                return render(request, 'login.html', {"mensaje": "Usuario o contraseña incorrecto"})
+                return render(request, 'login.html', {"mensaje": "Por favor, vuelva a intentarlo!"})
         else:
-            return render(request, 'login.html', {"mensaje": "Usuario o contraseña incorrecto"})
+            return render(request, 'login.html', {"mensaje": "Por favor, vuelva a intentarlo!"})
 
 def inicio(request):
     usu_actual = request.session.get("id_usuario")
