@@ -270,9 +270,9 @@ def edit_client(request, clie_actual=0):
 def disable_client(request, clie_actual, option):
     print(clie_actual)
     cliente_actual=cliente.objects.get(id_cliente=clie_actual)
-    cliente_actual.estado_cliente=0
+    cliente_actual.estado_cliente=option
     cliente_actual.save()
-    return redirect("clientes")
+    return redirect("../../clientes/0")
 
 
 def parameters_modal_client(request, paisCiudad_actual=0, tipo_carga=0):

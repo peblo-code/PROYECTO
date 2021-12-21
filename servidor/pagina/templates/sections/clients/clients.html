@@ -75,10 +75,17 @@
                     <td class="actions">
                         <button onclick="abrirModalEdicion('{% url 'edit_client' cliente.id_cliente %}')"
                             class="btn btn-warning">Editar</button>
+                            {% if parameters.mode == 0 %}
                         <button class="btn btn-danger"
-                        onclick="alertaConfirmar('{% url 'disable_client' cliente.id_cliente 0 %}', args)">
+                        onclick="alertaConfirmar('{% url 'disable_client' cliente.id_cliente 1 %}', args)">
                             Deshabilitar
                         </button>
+                            {% else %}
+                        <button class="btn btn-success"
+                        onclick="alertaConfirmar('{% url 'disable_client' cliente.id_cliente 0 %}', args2)">
+                            Habilitar
+                        </button>
+                            {% endif %}
                     </td>
                 </tr>
                 {% endif %}
@@ -115,6 +122,14 @@
             TEXT: 'Estás seguro de deshabilitar este Cliente?',
             ICON: 'warning', 
             successPhrase:'deshabilitado',
+            typeOfMethod:'url',
+        }
+
+        var args2 = {
+            TITLE: 'Precaución!', 
+            TEXT: 'Estás seguro de volver a habilitar este Cliente?',
+            ICON: 'warning', 
+            successPhrase:'habilitado',
             typeOfMethod:'url',
         }
 
