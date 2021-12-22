@@ -52,7 +52,7 @@
                     {% endfor %}
                     <td>
                         <button class="btn btn-warning"
-                            onclick="alertaConfirmar('{% url 'edit_user' lista.id_usuario %}', args)">
+                            onclick="abrirModalEdicion('{% url 'edit_user' lista.id_usuario %}', args)">
                             Editar
                         </button>
                         {% if nombre_completo != lista.nombre_completo %}
@@ -70,12 +70,46 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        <div class="modal fade" id="edicion" role="dialog">
+
+        </div>
+
     </div>
-    <script src="{% static 'js/search.js' %}"></script>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/alerts.js' %}"></script>
     <script src="{% static 'js/datatables.js'%}"></script>
+
     <script type="text/javascript" src="{% static 'js/DataTables/js/datatables.min.js' %}"></script>
-    <script>
-        dataTable()
+    <script type="text/javascript">
+       dataTable()
+
+        var args = {
+            TITLE: 'Precaución!', 
+            TEXT: 'Estás seguro de modificar este Usuario?',
+            ICON: 'warning', 
+            successPhrase:'modificado',
+            typeOfMethod:'url',
+        }
+
+        var args2 = {
+            TITLE: 'Precaución!', 
+            TEXT: 'Estás seguro de eliminar este Usuario?',
+            ICON: 'warning', 
+            successPhrase:'eliminado',
+            typeOfMethod:'url',
+        }
+
+        var $ = jQuery.noConflict();
+        function abrirModalEdicion(url) {
+            $('#edicion').load(url, function () {
+                $(this).modal('show');
+            })
+        }
+
+
     </script>
     {% endblock %}
 </body>

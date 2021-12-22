@@ -23,7 +23,7 @@
 <body>
     <div class="form-container">
         <div class="title-and-back">
-            <a href="../clientes">
+            <a href="../clientes/0">
                 <span class="icon-circle-left"></span>
             </a>
             <h1>{{ parameters.titulo }}</h1>
@@ -126,11 +126,11 @@
                 </div>
                 <select class="custom-select" id="genero_cliente" name="genero_cliente">
                     {% if parameters.datos_act.genero_cliente == 0%}
-                    <option value=0>Femenino</option>
-                    <option value=1 selected>Masculino</option>
-                    {% else %}
                     <option value=0 selected>Femenino</option>
                     <option value=1>Masculino</option>
+                    {% else %}
+                    <option value=0>Femenino</option>
+                    <option value=1 selected>Masculino</option>
                     {% endif %}
                 </select>
             </div>

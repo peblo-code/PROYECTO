@@ -181,7 +181,7 @@ def edit_user(request, usu_actual=0):
         usuario_actual=usuarios.objects.filter(id_usuario=usu_actual).exists()
         if usuario_actual:
             datos_usuario=usuarios.objects.filter(id_usuario=usu_actual).first()
-            return validar(request, 'sections/config/edit_user.html',
+            return validar(request, 'sections/config/modal_user.html',
             {"datos_act":datos_usuario, "usu_actual":usu_actual, "titulo":"Editar Usuario", "tipo_usu":tipo_usu})
         else:
             return validar(request, "sections/config/edit_user.html",
@@ -250,6 +250,7 @@ def edit_client(request, clie_actual=0):
             apellido_cliente=request.POST.get("apellido_cliente"),
             telefono_cliente=request.POST.get("telefono_cliente"),
             genero_cliente=request.POST.get("genero_cliente"),
+            estado_cliente=0,
             id_tipo_documento_id=request.POST.get("tipo_documento"),
             id_pais_id=request.POST.get("pais"),
             id_ciudad_id=request.POST.get("ciudad"))
@@ -265,7 +266,7 @@ def edit_client(request, clie_actual=0):
             cliente_actual.id_pais_id=request.POST.get("pais")
             cliente_actual.id_ciudad_id=request.POST.get("ciudad")
             cliente_actual.save()
-        return redirect("../clientes")
+        return redirect("../clientes/0")
 
 def disable_client(request, clie_actual, option):
     print(clie_actual)

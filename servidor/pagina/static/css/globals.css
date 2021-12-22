@@ -153,6 +153,7 @@ iframe {
     flex-direction: column;
     margin-top: 1em;
     align-items: center;
+    justify-content: center;
 }
 
 .form-global-box {
