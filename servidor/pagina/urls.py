@@ -16,6 +16,7 @@ urlpatterns = [
     path('clientes/<int:mode>', views.clientes, name='clientes'),
     path('edit_client/<int:clie_actual>', views.edit_client, name="edit_client"),
     path('config', views.config, name='config'),
+    path('parameters_products.html', views.parameters_products, name='parameters_products'),
     path('users', views.users, name='users'),
     path('edit_user/<int:usu_actual>', views.edit_user, name='edit_user'),
     path('delete_user/<int:usu_actual>', views.delete_user, name='delete_user'),

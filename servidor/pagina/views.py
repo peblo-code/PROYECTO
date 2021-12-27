@@ -170,6 +170,9 @@ def factura(request):
 def config(request):
     return validar(request, 'sections/config.html')
 
+def parameters_products(request):
+    return validar(request, 'sections/parameters_products.html')
+
 def users(request):
     listatabla = usuarios.objects.all()
     tipo_usu = tipo_usuario.objects.all()
