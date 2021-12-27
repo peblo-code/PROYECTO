@@ -59,10 +59,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&display=swap');
 
-.back {
-  text-decoration: none;
-}
-
 body {
     display: flex;
     flex-direction: column;
