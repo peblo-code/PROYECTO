@@ -47,7 +47,7 @@
                     <td>{{ lista.nombre_completo }}</td>
                     {% for tipo_usuario in parameters.tipo_usu %}
                     {% if tipo_usuario.id_tipo_usuario == lista.tipo_usuario %}
-                    <td>{{tipo_usuario.descripcion_tipo_usuario}}</td>
+                    <td>{{ tipo_usuario.descripcion_tipo_usuario }}</td>
                     {% endif %}
                     {% endfor %}
                     <td>
