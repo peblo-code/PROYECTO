@@ -9,6 +9,7 @@
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="{% static './css/modal.css' %}">
         </div>
         <div class="modal-body">
             <style>
@@ -22,8 +23,8 @@
                     margin-bottom: 1em;
                 }
             </style>
-            <form action="{% url 'edit_user' parameters.usu_actual %}" class="form-global-box" method="POST"
-                id="cargarUsuario">
+            <form action="{% url 'edit_user' parameters.usu_actual %}" method="POST"
+                id="editarUsuario">
                 {% csrf_token %}
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -67,9 +68,6 @@
                     </select>
                 </div>
             </form>
-            <button class="btn btn-success" onclick="alertaConfirmar('',args)" style="margin-top: 1em">{{
-                parameters.titulo }}</button>
-
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" onclick="alertaConfirmar('',argsModal)">Confirmar</button>
@@ -84,7 +82,7 @@
             ICON: 'warning',
             successPhrase: 'actualizado',
             typeOfMethod: 'submitAndConfirm',
-            btnId: 'cargarCliente'
+            btnId: 'editarUsuario'
         }
     </script>
 
