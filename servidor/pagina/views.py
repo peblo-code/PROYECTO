@@ -171,7 +171,7 @@ def config(request):
     return validar(request, 'sections/config.html')
 
 def parameters_products(request):
-    return validar(request, 'sections/parameters_products.html')
+    return validar(request, 'sections/config/parameters_products.html')
 
 def users(request):
     listatabla = usuarios.objects.all()
