@@ -8,8 +8,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos</title>
-    <link rel="stylesheet" href="{% static './css/section-styles/search.css' %}">
+    <title>Marcas</title>
     <link rel="stylesheet" href="{% static './css/tables.css' %}">
     <link rel="stylesheet" href="{% static './css/section-styles/config/users.css' %}">
     <link rel="stylesheet" href="{% static './css/section-styles/products/products.css'%}">
@@ -29,62 +28,28 @@
                 <span class="icon-circle-left"></span>
             </a>
             <h1>Marcas</h1>
-            <a href="{% url 'edit_product' 0 %}">
-                <button class="btn btn-dark">Nuevo Producto</button>
+            <a href="{% url 'mark_and_model' 0 %}">
+                <button class="btn btn-dark">Nueva Marca</button>
             </a>
         </div>
         <table id="tabla">
             <thead>
                 <tr>
                     <th>Marca</th>
-                    <th>Modelo</th>
-                    <th>Motor</th>
-                    <th>Año</th>
-                    <th>Color</th>
-                    <th>Precio Venta</th>
-                    <th>Disponibilidad</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                {% for lista in parameters.listaproducto %}
+                {% for marca in parameters.listamarca %}
                 <tr>
-                    {% for marca in parameters.listamarca %}
-                    {% if marca.id_marca == lista.id_marca_id %}
                     <td>{{marca.descripcion_marca}}</td>
-                    {% endif %}
-                    {% endfor %}
-
-                    {% for modelo in parameters.listamodelo %}
-                    {% if modelo.id_modelo == lista.id_modelo_id %}
-                    <td>{{modelo.descripcion_modelo}}</td>
-                    {% endif %}
-                    {% endfor %}
-
-                    <td>{{ lista.motor_vehiculo }}cc</td>
-
-                    <td>{{ lista.anio_vehiculo }}</td>
-
-                    {% for color in parameters.listacolor %}
-                    {% if color.id_color == lista.id_color_id %}
-                    <td>{{color.descripcion_color}}</td>
-                    {% endif %}
-                    {% endfor %}
-
-                    <td>{{ lista.precio_venta }}</td>
-
-                    {% if lista.estado_vehiculo == 0 %}
-                    <td style="color: red;" id="estado">No Disponible</td>
-                    {% else %}
-                    <td style="color: green">Disponible</td>
-                    {% endif %}
 
                     <td class="actions">
-                        <button onclick="abrirModalEdicion('{% url 'modal_info' lista.id_vehiculo %}')" class="btn btn-info">Info</button>
-                        <button onclick="abrirModalEdicion('{% url 'edit_product' lista.id_vehiculo %}')"
+                        <button onclick="abrirModalEdicion('{% url '' lista.id_vehiculo %}')" class="btn btn-info">Info</button>
+                        <button onclick="abrirModalEdicion('{% url '' lista.id_vehiculo %}')"
                             class="btn btn-warning">Editar</button>
                         <button class="btn btn-danger"
-                            onclick="alertaConfirmar('{% url 'delete_product' lista.id_vehiculo %}', args)">
+                            onclick="alertaConfirmar('{% url '' lista.id_vehiculo %}', args)">
                             Borrar
                         </button>
                     </td>

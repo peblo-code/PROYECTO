@@ -173,6 +173,9 @@ def config(request):
 def parameters_products(request):
     return validar(request, 'sections/config/parameters_products.html')
 
+def mark(request):
+    return validar(request, 'sections/config/parameters_products/mark.html')
+
 def users(request):
     listatabla = usuarios.objects.all()
     tipo_usu = tipo_usuario.objects.all()
