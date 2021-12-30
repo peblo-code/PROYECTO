@@ -8,10 +8,10 @@ function dataTable() {
                 "infoFiltered":   "",
                 "infoPostFix":    "",
                 "thousands":      ",",
-                "lengthMenu":     "Mostrando _MENU_ registros por página",
+                "lengthMenu":     "Mostrar _MENU_ registros",
                 "loadingRecords": "Cargando...",
                 "processing":     "Procesando...",
-                "search":         "Buscar:",
+                "search":         "",
                 "zeroRecords":    "No se obtuvo ninguna coincidencia",
                 oPaginate: {
                     sNext: '<i class="fa fa-forward"></i>',

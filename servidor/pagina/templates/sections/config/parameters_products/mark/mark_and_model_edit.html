@@ -1,0 +1,70 @@
+{% load static %}
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" style="margin: 0 auto;">
+        <div class="modal-modal-header">
+            <h2 class="modal-title" style="color: black">{{parameters.titulo}}</h2>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="{% static './css/section-styles/products/modalAdd.css' %}">
+        </div>
+        <div class="modal-body">
+
+            <form action="{% url 'mark_and_model' parameters.marcaModelo_actual parameters.tipo_carga %}" method="POST"
+                id="editarMarcaModelo">
+                {% csrf_token %}
+                {% if parameters.tipo_carga == 0%}
+                <div class="input-group mb-3 nueva-marca">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default" onclick="">Nueva Marca</span>
+                    </div>
+                    <input type="text" name="marca" class="form-control" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default">
+                </div>
+                {% else %}
+                <div class="input-group mb-3 nuevo-modelo">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Nuevo Modelo</span>
+                    </div>
+                    <input type="text" name="modelo" class="form-control" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default">
+                </div>
+
+                <div class="input-group">
+                    <select class="custom-select" name="marca" id="marca">
+                        <option value="0" selected>------</option>
+                        {% for marca in parameters.listamarca %}
+                        {% if marca.id_marca == parameters.datos_act.id_marca_id %}
+                        <option value="{{marca.id_marca}}" id="opcion_select" selected>{{marca.descripcion_marca}}
+                        </option>
+                        {% else %}
+                        <option value="{{marca.id_marca}}" id="opcion_select">{{marca.descripcion_marca}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                {% endif %}
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" onclick="alertaConfirmar('',argsModal)">Confirmar</button>
+            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
+        </div>
+
+        <script>
+
+            var argsModal = {
+                TITLE: '',
+                TEXT: '',
+                ICON: '',
+                successPhrase: 'actualizado',
+                typeOfMethod: 'submit',
+                btnId: 'editarMarcaModelo'
+            }
+        </script>
+
+        <script src="{% static './js/jquery.chained.js' %}"></script>
+    </div>

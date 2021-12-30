@@ -28,15 +28,13 @@
                 <span class="icon-circle-left"></span>
             </a>
             <h1>Marcas</h1>
-            <a href="{% url 'mark_and_model' 0 %}">
-                <button class="btn btn-dark">Nueva Marca</button>
-            </a>
+                <button class="btn btn-dark" onclick="abrirModalEdicion('{% url 'mark_and_model_edit' 0 0 %}')">Nueva Marca</button>
         </div>
         <table id="tabla">
             <thead>
                 <tr>
                     <th>Marca</th>
-                    <th>Acciones</th>
+                    <th style="text-align:end">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,12 +42,9 @@
                 <tr>
                     <td>{{marca.descripcion_marca}}</td>
 
-                    <td class="actions">
-                        <button onclick="abrirModalEdicion('{% url '' lista.id_vehiculo %}')" class="btn btn-info">Info</button>
-                        <button onclick="abrirModalEdicion('{% url '' lista.id_vehiculo %}')"
-                            class="btn btn-warning">Editar</button>
-                        <button class="btn btn-danger"
-                            onclick="alertaConfirmar('{% url '' lista.id_vehiculo %}', args)">
+                    <td class="actions" style="justify-content:end">
+                        <button class="btn btn-warning">Editar</button>
+                        <button class="btn btn-danger">
                             Borrar
                         </button>
                     </td>

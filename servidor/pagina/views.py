@@ -159,7 +159,6 @@ def mark_and_model(request, marcaModelo_actual = 0, tipo_carga = 0):
             marcaModelo_actual.save()
 
     return redirect('../../edit_product/0')
-        
 
 def informes(request):
     return validar(request, 'sections/informs.html')
@@ -174,7 +173,9 @@ def parameters_products(request):
     return validar(request, 'sections/config/parameters_products.html')
 
 def mark(request):
-    return validar(request, 'sections/config/parameters_products/mark.html')
+    listamarca = marca.objects.all()
+
+    return validar(request, 'sections/config/parameters_products/mark.html',{"listamarca":listamarca})
 
 def users(request):
     listatabla = usuarios.objects.all()
