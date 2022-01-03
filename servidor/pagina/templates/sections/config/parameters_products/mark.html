@@ -28,7 +28,7 @@
                 <span class="icon-circle-left"></span>
             </a>
             <h1>Marcas</h1>
-                <button class="btn btn-dark" onclick="abrirModalEdicion('{% url 'mark_and_model_edit' 0 0 %}')">Nueva Marca</button>
+                <button class="btn btn-dark" onclick="abrirModalEdicion('{% url 'mark_and_model_edit' 0 0 1 %}')">Nueva Marca</button>
         </div>
         <table id="tabla">
             <thead>
@@ -43,8 +43,7 @@
                     <td>{{marca.descripcion_marca}}</td>
 
                     <td class="actions" style="justify-content:end">
-                        <button class="btn btn-warning">Editar</button>
-                        <button class="btn btn-danger">
+                        <button class="btn btn-danger" onclick="alertaConfirmar('{% url 'delete_mark' marca.id_marca %}', args)">
                             Borrar
                         </button>
                     </td>

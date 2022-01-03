@@ -124,7 +124,7 @@ def delete_product(request, product_actual):
     vehiculo.objects.filter(id_vehiculo=product_actual).delete()
     return redirect("../productos")
 
-def mark_and_model(request, marcaModelo_actual = 0, tipo_carga = 0):
+def mark_and_model(request, marcaModelo_actual = 0, tipo_carga = 0, redirigir = 0):
     listamarca = marca.objects.all()
     if tipo_carga==0:
         titulo = 'Nueva Marca'
@@ -134,7 +134,11 @@ def mark_and_model(request, marcaModelo_actual = 0, tipo_carga = 0):
         marca_actual=marca.objects.filter(id_marca=marcaModelo_actual).exists()
         if marca_actual:
             datos_marca_modelo=marca.objects.filter(id_marca=marca_actual).first()
-            return validar(request, 'sections/products/mark_and_model.html',
+            if redirigir == 0:
+                url = 'sections/products/mark_and_model.html'
+            else:
+                url = 'sections/config/parameters_products/mark.html'
+            return validar(request, url,
             {"datos_act":datos_marca_modelo, "marca_actual":marca_actual, "titulo":titulo, 
             "marcaModelo_actual":marcaModelo_actual, "tipo_carga": tipo_carga, "listamarca":listamarca})
         else:
@@ -174,8 +178,11 @@ def parameters_products(request):
 
 def mark(request):
     listamarca = marca.objects.all()
-
     return validar(request, 'sections/config/parameters_products/mark.html',{"listamarca":listamarca})
+
+def delete_mark(request, mark_actual):
+    marca.objects.filter(id_marca=mark_actual).delete()
+    return redirect("../mark")
 
 def users(request):
     listatabla = usuarios.objects.all()
