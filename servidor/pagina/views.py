@@ -180,9 +180,18 @@ def mark(request):
     listamarca = marca.objects.all()
     return validar(request, 'sections/config/parameters_products/mark.html',{"listamarca":listamarca})
 
+def models(request):
+    listamarca = marca.objects.all()
+    listamodelo = modelo.objects.all()
+    return validar(request, 'sections/config/parameters_products/models.html',{"listamarca":listamarca,"listamodelo":listamodelo})
+
 def delete_mark(request, mark_actual):
     marca.objects.filter(id_marca=mark_actual).delete()
     return redirect("../mark")
+
+def delete_model(request, model_actual):
+    modelo.objects.filter(id_modelo=model_actual).delete()
+    return redirect("../models")
 
 def users(request):
     listatabla = usuarios.objects.all()

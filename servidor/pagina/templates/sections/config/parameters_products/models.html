@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marcas</title>
+    <title>Modelos</title>
     <link rel="stylesheet" href="{% static './css/tables.css' %}">
     <link rel="stylesheet" href="{% static './css/section-styles/config/users.css' %}">
     <link rel="stylesheet" href="{% static './css/section-styles/products/products.css'%}">
@@ -27,27 +27,33 @@
             <a href="parameters_products" class="back" style="text-decoration: none;">
                 <span class="icon-circle-left"></span>
             </a>
-            <h1>Marcas</h1>
-                <button class="btn btn-dark" onclick="abrirModalEdicion('{% url 'mark_and_model_edit' 0 0 1 %}')">Nueva Marca</button>
+            <h1>Modelos</h1>
+                <button class="btn btn-dark" onclick="abrirModalEdicion('{% url 'mark_and_model_edit' 0 1 1 %}')">Nuevo Modelo</button>
         </div>
         <table id="tabla">
             <thead>
                 <tr>
                     <th>Marca</th>
+                    <th>Modelo</th>
                     <th style="text-align:end">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 {% for marca in parameters.listamarca %}
+                    {% for modelo in parameters.listamodelo %}
+                        {% if marca.id_marca == modelo.id_marca_id %}
                 <tr>
                     <td>{{marca.descripcion_marca}}</td>
+                    <td>{{modelo.descripcion_modelo}}</td>
 
                     <td class="actions" style="justify-content:end">
-                        <button class="btn btn-danger" onclick="alertaConfirmar('{% url 'delete_mark' marca.id_marca %}', args)">
+                        <button class="btn btn-danger" onclick="alertaConfirmar('{% url 'delete_model' modelo.id_modelo %}', args)">
                             Borrar
                         </button>
                     </td>
                 </tr>
+                        {% endif %}
+                    {% endfor %}
                 {% endfor %}
             </tbody>
         </table>
