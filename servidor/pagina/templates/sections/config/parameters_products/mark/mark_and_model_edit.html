@@ -2,7 +2,7 @@
 <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content" style="margin: 0 auto;">
         <div class="modal-modal-header">
-            <h2 class="modal-title">{{parameters.titulo}}</h2>
+            <h2 class="modal-title" style="color: black">{{parameters.titulo}}</h2>
             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -13,7 +13,7 @@
         </div>
         <div class="modal-body">
 
-            <form action="{% url 'mark_and_model' parameters.marcaModelo_actual parameters.tipo_carga parameters.redirigir %}" method="POST"
+            <form action="{% url 'mark_and_model' parameters.marcaModelo_actual parameters.tipo_carga %}" method="POST"
                 id="editarMarcaModelo">
                 {% csrf_token %}
                 {% if parameters.tipo_carga == 0%}
@@ -24,7 +24,7 @@
                     <input type="text" name="marca" class="form-control" aria-label="Default"
                         aria-describedby="inputGroup-sizing-default">
                 </div>
-                {% elif parameters.tipo_carga == 1 %}
+                {% else %}
                 <div class="input-group mb-3 nuevo-modelo">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Nuevo Modelo</span>
@@ -46,16 +46,6 @@
                         {% endfor %}
                     </select>
                 </div>
-                {% else %}
-
-                <div class="input-group mb-3 nueva-marca">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-default" onclick="">Nuevo Color</span>
-                    </div>
-                    <input type="text" name="color" class="form-control" aria-label="Default"
-                        aria-describedby="inputGroup-sizing-default">
-                </div>
-
                 {% endif %}
             </form>
         </div>

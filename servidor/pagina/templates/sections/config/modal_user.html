@@ -1,0 +1,93 @@
+{% load static %}
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-modal-header">
+            <h2 class="modal-title">{{parameters.titulo}}</h2>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="{% static './css/modal.css' %}">
+        </div>
+        <div class="modal-body">
+            <style>
+                form {
+                    display: flex;
+                    flex-direction: column;
+                    margin-top: 0;
+                }
+
+                .input-group {
+                    margin-bottom: 1em;
+                }
+            </style>
+            <form action="{% url 'edit_user' parameters.usu_actual %}" method="POST"
+                id="editarUsuario">
+                {% csrf_token %}
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Nombre de Usuario</span>
+                    </div>
+                    <input type="text" name="usuario" value="{{ parameters.datos_act.usuario }}" class="form-control"
+                        aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Nombre de Usuario</span>
+                    </div>
+                    <input type="text" name="nombre_completo" value="{{parameters.datos_act.nombre_completo}}"
+                        class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Clave</span>
+                    </div>
+                    <input type="password" name="clave" value="{{parameters.datos_act.clave}}" class="form-control"
+                        aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="genero_cliente">Tipo de Usuario</label>
+                    </div>
+                    <select name="tipo_usuario" id="tipo_usuario" required>
+                        {% for usuario in parameters.tipo_usu %}
+                        {% if usuario.id_tipo_usuario == parameters.datos_act.tipo_usuario %}
+                        <option value="{{usuario.id_tipo_usuario}}" id="opcion_select" selected>
+                            {{usuario.descripcion_tipo_usuario}}</option>
+                        {% else %}
+                        <option value="{{usuario.id_tipo_usuario}}" id="opcion_select">
+                            {{usuario.descripcion_tipo_usuario}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" onclick="alertaConfirmar('',argsModal)">Confirmar</button>
+            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
+        </div>
+    </div>
+
+    <script>
+        var argsModal = {
+            TITLE: 'Advertencia!',
+            TEXT: 'Estás seguro de modificar este Producto?',
+            ICON: 'warning',
+            successPhrase: 'actualizado',
+            typeOfMethod: 'submitAndConfirm',
+            btnId: 'editarUsuario'
+        }
+    </script>
+
+    <script src="{% static './js/jquery.chained.js' %}"></script>
+    <script>
+        $("#modelo").chained("#marca")
+    </script>
+</div>

@@ -37,6 +37,15 @@
                 <p>Ejecutar una busqueda dentro del Stock Disponible</p>
                 <a href="busqueda_producto">Ingresar</a>
             </div> -->
+
+            <div class="card">
+                <div class="card-icon">
+                    <span class="icon-man-woman"></span>
+                </div>
+                <h4>Clientes</h4>
+                <p>Ingrese nuevos clientes, editelos y reactive o deshabilite sus estados.</p>
+                <a href="{% url 'clientes' 0 %}">Ingresar</a>
+            </div>
     
             <div class="card">
                 <div class="card-icon">
@@ -65,14 +74,6 @@
                 <a href="cancelar_pagare">Ingresar</a>
             </div>
     
-            <div class="card">
-                <div class="card-icon">
-                    <span class="icon-man-woman"></span>
-                </div>
-                <h4>Clientes</h4>
-                <p>Ingrese nuevos clientes y gestiónalos</p>
-                <a href="{% url 'clientes' 0 %}">Ingresar</a>
-            </div>
             <p id="msjError" style="display: none">
                 {% if mensaje %}
                     <p class="message-error" hidden>{{mensaje}}</p>
@@ -90,14 +91,24 @@
             {% endif %}
         </div>
     </section>
+    <script src="{% static 'js/alerts.js' %}"></script>
     <script>
         var mensaje = document.getElementsByClassName("message-error")
         setTimeout(showAlert, 200) 
         function showAlert() {
-            if(mensaje[0]){
-                alert(mensaje[0].innerHTML)
+            if(mensaje[0]) {
+                alerta(args)
             }
         }
+
+        var args = {
+            TITLE: 'Ups!', 
+            TEXT: `${mensaje[0].innerHTML} 😅`,
+            ICON: 'error', 
+            typeOfMethod: '',
+            btnId: 'cargarCliente'
+        }
+        
     </script>
     {% endblock %}
 </body>
