@@ -8,7 +8,4 @@
 
 form {
     width: 100%;
-    display: flex;
-    justify-content: space-around;
-    margin-top: 2em;
 }
