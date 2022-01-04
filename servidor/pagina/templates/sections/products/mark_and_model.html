@@ -13,7 +13,7 @@
         </div>
         <div class="modal-body">
 
-            <form action="{% url 'mark_and_model' parameters.marcaModelo_actual parameters.tipo_carga %}" method="POST"
+            <form action="{% url 'mark_and_model' parameters.marcaModelo_actual parameters.tipo_carga parameters.redirigir %}" method="POST"
                 id="editarMarcaModelo">
                 {% csrf_token %}
                 {% if parameters.tipo_carga == 0%}

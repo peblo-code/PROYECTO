@@ -124,38 +124,56 @@ def delete_product(request, product_actual):
     vehiculo.objects.filter(id_vehiculo=product_actual).delete()
     return redirect("../productos")
 
-def mark_and_model(request, marcaModelo_actual = 0, tipo_carga = 0, redirigir = 0):
+
+def mark_and_model(request, marcaModelo_actual = 0, tipo_carga = 0, redirigir = 0): #Funcion reutilizada en marca, modelo y color
     listamarca = marca.objects.all()
-    if tipo_carga==0:
+    if tipo_carga==0:   #Se detecta el tipo de carga
         titulo = 'Nueva Marca'
     else:
         titulo = 'Nuevo Modelo'
     if request.method=="GET":
         marca_actual=marca.objects.filter(id_marca=marcaModelo_actual).exists()
-        if marca_actual:
+        if marca_actual:    #Se retornan los datos existentes para actualizar
             datos_marca_modelo=marca.objects.filter(id_marca=marca_actual).first()
-            if redirigir == 0:
+            if redirigir == 0:  #REDIRIGIR A MODAL DE MARCA Y MODELO
                 url = 'sections/products/mark_and_model.html'
-            else:
+            elif redirigir == 1: #REDIRIGIR A MARCA
                 url = 'sections/config/parameters_products/mark.html'
+            elif redirigir == 2: #REDIRIGIR A MODELO
+                url = 'sections/config/parameters_products/models.html'
+            else:   #REDIRIGIR A COLOR
+                url = 'sections/config/parameters_products/colors.html'
             return validar(request, url,
-            {"datos_act":datos_marca_modelo, "marca_actual":marca_actual, "titulo":titulo, 
-            "marcaModelo_actual":marcaModelo_actual, "tipo_carga": tipo_carga, "listamarca":listamarca})
-        else:
+            {"datos_act":datos_marca_modelo, "marca_actual":marca_actual, "titulo":titulo, #RETURN A VISTA DE ACTUALIZAR
+            "marcaModelo_actual":marcaModelo_actual, "tipo_carga": tipo_carga, "redirigir":redirigir, "listamarca":listamarca})
+        else:   #Pasa a crear la marca o modelo
             return validar(request, "sections/products/mark_and_model.html",
-            {"nombre_completo":request.session.get("nombre_completo"), "marca_actual":marca_actual, 
-            "titulo":titulo, "marcaModelo_actual":marcaModelo_actual, "tipo_carga": tipo_carga, "listamarca":listamarca})
+            {"nombre_completo":request.session.get("nombre_completo"), "marca_actual":marca_actual, #RETURN A VISTA DE CARGA
+            "titulo":titulo, "marcaModelo_actual":marcaModelo_actual, "tipo_carga": tipo_carga, "redirigir":redirigir, "listamarca":listamarca})
 
     if request.method=="POST":
-        marcas = marca.objects.all()
+        #Redirige luego de hacer la carga
+        if redirigir == 0:
+            urlPost = '../../../edit_product/0'
+        elif redirigir == 1:
+            urlPost = '../../../mark'
+        elif redirigir == 2:
+            urlPost = '../../../models'
+        else:
+            urlPost = '../../../colors'
+        
+        redirigir = 0
+
         if marcaModelo_actual==0:
             if tipo_carga==0:
                 marca_nueva=marca(descripcion_marca=request.POST.get('marca')) 
                 marca_nueva.save()
+                return redirect(urlPost)
             else:
                 modelo_nuevo=modelo(descripcion_modelo=request.POST.get('modelo'),
                 id_marca_id=request.POST.get('marca'))
                 modelo_nuevo.save()
+                return redirect(urlPost)
         else:
             marcaModelo_actual=usuarios.objects.get(descripcion_marca=marcaModelo_actual)
             marcaModelo_actual.usuario=request.POST.get("modelo")
