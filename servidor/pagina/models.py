@@ -39,3 +39,28 @@ class vehiculo(models.Model):
     precio_costo = models.IntegerField()
     precio_venta = models.IntegerField()
     estado_vehiculo = models.IntegerField()
+
+class tipo_documento(models.Model):
+    id_tipo_documento = models.AutoField(primary_key=True)
+    descripcion_tipo_documento = models.CharField(max_length=30)
+
+class pais(models.Model):
+    id_pais = models.AutoField(primary_key=True)
+    descripcion_pais = models.CharField(max_length=50)
+
+class ciudad(models.Model):
+    id_ciudad = models.AutoField(primary_key=True)
+    id_pais = models.ForeignKey(pais, on_delete=models.CASCADE, null=True)
+    descripcion_ciudad = models.CharField(max_length=50)
+
+class cliente(models.Model):
+    id_cliente = models.AutoField(primary_key=True)
+    documento_cliente = models.CharField(max_length=10)
+    nombre_cliente = models.CharField(max_length=50)
+    apellido_cliente = models.CharField(max_length=50)
+    telefono_cliente = models.CharField(max_length=20)
+    genero_cliente = models.IntegerField()
+    estado_cliente = models.IntegerField()
+    id_tipo_documento = models.ForeignKey(tipo_documento, on_delete=models.CASCADE)
+    id_pais = models.ForeignKey(pais, on_delete=models.CASCADE, null=True)
+    id_ciudad = models.ForeignKey(ciudad, on_delete=models.CASCADE, null=True)

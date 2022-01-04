@@ -5,6 +5,10 @@ from pagina.models import vehiculo
 from pagina.models import marca
 from pagina.models import modelo
 from pagina.models import color
+from pagina.models import tipo_documento
+from pagina.models import pais
+from pagina.models import ciudad
+from pagina.models import cliente
 
 # Create your views here.
 def validar(request, pageSuccess, parameters={}):
@@ -213,5 +217,106 @@ def delete_user(request, usu_actual):
 def cancelar_pagare(request):
     return render(request, 'pay-fee.html')
 
-def nuevo_cliente(request):
-    return render(request, 'new-client.html')
+def clientes(request, mode=0):
+    listaclientes = cliente.objects.all()
+    listadocumentos = tipo_documento.objects.all()
+    listapais = pais.objects.all()
+    listaciudad = ciudad.objects.all()
+    if mode == 0:
+        buttonText="Ver deshabilitados"
+        urlSwitch=1
+    else:
+        buttonText="Ocultar deshabilitados"
+        urlSwitch=0
+    return validar(request, 'sections/clients/clients.html',
+    {"listadocumentos":listadocumentos, "listapais":listapais, 
+    "listaciudad":listaciudad, "listaclientes":listaclientes, 
+    "buttonText":buttonText, "urlSwitch":urlSwitch, "mode":mode})
+
+def edit_client(request, clie_actual=0):
+    listatipodoc = tipo_documento.objects.all()
+    listapais = pais.objects.all()
+    listaciudad = ciudad.objects.all()
+    if request.method=="GET":
+        cliente_actual=cliente.objects.filter(id_cliente=clie_actual).exists()
+        if cliente_actual:
+            datos_cliente=cliente.objects.filter(id_cliente=clie_actual).first()
+            return validar(request, 'sections/clients/modal_client.html',
+            {"datos_act":datos_cliente, "clie_actual":clie_actual, "titulo":"Editar un Cliente", 
+            "listatipodoc":listatipodoc, "listapais":listapais, "listaciudad":listaciudad})
+        else:
+            return validar(request, "sections/clients/edit_client.html", {"titulo":"Cargar nuevo Cliente",
+            "listatipodoc":listatipodoc, "listapais":listapais, "listaciudad":listaciudad, "clie_actual": clie_actual})
+
+    if request.method=="POST":
+        if clie_actual==0:
+            cliente_nuevo=cliente(documento_cliente=request.POST.get('documento_cliente'),
+            nombre_cliente=request.POST.get('nombre_cliente'),
+            apellido_cliente=request.POST.get("apellido_cliente"),
+            telefono_cliente=request.POST.get("telefono_cliente"),
+            genero_cliente=request.POST.get("genero_cliente"),
+            id_tipo_documento_id=request.POST.get("tipo_documento"),
+            id_pais_id=request.POST.get("pais"),
+            id_ciudad_id=request.POST.get("ciudad"))
+            cliente_nuevo.save()
+        else:
+            cliente_actual=cliente.objects.get(id_cliente=clie_actual)
+            cliente_actual.documento_cliente=request.POST.get("documento_cliente")
+            cliente_actual.nombre_cliente=request.POST.get("nombre_cliente")
+            cliente_actual.apellido_cliente=request.POST.get("apellido_cliente")
+            cliente_actual.telefono_cliente=request.POST.get("telefono_cliente")
+            cliente_actual.genero_cliente=request.POST.get("genero_cliente")
+            cliente_actual.id_tipo_documento_id=request.POST.get("tipo_documento")
+            cliente_actual.id_pais_id=request.POST.get("pais")
+            cliente_actual.id_ciudad_id=request.POST.get("ciudad")
+            cliente_actual.save()
+        return redirect("../clientes")
+
+def disable_client(request, clie_actual, option):
+    print(clie_actual)
+    cliente_actual=cliente.objects.get(id_cliente=clie_actual)
+    cliente_actual.estado_cliente=0
+    cliente_actual.save()
+    return redirect("clientes")
+
+
+def parameters_modal_client(request, paisCiudad_actual=0, tipo_carga=0):
+    listapais = pais.objects.all()
+    if tipo_carga==0:
+        titulo = 'Nuevo Tipo Documento'
+    elif tipo_carga==1:
+        titulo = 'Nuevo País'
+    else:
+        titulo = 'Nueva Ciudad'
+    if request.method=="GET":
+        pais_actual=pais.objects.filter(id_pais=paisCiudad_actual).exists()
+        if pais_actual:
+            datos_pais_ciudad=pais.objects.filter(id_pais=paisCiudad_actual).first()
+            return validar(request, 'sections/clients/parameters_modal_client.html',
+            {"datos_act":datos_pais_ciudad, "pais_actual":pais_actual, "titulo":titulo, 
+            "paisCiudad_actual":paisCiudad_actual, "tipo_carga": tipo_carga, "listapais":listapais})
+        else:
+            return validar(request, "sections/clients/parameters_modal_client.html",
+            {"nombre_completo":request.session.get("nombre_completo"), "pais_actual":pais_actual, 
+            "titulo":titulo, "paisCiudad_actual":paisCiudad_actual, "tipo_carga": tipo_carga, "listapais":listapais})
+
+    if request.method=="POST":
+        listapais = pais.objects.all()
+        if paisCiudad_actual==0:
+            if tipo_carga==0:
+                tipo_documento_nuevo=tipo_documento(descripcion_tipo_documento=request.POST.get('tipo_documento'))
+                tipo_documento_nuevo.save()
+            elif tipo_carga==1:
+                pais_nuevo=pais(descripcion_pais=request.POST.get('pais')) 
+                pais_nuevo.save()
+            else:
+                ciudad_nueva=ciudad(descripcion_ciudad=request.POST.get('ciudad'),
+                id_pais_id=request.POST.get('pais'))
+                ciudad_nueva.save()
+        else:
+            paisCiudad_actual=usuarios.objects.get(descripcion_pais=paisCiudad_actual)
+            paisCiudad_actual.usuarios=request.POST.get("modelo")
+            print(paisCiudad_actual)
+            paisCiudad_actual.save()
+
+    return redirect('../../edit_client/0')

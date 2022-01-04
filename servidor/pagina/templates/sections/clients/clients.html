@@ -1,0 +1,133 @@
+{% extends 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+{% block cuerpo %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes</title>
+    <link rel="stylesheet" href="{% static './css/section-styles/search.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/clients/clients.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modal.css' %}">
+    <!-- Fuentes de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap"
+        rel="stylesheet">
+    <!-- Fuentes de Google -->
+</head>
+
+<body>
+    <div class="form-container">
+        <div class="title-and-back">
+            <a href="../inicio" class="back" style="text-decoration: none;">
+                <span class="icon-circle-left"></span>
+            </a>
+            <h1>Clientes</h1>
+            <a href="{% url 'edit_client' 0 %}">
+                <button class="btn btn-dark">Nuevo Cliente</button>
+            </a>
+            <a href="{% url 'clientes' parameters.urlSwitch %}">
+                <button class="btn " id="btnMostrarOcultar">{{parameters.buttonText}}</button>
+            </a>
+        </div>
+        {% if parameters.mode == 1%}
+        <div class="alert alert-warning" role="alert">
+            Los clientes que se encuentren en esta lista no aparecerán disponibles para efectuar ventas
+        </div>
+        {% endif %}
+        <table id="tabla">
+            <thead>
+                <tr>
+                    <th>Nro. Documento</th>
+                    <th>Tipo Documento</th>
+                    <th>Nombre y Apellido</th>
+                    <th>Telefono</th>
+                    <th>Genero</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cliente in parameters.listaclientes %}
+                {% if cliente.estado_cliente == parameters.mode %}
+                <tr>
+                    <td>{{ cliente.documento_cliente }}</td>
+
+                    {% for documento in parameters.listadocumentos %}
+                    {% if documento.id_tipo_documento == cliente.id_tipo_documento_id %}
+                    <td>{{documento.descripcion_tipo_documento}}</td>
+                    {% endif %}
+                    {% endfor %}
+
+                    <td>{{ cliente.nombre_cliente }} {{ cliente.apellido_cliente }}</td>
+
+                    <td>{{ cliente.telefono_cliente }}</td>
+
+                    {% if cliente.genero_cliente == 0 %}
+                        <td>Femenino</td>
+                    {% else %}
+                        <td>Masculino</td>
+                    {%endif%}
+
+                    <td class="actions">
+                        <button onclick="abrirModalEdicion('{% url 'edit_client' cliente.id_cliente %}')"
+                            class="btn btn-warning">Editar</button>
+                        <button class="btn btn-danger"
+                        onclick="alertaConfirmar('{% url 'disable_client' cliente.id_cliente 0 %}', args)">
+                            Deshabilitar
+                        </button>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="edicion" role="dialog">
+
+    </div>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/search.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/alerts.js' %}"></script>
+    <script src="{% static 'js/datatables.js'%}"></script>
+
+    <script type="text/javascript" src="{% static 'js/DataTables/js/datatables.min.js' %}"></script>
+    <script type="text/javascript">
+        window.onload = function colorBoton() {
+            boton = document.getElementById("btnMostrarOcultar")
+            if(boton.innerHTML == 'Ver deshabilitados') {
+                boton.className = "btn btn-danger"
+            } else {
+                boton.className = "btn btn-dark"
+            }
+        }
+
+       dataTable()
+
+        var args = {
+            TITLE: 'Precaución!', 
+            TEXT: 'Estás seguro de deshabilitar este Cliente?',
+            ICON: 'warning', 
+            successPhrase:'deshabilitado',
+            typeOfMethod:'url',
+        }
+
+        var $ = jQuery.noConflict();
+        function abrirModalEdicion(url) {
+            $('#edicion').load(url, function () {
+                $(this).modal('show');
+            })
+        }
+
+
+    </script>
+    {% endblock %}
+</body>
+
+</html>

@@ -69,9 +69,9 @@
                 <div class="card-icon">
                     <span class="icon-man-woman"></span>
                 </div>
-                <h4>Nuevo Cliente</h4>
-                <p>Ingresar nuevo cliente para emitir una factura</p>
-                <a href="nuevo_cliente">Ingresar</a>
+                <h4>Clientes</h4>
+                <p>Ingrese nuevos clientes y gestiónalos</p>
+                <a href="{% url 'clientes' 0 %}">Ingresar</a>
             </div>
             <p id="msjError" style="display: none">
                 {% if mensaje %}
