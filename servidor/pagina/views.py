@@ -198,7 +198,8 @@ def parameters_products(request):
 
 def mark(request):
     listamarca = marca.objects.all()
-    return validar(request, 'sections/config/parameters_products/mark.html',{"listamarca":listamarca})
+    listamodelo = modelo.objects.all()
+    return validar(request, 'sections/config/parameters_products/mark.html',{"listamarca":listamarca, "listamodelo":listamodelo, "foreign": 0})
 
 def models(request):
     listamarca = marca.objects.all()
