@@ -42,6 +42,8 @@
                 <tr>
                     <td>{{color.descripcion_color}}</td>
                     <td class="actions" style="justify-content:end">
+                        <button onclick="abrirModalEdicion('{% url 'edit_color' color.id_color %}')"
+                        class="btn btn-warning">Editar</button>
 
                         <button class="btn btn-danger" onclick="detectForeing('{% url 'delete_color' color.id_color %}', '{{color.id_color}}')">
                             Borrar

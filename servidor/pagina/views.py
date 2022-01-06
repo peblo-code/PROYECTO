@@ -144,7 +144,7 @@ def mark_and_model(request, marcaModelo_actual = 0, tipo_carga = 0, redirigir = 
                 url = 'sections/config/parameters_products/models.html'
             else:   #REDIRIGIR A COLOR
                 url = 'sections/config/parameters_products/colors.html'
-            return validar(request, url,
+            return validar(request, "sections/products/mark_and_model.html",
             {"datos_act":datos_marca_modelo, "marca_actual":marca_actual, "titulo":titulo, #RETURN A VISTA DE ACTUALIZAR
             "marcaModelo_actual":marcaModelo_actual, "tipo_carga": tipo_carga, "redirigir":redirigir, "listamarca":listamarca})
         else:   #Pasa a crear la marca o modelo
@@ -199,6 +199,33 @@ def mark(request):
     listamarca = marca.objects.all()
     listamodelo = modelo.objects.all()
     return validar(request, 'sections/config/parameters_products/mark.html',{"listamarca":listamarca, "listamodelo":listamodelo})
+
+def edit_mark(request, mark_actual=0):
+    if request.method=="GET":
+        listamarca = marca.objects.all()
+        marca_actual=marca.objects.filter(id_marca=mark_actual).exists()
+        if marca_actual:
+            datos_marca=marca.objects.filter(id_marca=mark_actual).first()
+            return validar(request, 'sections/config/parameters_products/mark/edit_mark.html',
+            {"datos_act":datos_marca, "mark_actual":mark_actual, "titulo": "Editar Marca"})
+    if request.method=="POST":
+        marca_actual=marca.objects.get(id_marca=mark_actual)
+        marca_actual.descripcion_marca=request.POST.get("marca")
+        marca_actual.save()
+    return redirect('../mark')
+
+def edit_color(request, color_actual=0):
+    if request.method=="GET":
+        colors_actual=color.objects.filter(id_color=color_actual).exists()
+        if colors_actual:
+            datos_color=color.objects.filter(id_color=color_actual).first()
+            return validar(request, 'sections/config/parameters_products/color/edit_color.html',
+            {"datos_act":datos_color, "color_actual":color_actual, "titulo": "Editar color"})
+    if request.method=="POST":
+        colors_actual=color.objects.get(id_color=color_actual)
+        colors_actual.descripcion_color=request.POST.get("color")
+        colors_actual.save()
+    return redirect('../color')
 
 def models(request):
     listamarca = marca.objects.all()

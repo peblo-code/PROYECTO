@@ -1,0 +1,44 @@
+{% load static %}
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" style="margin: 0 auto;">
+        <div class="modal-modal-header">
+            <h2 class="modal-title">{{parameters.titulo}}</h2>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="{% static './css/section-styles/products/modalAdd.css' %}">
+        </div>
+        <div class="modal-body">
+
+            <form action="{% url 'edit_mark' parameters.mark_actual %}" method="POST"
+                id="editarMarca">
+                {% csrf_token %}
+                <div class="input-group mb-3 editar-marca">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default" onclick="">Editar Marca</span>
+                    </div>
+                    <input type="text" id="marca" name="marca" class="form-control" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default" value="{{parameters.datos_act.descripcion_marca}}">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" onclick="alertaConfirmar('',argsModal)">Confirmar</button>
+            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
+        </div>
+
+        <script>
+
+            var argsModal = {
+                TITLE: '',
+                TEXT: '',
+                ICON: '',
+                successPhrase: 'actualizado',
+                typeOfMethod: 'submit',
+                btnId: 'editarMarca'
+            }
+        </script>
+    </div>

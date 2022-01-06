@@ -42,7 +42,8 @@
                 <tr>
                     <td>{{marca.descripcion_marca}}</td>
                     <td class="actions" style="justify-content:end">
-
+                        <button onclick="abrirModalEdicion('{% url 'edit_mark' marca.id_marca %}')"
+                        class="btn btn-warning">Editar</button>
                         <button class="btn btn-danger" onclick="detectForeing('{% url 'delete_mark' marca.id_marca %}', '{{marca.id_marca}}')">
                             Borrar
                         </button>
