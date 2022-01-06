@@ -124,7 +124,6 @@ def delete_product(request, product_actual):
     vehiculo.objects.filter(id_vehiculo=product_actual).delete()
     return redirect("../productos")
 
-
 def mark_and_model(request, marcaModelo_actual = 0, tipo_carga = 0, redirigir = 0): #Funcion reutilizada en marca, modelo y color
     listamarca = marca.objects.all()
     if tipo_carga==0:   #Se detecta el tipo de carga
@@ -199,12 +198,21 @@ def parameters_products(request):
 def mark(request):
     listamarca = marca.objects.all()
     listamodelo = modelo.objects.all()
-    return validar(request, 'sections/config/parameters_products/mark.html',{"listamarca":listamarca, "listamodelo":listamodelo, "foreign": 0})
+    return validar(request, 'sections/config/parameters_products/mark.html',{"listamarca":listamarca, "listamodelo":listamodelo})
 
 def models(request):
     listamarca = marca.objects.all()
     listamodelo = modelo.objects.all()
     return validar(request, 'sections/config/parameters_products/models.html',{"listamarca":listamarca,"listamodelo":listamodelo})
+
+def colors(request):
+    listaproducto = vehiculo.objects.all()
+    listacolor = color.objects.all()
+    return validar(request, 'sections/config/parameters_products/colors.html',{"listaproducto":listaproducto, "listacolor":listacolor})
+
+def delete_color(request, color_actual):
+    color.objects.filter(id_color=color_actual).delete()
+    return redirect("../color")
 
 def delete_mark(request, mark_actual):
     marca.objects.filter(id_marca=mark_actual).delete()
