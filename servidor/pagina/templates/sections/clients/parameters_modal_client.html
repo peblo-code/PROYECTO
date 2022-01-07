@@ -13,7 +13,7 @@
         </div>
         <div class="modal-body">
 
-            <form action="{% url 'parameters_modal_client' parameters.paisCiudad_actual parameters.tipo_carga %}" method="POST"
+            <form action="{% url 'parameters_modal_client' parameters.paisCiudad_actual parameters.tipo_carga parameters.redirigir %}" method="POST"
                 id="cargarPaisCiudad">
                 {% csrf_token %}
                 {% if parameters.tipo_carga == 0%}
@@ -22,7 +22,7 @@
                         <span class="input-group-text" id="inputGroup-sizing-default">Nuevo Documento</span>
                     </div>
                     <input type="text" name="tipo_documento" class="form-control" aria-label="Default" 
-                    aria-describedby="inputGroup-sizing-default">
+                    aria-describedby="inputGroup-sizing-default" value="{{parameters.datos_act.descripcion_tipo_documento}}">
                 </div>
                 {% elif parameters.tipo_carga == 1 %}
                 <div class="input-group mb-3 nuevo-modelo">
@@ -30,7 +30,7 @@
                         <span class="input-group-text" id="inputGroup-sizing-default">Nuevo Pais</span>
                     </div>
                     <input type="text" name="pais" class="form-control" aria-label="Default"
-                        aria-describedby="inputGroup-sizing-default">
+                        aria-describedby="inputGroup-sizing-default" value="{{parameters.datos_act.descripcion_pais}}">
                 </div>
                 {% elif parameters.tipo_carga == 2 %}
                 <div class="input-group">
@@ -52,7 +52,7 @@
                         <span class="input-group-text" id="inputGroup-sizing-default">Nueva Ciudad</span>
                     </div>
                     <input type="text" name="ciudad" class="form-control" aria-label="Default"
-                        aria-describedby="inputGroup-sizing-default">
+                        aria-describedby="inputGroup-sizing-default" value="{{parameters.datos_act.descripcion_ciudad}}">
                 </div>
                 {% endif %}
             </form>
@@ -65,11 +65,15 @@
         <script>
 
             var argsModal = {
-                TITLE: '',
-                TEXT: '',
-                ICON: '',
+                TITLE: 'Advertencia!',
+                TEXT: 'Estas seguro de actualizar este registro?',
+                ICON: 'warning',
                 successPhrase: 'actualizado',
+                {% if parameters.paisCiudad_actual == 0 %}
                 typeOfMethod: 'submit',
+                {% else %}
+                typeOfMethod: 'submitAndConfirm',
+                {% endif %}
                 btnId: 'cargarPaisCiudad'
             }
         </script>

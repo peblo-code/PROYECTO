@@ -195,6 +195,9 @@ def config(request):
 def parameters_products(request):
     return validar(request, 'sections/config/parameters_products.html')
 
+def parameters_clients(request):
+    return validar(request, 'sections/config/parameters_clients.html')
+
 def mark(request):
     listamarca = marca.objects.all()
     listamodelo = modelo.objects.all()
@@ -248,6 +251,34 @@ def delete_mark(request, mark_actual):
 def delete_model(request, model_actual):
     modelo.objects.filter(id_modelo=model_actual).delete()
     return redirect("../models")
+
+def document(request):
+    listacliente = cliente.objects.all()
+    listadocumento = tipo_documento.objects.all()
+    return validar(request, 'sections/config/parameters_clients/documents.html',{"listacliente":listacliente, "listadocumento":listadocumento})
+
+def delete_document(request, document_actual):
+    tipo_documento.objects.filter(id_tipo_documento=document_actual).delete()
+    return redirect("../document")
+
+def country(request):
+    listacliente = cliente.objects.all()
+    listapais = pais.objects.all()
+    return validar(request, 'sections/config/parameters_clients/country.html',{"listacliente":listacliente, "listapais":listapais})
+
+def delete_country(request, country_actual):
+    pais.objects.filter(id_pais=country_actual).delete()
+    return redirect("../country")
+
+def city(request):
+    listacliente = cliente.objects.all()
+    listapais = pais.objects.all()
+    listaciudad = ciudad.objects.all()
+    return validar(request, 'sections/config/parameters_clients/city.html',{"listacliente":listacliente, "listapais":listapais, "listaciudad":listaciudad})
+
+def delete_city(request, city_actual):
+    ciudad.objects.filter(id_ciudad=city_actual).delete()
+    return redirect("../city")
 
 def users(request):
     listatabla = usuarios.objects.all()
@@ -355,7 +386,7 @@ def disable_client(request, clie_actual, option):
     return redirect("../../clientes/0")
 
 
-def parameters_modal_client(request, paisCiudad_actual=0, tipo_carga=0):
+def parameters_modal_client(request, paisCiudad_actual=0, tipo_carga=0, redirigir=0):
     listapais = pais.objects.all()
     if tipo_carga==0:
         titulo = 'Nuevo Tipo Documento'
@@ -364,18 +395,37 @@ def parameters_modal_client(request, paisCiudad_actual=0, tipo_carga=0):
     else:
         titulo = 'Nueva Ciudad'
     if request.method=="GET":
-        pais_actual=pais.objects.filter(id_pais=paisCiudad_actual).exists()
-        if pais_actual:
-            datos_pais_ciudad=pais.objects.filter(id_pais=paisCiudad_actual).first()
+        if tipo_carga==0:
+            datos_actual = tipo_documento.objects.filter(id_tipo_documento=paisCiudad_actual).exists()
+        elif tipo_carga==1:
+            datos_actual = pais.objects.filter(id_pais=paisCiudad_actual).exists()
+        else:
+            datos_actual = ciudad.objects.filter(id_ciudad=paisCiudad_actual).exists()
+        if datos_actual:
+            if tipo_carga==0:
+                datos = tipo_documento.objects.filter(id_tipo_documento=paisCiudad_actual).first()
+            elif tipo_carga==1:
+                datos = pais.objects.filter(id_pais=paisCiudad_actual).first()
+            else:
+                datos = ciudad.objects.filter(id_ciudad=paisCiudad_actual).first()
             return validar(request, 'sections/clients/parameters_modal_client.html',
-            {"datos_act":datos_pais_ciudad, "pais_actual":pais_actual, "titulo":titulo, 
-            "paisCiudad_actual":paisCiudad_actual, "tipo_carga": tipo_carga, "listapais":listapais})
+            {"datos_act":datos, "datos_actual":datos_actual, "titulo":titulo, 
+            "paisCiudad_actual":paisCiudad_actual, "tipo_carga": tipo_carga, "redirigir":redirigir,"listapais":listapais})
         else:
             return validar(request, "sections/clients/parameters_modal_client.html",
-            {"nombre_completo":request.session.get("nombre_completo"), "pais_actual":pais_actual, 
-            "titulo":titulo, "paisCiudad_actual":paisCiudad_actual, "tipo_carga": tipo_carga, "listapais":listapais})
+            {"nombre_completo":request.session.get("nombre_completo"), "datos_actual":datos_actual, 
+            "titulo":titulo, "paisCiudad_actual":paisCiudad_actual, "tipo_carga": tipo_carga, "redirigir":redirigir, "listapais":listapais})
 
     if request.method=="POST":
+        if redirigir == 0:
+            url = '../../../edit_client/0'
+        elif redirigir == 1:
+            url = '../../../document'
+        elif redirigir == 2:
+            url = '../../../country'
+        elif redirigir == 3:
+            url = '../../../city'
+
         listapais = pais.objects.all()
         if paisCiudad_actual==0:
             if tipo_carga==0:
@@ -389,9 +439,19 @@ def parameters_modal_client(request, paisCiudad_actual=0, tipo_carga=0):
                 id_pais_id=request.POST.get('pais'))
                 ciudad_nueva.save()
         else:
-            paisCiudad_actual=usuarios.objects.get(descripcion_pais=paisCiudad_actual)
-            paisCiudad_actual.usuarios=request.POST.get("modelo")
-            print(paisCiudad_actual)
-            paisCiudad_actual.save()
+            if tipo_carga==0:
+                tipo_documento_actual=tipo_documento.objects.get(id_tipo_documento=paisCiudad_actual)
+                tipo_documento_actual.descripcion_tipo_documento=request.POST.get("tipo_documento")
+                tipo_documento_actual.save()
 
-    return redirect('../../edit_client/0')
+            elif tipo_carga==1:
+                pais_actual=pais.objects.get(id_pais=paisCiudad_actual)
+                pais_actual.descripcion_pais=request.POST.get("pais")
+                pais_actual.save()
+
+            elif tipo_carga==2:
+                ciudad_actual=ciudad.objects.get(id_ciudad=paisCiudad_actual)
+                ciudad_actual.descripcion_ciudad=request.POST.get("ciudad")
+                ciudad_actual.save()
+
+    return redirect(url)
