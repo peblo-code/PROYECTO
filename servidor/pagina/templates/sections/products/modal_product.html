@@ -19,7 +19,7 @@
                     <div class="form-item">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                              <label class="input-group-text" for="marca">Marca</label>
+                              <label class="input-group-text" for="marca" required>Marca</label>
                             </div>
                             <select class="custom-select" id="marca"  name="marca">
                                 <option value="0" data-chained="0" selected>------</option>
@@ -167,19 +167,28 @@
             </form>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" onclick="alertaConfirmar('',argsModal)">Confirmar</button>
+            <button class="btn btn-primary" type="button" onclick="mostrarConfirmar().then((value) => test=value)">Confirmar</button>
             <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
         </div>
     </div>
 
     <script>
+        var variableTest
+        function test(data) {
+            variableTest = data;
+        }
+
+        function mostrarConfirmar() {
+            alertaConfirmar('',argsModal).then((result) => result).then((data) => test(data))
+            return variableTest
+        }
+
         var argsModal = {
             TITLE: 'Advertencia!', 
             TEXT: 'Estás seguro de modificar este Producto?',
             ICON: 'warning', 
             successPhrase:'actualizado',
-            typeOfMethod:'submitAndConfirm',
-            btnId: 'editarProducto'
+            typeOfMethod:'confirm',
         }
     </script>
 

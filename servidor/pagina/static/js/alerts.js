@@ -21,8 +21,6 @@ function alertaConfirmarAccion(url, successPhrase, typeOfMethod, btnId) {
         if (result.dismiss === Swal.DismissReason.timer) {
             if(typeOfMethod == 'url') {
                 window.location.href = url
-            } else {
-                document.getElementById(btnId).submit()
             }
             
         }
@@ -30,32 +28,26 @@ function alertaConfirmarAccion(url, successPhrase, typeOfMethod, btnId) {
 }
 
 //funcion que muestra una alerta para confirmar los cambios
-function alertaConfirmar(url, args) {
-    if(args.typeOfMethod == 'url' || args.typeOfMethod == 'submitAndConfirm') {
-        Swal.fire({
-            title: args.TITLE,
-            text: args.TEXT,
-            icon: args.ICON,
-            showCancelButton: true,
-            cancelButtonColor: '#d33',
-            confirmButtonColor: '#3085d6',
-            cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Sí, hazlo!',
-        }).then((result) => {
-            if(result.isConfirmed) {
-                //funcion que informa al usuario lo que sucedió
-                if(args.typeOfMethod == 'url') {
-                    alertaConfirmarAccion(url, args.successPhrase, args.typeOfMethod)
-                } else {
-                    alertaConfirmarAccion(url, args.successPhrase, 'submit', args.btnId)
-                }
-                
+async function alertaConfirmar(url, args) {
+    return Swal.fire({
+        title: args.TITLE,
+        text: args.TEXT,
+        icon: args.ICON,
+        showCancelButton: true,
+        cancelButtonColor: '#d33',
+        confirmButtonColor: '#3085d6',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Sí, hazlo!',
+    }).then((result) => {
+        if(result.isConfirmed) {
+            //funcion que informa al usuario lo que sucedió
+            if(args.typeOfMethod == 'url') {
+                alertaConfirmarAccion(url, args.successPhrase, args.typeOfMethod)
             }
-        })
-    } else {
-        alertaConfirmarAccion('', args.successPhrase, args.typeOfMethod, args.btnId)
-    }
-
+            return true
+        }
+        return false
+    })
 }
 
 function alerta(args){

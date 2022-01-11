@@ -101,17 +101,30 @@
     <script src="{% static 'js/jquery.js' %}"></script>
     <script src="{% static 'js/search.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
     <script src="{% static 'js/alerts.js' %}"></script>
     <script src="{% static 'js/datatables.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/DataTables/js/datatables.min.js' %}"></script>
     <script type="text/javascript">
         dataTable()
+
+        var argsInsert = {
+            TITLE: 'Cambios aplicados!',
+            TEXT: `El producto ha sido cargado con éxito`,
+            ICON: 'success'
+        }
+
         var args = {
             TITLE: 'Precaución!', 
             TEXT: 'Estás seguro de eliminar este Producto?',
             ICON: 'warning', 
             successPhrase:'eliminado',
             typeOfMethod:'url',
+        }
+
+        if(sessionStorage.getItem('1') == 1) {
+            window.onload = alerta(argsInsert)
+            sessionStorage.setItem('1', 0);
         }
 
         var $ = jQuery.noConflict();

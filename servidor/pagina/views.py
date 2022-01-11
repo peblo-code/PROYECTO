@@ -15,7 +15,7 @@ def validar(request, pageSuccess, parameters={}):
     if request.session.get("id_usuario"):
         if (request.session.get("tipo_usuario") == 2) and (pageSuccess == 'sections/config.html'):
             return render(request, "index.html", {"nombre_completo": request.session.get("nombre_completo"), "mensaje": "Este usuario no cuenta con los privilegios suficientes"})
-        else: 
+        else:
             return render(request, pageSuccess, {"nombre_completo": request.session.get("nombre_completo"),"parameters": parameters})
     else:
         return render(request, 'login.html')
@@ -61,6 +61,7 @@ def productos(request):
     listamarca = marca.objects.all()
     listamodelo = modelo.objects.all()
     listacolor = color.objects.all()
+
     return validar(request, 'sections/products/products.html',{"listaproducto":listaproducto, "listamarca":listamarca, 
     "listamodelo": listamodelo, "listacolor":listacolor})
 
@@ -90,7 +91,7 @@ def edit_product(request, product_actual = 0):
             nro_chassis_vehiculo=request.POST.get("chasis"),
             precio_costo=request.POST.get("costo"),
             precio_venta=request.POST.get("venta"),
-            estado_vehiculo=request.POST.get("existencia"))
+            estado_vehiculo=1)
             vehiculo_nuevo.save()
         else:
             vehiculo_actual=vehiculo.objects.get(id_vehiculo=product_actual)
@@ -105,7 +106,6 @@ def edit_product(request, product_actual = 0):
             vehiculo_actual.precio_venta=request.POST.get("venta")
             vehiculo_actual.estado_vehiculo=request.POST.get("existencia")
             vehiculo_actual.save()
-        
         return redirect("../productos")
 
 def modal_info(request, product_actual):
