@@ -21,8 +21,9 @@ function alertaConfirmarAccion(url, successPhrase, typeOfMethod, btnId) {
         if (result.dismiss === Swal.DismissReason.timer) {
             if(typeOfMethod == 'url') {
                 window.location.href = url
+            } else {
+                document.getElementById(btnId).submit()
             }
-            
         }
     })
 }
@@ -43,22 +44,20 @@ async function alertaConfirmar(url, args) {
             //funcion que informa al usuario lo que sucedió
             if(args.typeOfMethod == 'url') {
                 alertaConfirmarAccion(url, args.successPhrase, args.typeOfMethod)
+            } else {
+                alertaConfirmarAccion(url, args.successPhrase, args.typeOfMethod, args.btnId)
             }
-            return true
         }
-        return false
     })
 }
 
 function alerta(args){
-    Swal.fire({
+    return Swal.fire({
         title: args.TITLE,
         text: args.TEXT,
         icon: args.ICON,
         showCancelButton: false,
         confirmButtonColor: '#3085d6',
         confirmButtonText: 'Aceptar',
-    }).then((result) => {
-
-    })
+    }).then((result) => result)
 }
