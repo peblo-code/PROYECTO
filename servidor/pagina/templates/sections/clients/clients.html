@@ -99,6 +99,7 @@
 
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
     <script src="{% static 'js/alerts.js' %}"></script>
     <script src="{% static 'js/datatables.js'%}"></script>
 
@@ -131,6 +132,12 @@
             typeOfMethod:'url',
         }
 
+        var argsInsert = {
+            TITLE: 'Cambios aplicados!',
+            TEXT: `El producto ha sido cargado con éxito`,
+            ICON: 'success'
+        }
+
         var $ = jQuery.noConflict();
         function abrirModalEdicion(url) {
             $('#edicion').load(url, function () {
@@ -138,6 +145,10 @@
             })
         }
 
+        if(sessionStorage.getItem('1') == 1) {
+            window.onload = alerta(argsInsert)
+            sessionStorage.setItem('1', 0);
+        }
 
     </script>
     {% endblock %}

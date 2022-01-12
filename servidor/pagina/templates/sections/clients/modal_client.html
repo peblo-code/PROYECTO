@@ -119,18 +119,19 @@
  
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" onclick="alertaConfirmar('',argsModal)">Confirmar</button>
+            <button class="btn btn-primary" id="btnCarga">Confirmar</button>
             <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
         </div>
     </div>
-
+    <script src="{% static './js/functions.js' %}"></script>
     <script>
+        validarFormularioEdicion()
         var argsModal = {
             TITLE: 'Advertencia!', 
             TEXT: 'Estás seguro de modificar este Producto?',
             ICON: 'warning', 
             successPhrase:'actualizado',
-            typeOfMethod:'submitAndConfirm',
+            typeOfMethod:'confirm',
             btnId: 'cargarCliente'
         }
     </script>

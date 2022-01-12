@@ -28,11 +28,11 @@
             </a>
             <h1>{{ parameters.titulo }}</h1>
         </div>
-        <form action="{% url 'edit_client' parameters.clie_actual %}" method="POST" class="form-global-box" id="cargarCliente">
+        <form action="{% url 'edit_client' parameters.clie_actual %}" method="POST" class="form-global-box" id="cargarCliente" onsubmit="sessionStorage.setItem('1', 1);">
             {% csrf_token %}
             <div class="input-group">
-                <select class="custom-select" name="tipo_documento" id="tipo_documento">
-                    <option value="0" data-chained="0" selected>------</option>
+                <select class="custom-select" name="tipo_documento" id="tipo_documento" required>
+                    <option value="" data-chained="" selected></option>
                     {% for tipo_documento in parameters.listatipodoc %}
                     {% if tipo_documento.id_tipo_documento == parameters.datos_act.id_tipo_documento_id %}
                     <option value="{{tipo_documento.id_tipo_documento}}" id="opcion_select" selected>
@@ -54,7 +54,7 @@
                     <span class="input-group-text" id="inputGroup-sizing-default">Documento</span>
                 </div>
                 <input type="text" name="documento_cliente" value="{{ parameters.datos_act.documento_cliente }}"
-                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
             </div>
 
 
@@ -63,7 +63,7 @@
                     <span class="input-group-text" id="inputGroup-sizing-default">Nombre</span>
                 </div>
                 <input type="text" name="nombre_cliente" value="{{ parameters.datos_act.nombre_cliente }}"
-                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
             </div>
 
 
@@ -72,7 +72,7 @@
                     <span class="input-group-text" id="inputGroup-sizing-default">Apellido</span>
                 </div>
                 <input type="text" name="apellido_cliente" value="{{ parameters.datos_act.apellido_cliente }}"
-                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
             </div>
 
             <div class="input-group mb-3">
@@ -80,12 +80,12 @@
                     <span class="input-group-text" id="inputGroup-sizing-default">Telefono</span>
                 </div>
                 <input type="text" name="telefono_cliente" value="{{ parameters.datos_act.telefono_cliente }}"
-                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
             </div>
 
             <div class="input-group">
-                <select class="custom-select" name="pais" id="pais">
-                    <option value="0" data-chained="0" selected>------</option>
+                <select class="custom-select" name="pais" id="pais" required>
+                    <option value="" data-chained="" selected></option>
                     {% for pais in parameters.listapais %}
                     {% if pais.id_pais == parameters.datos_act.id_pais_id %}
                     <option value="{{pais.id_pais}}" id="opcion_select" data-chained="{{pais.id_pais}}" selected>{{pais.descripcion_pais}}</option>
@@ -102,8 +102,8 @@
 
 
             <div class="input-group">
-                <select class="custom-select" name="ciudad" id="ciudad">
-                    <option value="0" data-chained="0" selected>------</option>
+                <select class="custom-select" name="ciudad" id="ciudad" required>
+                    <option value="" data-chained="" selected></option>
                     {% for ciudad in parameters.listaciudad %}
                     {% if ciudad.id_ciudad == parameters.datos_act.id_ciudad_id %}
                     <option value="{{ciudad.id_ciudad}}" id="opcion_select" data-chained="{{ciudad.id_pais_id}}" selected>{{ciudad.descripcion_ciudad}}
@@ -138,20 +138,12 @@
         <div class="modal fade" id="edicion" role="dialog">
 
         </div>
-        <button class="btn btn-success" onclick="alertaConfirmar('',args)" style="margin-top: 1em">{{ parameters.titulo }}</button>
+        <button class="btn btn-success" style="margin-top: 1em" form="cargarCliente">{{ parameters.titulo }}</button>
     </div>
     <script src="{% static './js/jquery.js' %}"></script>
     <script src="{% static './js/jquery.chained.js' %}"></script>
     <script src="{% static 'js/alerts.js' %}"></script>
     <script>
-        var args = {
-            TITLE: '', 
-            TEXT: '',
-            ICON: '', 
-            successPhrase: 'registrado',
-            typeOfMethod: 'submit',
-            btnId: 'cargarCliente'
-        }
 
         $("#ciudad").chained("#pais")
 
