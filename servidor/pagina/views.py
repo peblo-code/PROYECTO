@@ -69,16 +69,17 @@ def edit_product(request, product_actual = 0):
     listamarca = marca.objects.all()
     listamodelo = modelo.objects.all()
     listacolor = color.objects.all()
+    listaproducto = vehiculo.objects.all()
     if request.method=="GET":
         vehiculo_actual=vehiculo.objects.filter(id_vehiculo=product_actual).exists()
         if vehiculo_actual:
             datos_vehiculo=vehiculo.objects.filter(id_vehiculo=product_actual).first()
             return validar(request, 'sections/products/modal_product.html',
             {"datos_act":datos_vehiculo, "product_actual":product_actual, "titulo":"Editar un Producto", 
-            "listamarca":listamarca, "listamodelo": listamodelo, "listacolor":listacolor})
+            "listamarca":listamarca, "listamodelo": listamodelo, "listacolor":listacolor, "listaproducto":listaproducto})
         else:
             return validar(request, "sections/products/edit_product.html", {"titulo":"Cargar nuevo Producto",
-            "listamarca":listamarca, "listamodelo": listamodelo, "listacolor": listacolor, "product_actual": product_actual})
+            "listamarca":listamarca, "listamodelo": listamodelo, "listacolor": listacolor, "product_actual": product_actual, "listaproducto":listaproducto})
 
     if request.method=="POST":
         if product_actual==0:

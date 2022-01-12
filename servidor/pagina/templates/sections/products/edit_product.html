@@ -38,7 +38,7 @@
         </div>
         <form action="{% url 'edit_product' parameters.product_actual %}" method="POST" class="form-global-box" id="cargarProducto" onsubmit="sessionStorage.setItem('1', 1);">
             {% csrf_token %}
-            <section class="form-section" style="display: grid; grid-gap: 2.5em;">
+            <section class="form-section" >
                 <div class="form-item" id="item-marca">
                     <div class="input-group">
                         <select class="custom-select" name="marca" id="marca" required>
@@ -146,8 +146,8 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text" id="inputGroup-sizing-default">Costo</span>
                         </div>
-                        <input type="number" name="costo" value="{{ parameters.datos_act.precio_costo }}" 
-                        class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
+                        <input type="text" name="costo" value="{{ parameters.datos_act.precio_costo }}" 
+                        class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" onkeyup="format(this)" onchange="format(this)" required>
                     </div>
                 </div>
                 <div class="form-item" id="item-venta">
@@ -155,14 +155,15 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroup-sizing-default">Venta</span>
                           </div>
-                          <input type="number" name="venta" id="venta" value="{{ parameters.datos_act.precio_venta }}" 
-                          class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
+                          <input type="text" name="venta" id="venta" value="{{ parameters.datos_act.precio_venta }}" 
+                          class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" onkeyup="format(this)" onchange="format(this)" required required>
                     </div>
                 </div>
 
             </section>
         </form>
         <button class="btn btn-success" style="margin-top: 1em" type="submit" form="cargarProducto">Cargar Nuevo Producto</button>
+
         <div class="modal fade" id="edicion" role="dialog">
 
         </div>
@@ -172,6 +173,19 @@
     <script src="{% static './js/jquery.chained.js' %}"></script>
     <script src="{% static 'js/alerts.js' %}"></script>
     <script>
+        function format(input) {
+            $(input).on({
+            "focus": function (event) {
+                $(event.target).select();
+            },
+            "keyup": function (event) {
+                $(event.target).val(function (index, value ) {
+                    return value.replace(/\D/g, "")
+                                .replace(/([0-9])([0-9]{3})$/, '$1.$2')
+                                .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+                });
+            }});
+        }
 
         $("#modelo").chained("#marca")
 
@@ -183,13 +197,27 @@
             })
         }
 
+        flagSubmit = true
+
+        document.getElementById("cargarProducto").addEventListener('submit', (evt) => {
+            if(!flagSubmit) {
+                evt.preventDefault()
+                alerta(args)
+            }
+        })
+
+        args = {
+            TITLE: "Ups!",
+            TEXT: "No se han podido registrar los datos. Por favor, asegúrese de que estén correctos.",
+            ICON: "warning"
+        }
 
         window.onkeyup = validarFormulario;
 
         function validarFormulario() {
 
             //bandera
-            var flag = 0;
+            var flag=false;
 
             function getValueElement(element) {
                 return document.getElementById(element).value;
@@ -201,7 +229,7 @@
 
             function alertMessage(message){
                 var alert = 
-                `<div class="alert alert-danger d-flex align-items-center" role="alert" id="alert-error">
+                `<div class="alert alert-danger d-flex align-items-center" role="alert" id="alert-error" style="margin-bottom: 0px">
                     <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
                     <div>
                         ${message}
@@ -212,37 +240,30 @@
             }
 
             //inputs y selects de formulario
-
-            var motor = getValueElement("motor");
-
-/*            var selectMarca = getValueElement("marca")
-            var selectModelo = getValueElement("modelo");
-            var selectColor = getValueElement("color");
-            var selectTransmision = getValueElement("transimision");
-            var anio = getValueElement("anio");
             var chasis = getValueElement("chasis");
-            var costo = getValueElement("costo");
-            var venta = getValueElement("venta"); */
-
-            //divs del formulario
-
-            var divMotor = getElement("item-motor");
-
-/*            var divMarca = getElement("item-marca");
-            var divModelo = getElement("item-modelo");
-            var divColor = getElement("item-color");
-            var divTransmision = getElement("item-transmision");
-            var divAnio = getElement("item-anio");
             var divChasis = getElement("item-chasis");
-            var divCosto = getElement("item-costo");
-            var divVenta = getElement("item-venta"); */
 
-            if(motor === null || motor === '') {
-                divMotor.innerHTML += alertMessage("Complete este campo!")
-                flag = 1
-            } else {
-                divMotor.removeChild(document.getElementById("alert-error"))
-                //alertaConfirmar('',args)
+            var chasisData;
+            var aux
+
+            {% for producto in parameters.listaproducto %}
+                
+                chasisData = "{{producto.nro_chassis_vehiculo}}"
+
+                if(chasis == chasisData) {
+                    flag = true
+                    aux = chasis
+                }
+
+            {% endfor%}
+
+            if(flag && !document.getElementById("alert-error")) {
+                divChasis.innerHTML += alertMessage("Ya existe ese nro de chasis!")
+                document.getElementById("chasis").value = aux
+                flagSubmit=false
+            } else if(document.getElementById("alert-error") && flag == false) {
+                divChasis.removeChild(document.getElementById("alert-error"))
+                flagSubmit=true
             }
 
         }

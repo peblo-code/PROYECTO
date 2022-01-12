@@ -181,7 +181,7 @@ iframe {
 
 .form-section {
     display: grid;
-    grid-gap: 2.5em;
+    grid-gap: 4em;
 }
 
 .form-item {

@@ -12,7 +12,6 @@
             <link rel="stylesheet" href="{% static './section-styles/products/modal_products.css'%}">
         </div>
         <div class="modal-body">
-
             <form action="{% url 'edit_product' parameters.product_actual %}" method="POST" id="editarProducto">
                 {% csrf_token %}
                 <section class="form-section">
@@ -111,12 +110,12 @@
                         </div>
                     </div>
 
-                    <div class="form-item">
+                    <div class="form-item" id="item-chasis">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="inputGroup-sizing-default">Chasis</span>
                             </div>
-                            <input type="text" name="chasis" value="{{ parameters.datos_act.nro_chassis_vehiculo }}" 
+                            <input type="text" name="chasis" id="chasis" value="{{ parameters.datos_act.nro_chassis_vehiculo }}" 
                             class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
                         </div>
                     </div>
@@ -182,6 +181,64 @@
             successPhrase:'actualizado',
             typeOfMethod:'confirm',
             btnId: 'editarProducto'
+        }
+
+        window.onkeyup = validarFormulario;
+
+        function validarFormulario() {
+
+            //bandera
+            var flag=false;
+
+            function getValueElement(element) {
+                return document.getElementById(element).value;
+            }
+
+            function getElement(element) {
+                return document.getElementById(element);
+            }
+
+            function alertMessage(message){
+                var alert = 
+                `<div class="alert alert-danger d-flex align-items-center" role="alert" id="alert-error" style="margin-bottom: 0px">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                    <div>
+                        ${message}
+                    </div>
+                </div>`
+
+                return alert
+            }
+
+            //inputs y selects de formulario
+            var chasis = getValueElement("chasis");
+            var divChasis = getElement("item-chasis");
+            console.log(chasis)
+
+            var chasisData;
+            var aux;
+            var valueActual = "{{parameters.datos_act.nro_chassis_vehiculo}}"
+
+            {% for producto in parameters.listaproducto %}
+                
+                chasisData = "{{producto.nro_chassis_vehiculo}}"
+
+                if(chasis == chasisData && chasis != valueActual) {
+                    flag = true
+                    aux = chasis
+                }
+
+            {% endfor%}
+
+            
+
+            if(flag && !document.getElementById("alert-error")) {
+                divChasis.innerHTML += alertMessage("Ya existe ese nro de chasis!")
+                document.getElementById("chasis").value = aux
+            } else if(document.getElementById("alert-error") && flag == false) {
+                divChasis.removeChild(document.getElementById("alert-error"))
+            }
+
         }
     </script>
     
