@@ -10,25 +10,6 @@
     document.getElementById('fechaActual').value=ano+"-"+mes+"-"+dia;
 } */
 
-function validarFormularioEdicion() {
-  let inputs = document.getElementsByClassName("form-control")
-
-  document.getElementById("btnCarga")
-  .addEventListener("click", (evt) => {
-      let flag = true
-      for(let i=0; i < inputs.length; i++) {
-          if(inputs[i].value === '') {
-              alerta(argsValidacion)
-              flag = false
-              i = inputs.length
-          }
-      } if(flag) {
-          return alertaConfirmar('',argsModal)
-      }
-
-  })
-}
-
 var argsValidacion = {
   TITLE: 'Ups!', 
   TEXT: 'Por favor, complete todos los campos',
@@ -57,5 +38,15 @@ function formatText(data) {
     value = data[i].innerText
     value = parseFloat(value).toLocaleString('es')
     data[i].innerText = value
+  }
+}
+
+function formatInputLoaded(data) {
+  data = document.getElementsByClassName(data)
+  var value
+  for(let i = 0; i < data.length; i++) {
+    value = data[i].value
+    value = parseFloat(value).toLocaleString('es')
+    data[i].value = value
   }
 }

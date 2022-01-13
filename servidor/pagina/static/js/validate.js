@@ -9,7 +9,6 @@ function verificarFormulario(form) {
     if(document.getElementById("alert-error")) {
         alerta(args)
         return false
-        debugger
     } else {
         sessionStorage.setItem('1', 1);
     }
@@ -30,14 +29,36 @@ function validarFormulario(divValor, flag, message) {
         return alert
     }
 
-     if(flag && !document.getElementById("alert-error")) {
-         divValor.style = "display: inline"
-         divValor.innerHTML += alertMessage(message)
-         flagSubmit=false
-     } else if(document.getElementById("alert-error") && flag == false) {
-         divValor.removeChild(document.getElementById("alert-error"))
-         divValor.style = "display: none"
-         flagSubmit=true
-     }
 
+    if(flag && !document.getElementById("alert-error")) {
+       divValor.style = "display: inline"
+       divValor.innerHTML += alertMessage(message)
+       return false
+    } else if(document.getElementById("alert-error") && flag == false) {
+       divValor.removeChild(document.getElementById("alert-error"))
+       divValor.style = "display: none"
+    } 
+
+    return true
  }
+
+ function validarFormularioEdicion(validacion) {
+    let inputs = document.getElementsByClassName("form-control")
+    
+    let flag = true
+    for(let i=0; i < inputs.length; i++) {
+        if(inputs[i].value === '') {
+            alerta(argsValidacion)
+            flag = false
+            i = inputs.length
+        }
+    } if(flag && validacion) {
+        return alertaConfirmar('',argsModal)
+    } else {
+        verificarFormulario()
+    }
+        
+        
+    
+
+  }

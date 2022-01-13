@@ -34,6 +34,7 @@
                             </select>
                           </div>
                     </div>
+
                     <div class="form-item">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -110,7 +111,7 @@
                         </div>
                     </div>
 
-                    <div class="form-item" id="item-chasis">
+                    <div class="form-item">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="inputGroup-sizing-default">Chasis</span>
@@ -120,13 +121,19 @@
                         </div>
                     </div>
                     <div class="form-item">
+                        <div class="input-group mb-3" id="item-chasis" style="display:none">
+
+                        </div>
+                    </div>
+
+                    <div class="form-item">
 
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="inputGroup-sizing-default">Costo</span>
                             </div>
-                            <input type="number" name="costo" value="{{ parameters.datos_act.precio_costo }}" 
-                            class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                            <input type="text" name="costo" value="{{ parameters.datos_act.precio_costo }}" 
+                            class="format form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" onkeydown="format(this)" onchange="format(this)">
                         </div>
                     </div>
                     <div class="form-item">
@@ -134,8 +141,8 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroup-sizing-default">Venta</span>
                               </div>
-                              <input type="number" name="venta" value="{{ parameters.datos_act.precio_venta }}" 
-                              class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                              <input type="text" name="venta" value="{{ parameters.datos_act.precio_venta }}" 
+                              class="format form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" onkeydown="format(this)" onchange="format(this)">
                         </div>
 
                     </div>
@@ -172,8 +179,11 @@
     </div>
 
     <script src="{% static './js/functions.js' %}"></script>
+    <script src="{% static './js/validate.js' %}"></script>
+    <script src="{% static './js/alerts.js' %}"></script>
     <script>
-        validarFormularioEdicion()
+        window.onload = formatInputLoaded("format")
+
         var argsModal = {
             TITLE: 'Advertencia!', 
             TEXT: 'Estás seguro de modificar este Producto?',
@@ -183,63 +193,26 @@
             btnId: 'editarProducto'
         }
 
-        window.onkeyup = validarFormulario;
+        var validacion = true
 
-        function validarFormulario() {
-
-            //bandera
-            var flag=false;
-
-            function getValueElement(element) {
-                return document.getElementById(element).value;
-            }
-
-            function getElement(element) {
-                return document.getElementById(element);
-            }
-
-            function alertMessage(message){
-                var alert = 
-                `<div class="alert alert-danger d-flex align-items-center" role="alert" id="alert-error" style="margin-bottom: 0px">
-                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-                    <div>
-                        ${message}
-                    </div>
-                </div>`
-
-                return alert
-            }
-
-            //inputs y selects de formulario
-            var chasis = getValueElement("chasis");
-            var divChasis = getElement("item-chasis");
-            console.log(chasis)
-
-            var chasisData;
-            var aux;
-            var valueActual = "{{parameters.datos_act.nro_chassis_vehiculo}}"
-
+        document.getElementById("chasis").addEventListener("keyup", (evt) => {
+            console.log("ou")
+            var flag = false
+            var valor = document.getElementById("chasis").value
+            var valorOriginal = "{{parameters.datos_act.nro_chassis_vehiculo}}"
+            var valorData
             {% for producto in parameters.listaproducto %}
-                
-                chasisData = "{{producto.nro_chassis_vehiculo}}"
-
-                if(chasis == chasisData && chasis != valueActual) {
-                    flag = true
-                    aux = chasis
-                }
-
-            {% endfor%}
-
-            
-
-            if(flag && !document.getElementById("alert-error")) {
-                divChasis.innerHTML += alertMessage("Ya existe ese nro de chasis!")
-                document.getElementById("chasis").value = aux
-            } else if(document.getElementById("alert-error") && flag == false) {
-                divChasis.removeChild(document.getElementById("alert-error"))
+            valorData = "{{producto.nro_chassis_vehiculo}}"
+            if(valor == valorData && valor != valorOriginal) {
+                flag = true
             }
+            {% endfor %}
 
-        }
+            validacion = validarFormulario("item-chasis", flag, "Nro. de chasis ya se encuentra en uso.")
+        })
+
+        document.getElementById("btnCarga").addEventListener("click", () => validarFormularioEdicion(validacion))
+
     </script>
     
     <script src="{% static './js/jquery.chained.js' %}"></script>

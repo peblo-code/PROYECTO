@@ -114,8 +114,8 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="inputGroup-sizing-default">Costo</span>
                             </div>
-                            <input type="number" name="costo" value="{{ parameters.datos_act.precio_costo }}" 
-                            class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
+                            <input type="text" name="costo" value="{{ parameters.datos_act.precio_costo }}" 
+                            class="format form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
                         </div>
                     </div>
                     <div class="form-item">
@@ -123,8 +123,8 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroup-sizing-default">Venta</span>
                               </div>
-                              <input type="number" name="venta" value="{{ parameters.datos_act.precio_venta }}" 
-                              class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
+                              <input type="text" name="venta" value="{{ parameters.datos_act.precio_venta }}" 
+                              class="format form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
                         </div>
 
                     </div>
@@ -153,6 +153,10 @@
 
                 </section>
             </form>
+            <script src="{% static 'js/functions.js'%}"></script>
+            <script>
+                formatInputLoaded("format")
+            </script>
         </div>
         <div class="modal-footer">
             <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
