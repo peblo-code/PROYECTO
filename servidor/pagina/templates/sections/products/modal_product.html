@@ -21,7 +21,7 @@
                               <label class="input-group-text" for="marca" required>Marca</label>
                             </div>
                             <select class="custom-select" id="marca"  name="marca">
-                                <option value="0" data-chained="0" selected>------</option>
+                                <option value="0" data-chained="0" selected></option>
                                 {% for marca in parameters.listamarca %}
                                 {% if marca.id_marca == parameters.datos_act.id_marca_id %}
                                 <option value="{{marca.id_marca}}" id="opcion_select" selected>
@@ -41,7 +41,6 @@
                               <label class="input-group-text" for="modelo">Modelo</label>
                             </div>
                             <select class="custom-select" id="modelo"  name="modelo">
-                                <option value="0" data-chained="0" selected>------</option>
                                 {% for modelo in parameters.listamodelo %}
                                 {% if modelo.id_modelo == parameters.datos_act.id_modelo_id %}
                                 <option value="{{modelo.id_modelo}}" id="opcion_select"
@@ -120,11 +119,10 @@
                             class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
                         </div>
                     </div>
-                    <div class="form-item">
+
                         <div class="input-group mb-3" id="item-chasis" style="display:none">
 
                         </div>
-                    </div>
 
                     <div class="form-item">
 
