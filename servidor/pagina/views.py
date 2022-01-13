@@ -20,7 +20,6 @@ def validar(request, pageSuccess, parameters={}):
     else:
         return render(request, 'login.html')
 
-
 def login(request):
     if request.method == 'GET':
         if request.session.get("id_usuario"):
@@ -90,8 +89,8 @@ def edit_product(request, product_actual = 0):
             motor_vehiculo=request.POST.get("motor"),
             anio_vehiculo=request.POST.get("anio"),
             nro_chassis_vehiculo=request.POST.get("chasis"),
-            precio_costo=request.POST.get("costo"),
-            precio_venta=request.POST.get("venta"),
+            precio_costo=request.POST.get("costo").replace(".","") ,
+            precio_venta=request.POST.get("venta").replace(".","") ,
             estado_vehiculo=1)
             vehiculo_nuevo.save()
         else:
@@ -103,8 +102,8 @@ def edit_product(request, product_actual = 0):
             vehiculo_actual.motor_vehiculo=request.POST.get("motor")
             vehiculo_actual.anio_vehiculo=request.POST.get("anio")
             vehiculo_actual.nro_chassis_vehiculo=request.POST.get("chasis")
-            vehiculo_actual.precio_costo=request.POST.get("costo")
-            vehiculo_actual.precio_venta=request.POST.get("venta")
+            vehiculo_actual.precio_costo=request.POST.get("costo").replace(".","")
+            vehiculo_actual.precio_venta=request.POST.get("venta").replace(".","")
             vehiculo_actual.estado_vehiculo=request.POST.get("existencia")
             vehiculo_actual.save()
         return redirect("../productos")
@@ -343,16 +342,17 @@ def edit_client(request, clie_actual=0):
     listatipodoc = tipo_documento.objects.all()
     listapais = pais.objects.all()
     listaciudad = ciudad.objects.all()
+    listacliente = cliente.objects.all()
     if request.method=="GET":
         cliente_actual=cliente.objects.filter(id_cliente=clie_actual).exists()
         if cliente_actual:
             datos_cliente=cliente.objects.filter(id_cliente=clie_actual).first()
             return validar(request, 'sections/clients/modal_client.html',
             {"datos_act":datos_cliente, "clie_actual":clie_actual, "titulo":"Editar un Cliente", 
-            "listatipodoc":listatipodoc, "listapais":listapais, "listaciudad":listaciudad})
+            "listatipodoc":listatipodoc, "listapais":listapais, "listaciudad":listaciudad, "listacliente":listacliente})
         else:
             return validar(request, "sections/clients/edit_client.html", {"titulo":"Cargar nuevo Cliente",
-            "listatipodoc":listatipodoc, "listapais":listapais, "listaciudad":listaciudad, "clie_actual": clie_actual})
+            "listatipodoc":listatipodoc, "listapais":listapais, "listaciudad":listaciudad, "clie_actual": clie_actual, "listacliente":listacliente})
 
     if request.method=="POST":
         if clie_actual==0:

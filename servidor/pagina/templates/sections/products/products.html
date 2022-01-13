@@ -71,7 +71,7 @@
                     {% endif %}
                     {% endfor %}
 
-                    <td>{{ lista.precio_venta }}</td>
+                    <td class="precio">{{ lista.precio_venta }}</td>
 
                     {% if lista.estado_vehiculo == 0 %}
                     <td style="color: red;" id="estado">No Disponible</td>
@@ -103,10 +103,12 @@
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
     <script src="{% static 'js/alerts.js' %}"></script>
+    <script src="{% static 'js/functions.js' %}"></script>
     <script src="{% static 'js/datatables.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/DataTables/js/datatables.min.js' %}"></script>
     <script type="text/javascript">
         dataTable()
+        formatText("precio") //formatear numeros
 
         var argsInsert = {
             TITLE: 'Cambios aplicados!',

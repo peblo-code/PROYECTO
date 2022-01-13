@@ -36,7 +36,7 @@
             </a>
             <h1>{{parameters.titulo}}</h1>
         </div>
-        <form action="{% url 'edit_product' parameters.product_actual %}" method="POST" class="form-global-box" id="cargarProducto" onsubmit="sessionStorage.setItem('1', 1);">
+        <form action="{% url 'edit_product' parameters.product_actual %}" method="POST" class="form-global-box" id="cargarProducto" onsubmit="return verificarFormulario(this)">
             {% csrf_token %}
             <section class="form-section" >
                 <div class="form-item" id="item-marca">
@@ -132,7 +132,7 @@
                         aria-describedby="inputGroup-sizing-default" value="{{ parameters.datos_act.anio_vehiculo }}" required>
                     </div>
                 </div>
-                <div class="form-item" id="item-chasis">
+                <div class="form-item">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                           <span class="input-group-text" id="inputGroup-sizing-default">Chasis</span>
@@ -140,6 +140,9 @@
                         <input type="text" name="chasis" id="chasis" value="{{ parameters.datos_act.nro_chassis_vehiculo }}" 
                         class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
                     </div>
+                </div>
+                <div class="input-group mb-3" id="item-chasis" style="display:none">
+
                 </div>
                 <div class="form-item" id="item-costo">
                     <div class="input-group mb-3">
@@ -156,7 +159,7 @@
                             <span class="input-group-text" id="inputGroup-sizing-default">Venta</span>
                           </div>
                           <input type="text" name="venta" id="venta" value="{{ parameters.datos_act.precio_venta }}" 
-                          class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" onkeyup="format(this)" onchange="format(this)" required required>
+                          class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" onkeyup="format(this)" onchange="format(this)" required>
                     </div>
                 </div>
 
@@ -171,22 +174,10 @@
     </div>
     <script src="{% static './js/jquery.js' %}"></script>
     <script src="{% static './js/jquery.chained.js' %}"></script>
+    <script src="{% static 'js/functions.js' %}"></script>
     <script src="{% static 'js/alerts.js' %}"></script>
+    <script src="{% static 'js/validate.js' %}"></script>
     <script>
-        function format(input) {
-            $(input).on({
-            "focus": function (event) {
-                $(event.target).select();
-            },
-            "keyup": function (event) {
-                $(event.target).val(function (index, value ) {
-                    return value.replace(/\D/g, "")
-                                .replace(/([0-9])([0-9]{3})$/, '$1.$2')
-                                .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
-                });
-            }});
-        }
-
         $("#modelo").chained("#marca")
 
         var $ = jQuery.noConflict();
@@ -197,76 +188,18 @@
             })
         }
 
-        flagSubmit = true
-
-        document.getElementById("cargarProducto").addEventListener('submit', (evt) => {
-            if(!flagSubmit) {
-                evt.preventDefault()
-                alerta(args)
-            }
-        })
-
-        args = {
-            TITLE: "Ups!",
-            TEXT: "No se han podido registrar los datos. Por favor, asegúrese de que estén correctos.",
-            ICON: "warning"
-        }
-
-        window.onkeyup = validarFormulario;
-
-        function validarFormulario() {
-
-            //bandera
-            var flag=false;
-
-            function getValueElement(element) {
-                return document.getElementById(element).value;
-            }
-
-            function getElement(element) {
-                return document.getElementById(element);
-            }
-
-            function alertMessage(message){
-                var alert = 
-                `<div class="alert alert-danger d-flex align-items-center" role="alert" id="alert-error" style="margin-bottom: 0px">
-                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-                    <div>
-                        ${message}
-                    </div>
-                </div>`
-
-                return alert
-            }
-
-            //inputs y selects de formulario
-            var chasis = getValueElement("chasis");
-            var divChasis = getElement("item-chasis");
-
-            var chasisData;
-            var aux
-
+        document.getElementById("chasis").addEventListener("keyup", (evt) => {
+            var flag = false
+            var valor = document.getElementById("chasis").value
+            var valorData
             {% for producto in parameters.listaproducto %}
-                
-                chasisData = "{{producto.nro_chassis_vehiculo}}"
-
-                if(chasis == chasisData) {
-                    flag = true
-                    aux = chasis
-                }
-
-            {% endfor%}
-
-            if(flag && !document.getElementById("alert-error")) {
-                divChasis.innerHTML += alertMessage("Ya existe ese nro de chasis!")
-                document.getElementById("chasis").value = aux
-                flagSubmit=false
-            } else if(document.getElementById("alert-error") && flag == false) {
-                divChasis.removeChild(document.getElementById("alert-error"))
-                flagSubmit=true
+            valorData = "{{producto.nro_chassis_vehiculo}}"
+            if(valor == valorData) {
+                flag = true
             }
-
-        }
+            {% endfor %}
+            validarFormulario("item-chasis", flag, "Nro. de chasis ya se encuentra en uso.")
+        })
 
     </script>
     {% endblock %}

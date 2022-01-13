@@ -1,4 +1,4 @@
-window.onload = function(){
+/* window.onload = function(){
     var fecha = new Date(); //Fecha actual
     var mes = fecha.getMonth()+1; //obteniendo mes
     var dia = fecha.getDate(); //obteniendo dia
@@ -8,7 +8,7 @@ window.onload = function(){
     if(mes<10)
       mes='0'+mes //agrega cero si el menor de 10
     document.getElementById('fechaActual').value=ano+"-"+mes+"-"+dia;
-}
+} */
 
 function validarFormularioEdicion() {
   let inputs = document.getElementsByClassName("form-control")
@@ -27,10 +27,35 @@ function validarFormularioEdicion() {
       }
 
   })
+}
 
-  var argsValidacion = {
-    TITLE: 'Ups!', 
-    TEXT: 'Por favor, complete todos los campos',
-    ICON: 'error', 
+var argsValidacion = {
+  TITLE: 'Ups!', 
+  TEXT: 'Por favor, complete todos los campos',
+  ICON: 'error', 
+}
+
+
+function format(input) {
+  $(input).on({
+  "focus": function (event) {
+      $(event.target).select();
+  },
+  "keyup": function (event) {
+      $(event.target).val(function (index, value ) {
+          return value.replace(/\D/g, "")
+                      .replace(/([0-9])([0-9]{3})$/, '$1.$2')
+                      .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+      });
+  }});
+}
+
+function formatText(data) {
+  data = document.getElementsByClassName(data)
+  var value
+  for(let i = 0; i < data.length; i++) {
+    value = data[i].innerText
+    value = parseFloat(value).toLocaleString('es')
+    data[i].innerText = value
   }
 }

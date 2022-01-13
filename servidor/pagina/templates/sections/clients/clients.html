@@ -54,7 +54,7 @@
                 {% for cliente in parameters.listaclientes %}
                 {% if cliente.estado_cliente == parameters.mode %}
                 <tr>
-                    <td>{{ cliente.documento_cliente }}</td>
+                    <td class="documento">{{ cliente.documento_cliente }}</td>
 
                     {% for documento in parameters.listadocumentos %}
                     {% if documento.id_tipo_documento == cliente.id_tipo_documento_id %}
@@ -102,7 +102,7 @@
     <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
     <script src="{% static 'js/alerts.js' %}"></script>
     <script src="{% static 'js/datatables.js'%}"></script>
-
+    <script src="{% static 'js/functions.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/DataTables/js/datatables.min.js' %}"></script>
     <script type="text/javascript">
         window.onload = function colorBoton() {
@@ -149,6 +149,8 @@
             window.onload = alerta(argsInsert)
             sessionStorage.setItem('1', 0);
         }
+
+        formatText("documento") //formatear numeros
 
     </script>
     {% endblock %}

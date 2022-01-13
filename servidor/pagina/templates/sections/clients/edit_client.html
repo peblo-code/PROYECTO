@@ -23,12 +23,12 @@
 <body>
     <div class="form-container">
         <div class="title-and-back">
-            <a href="../clientes/0">
+            <a href="../clientes/0" style="text-decoration: none">
                 <span class="icon-circle-left"></span>
             </a>
             <h1>{{ parameters.titulo }}</h1>
         </div>
-        <form action="{% url 'edit_client' parameters.clie_actual %}" method="POST" class="form-global-box" id="cargarCliente" onsubmit="sessionStorage.setItem('1', 1);">
+        <form action="{% url 'edit_client' parameters.clie_actual %}" method="POST" class="form-global-box" id="cargarCliente" onsubmit="return verificarFormulario(this)">
             {% csrf_token %}
             <div class="input-group">
                 <select class="custom-select" name="tipo_documento" id="tipo_documento" required>
@@ -53,8 +53,12 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">Documento</span>
                 </div>
-                <input type="text" name="documento_cliente" value="{{ parameters.datos_act.documento_cliente }}"
-                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
+                <input type="text" name="documento_cliente" id="documento_cliente" value="{{ parameters.datos_act.documento_cliente }}"
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" onkeyup="format(this)" onchange="format(this)" required>
+            </div>
+
+            <div class="input-group mb-3" id="item-documento" style="display:none">
+
             </div>
 
 
@@ -138,11 +142,13 @@
         <div class="modal fade" id="edicion" role="dialog">
 
         </div>
-        <button class="btn btn-success" style="margin-top: 1em" form="cargarCliente">{{ parameters.titulo }}</button>
+        <button class="btn btn-success" style="margin-top: 1em" form="cargarCliente" id="cargar">{{ parameters.titulo }}</button>
     </div>
     <script src="{% static './js/jquery.js' %}"></script>
     <script src="{% static './js/jquery.chained.js' %}"></script>
     <script src="{% static 'js/alerts.js' %}"></script>
+    <script src="{% static 'js/validate.js' %}"></script>
+    <script src="{% static 'js/functions.js' %}"></script>
     <script>
 
         $("#ciudad").chained("#pais")
@@ -154,6 +160,23 @@
                 $(this).modal('show');
             })
         }
+
+
+        document.getElementById("documento_cliente").addEventListener("keyup", (evt) => {
+            var flag = false
+            var valor = document.getElementById("documento_cliente").value
+            valor = valor.replace(".","")
+            var valorData
+            {% for cliente in parameters.listacliente %}
+            valorData = "{{cliente.documento_cliente}}"
+            if(valor == valorData) {
+                flag = true
+            }
+            {% endfor %}
+            validarFormulario("item-documento", flag, "Nro. de documento ya se encuentra en uso.")
+        })
+            
+        
 
     </script>
     {% endblock %}
