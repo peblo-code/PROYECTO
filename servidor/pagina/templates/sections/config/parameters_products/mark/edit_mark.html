@@ -21,24 +21,49 @@
                         <span class="input-group-text" id="inputGroup-sizing-default" onclick="">Editar Marca</span>
                     </div>
                     <input type="text" id="marca" name="marca" class="form-control" aria-label="Default"
-                        aria-describedby="inputGroup-sizing-default" value="{{parameters.datos_act.descripcion_marca}}">
+                        aria-describedby="inputGroup-sizing-default" value="{{parameters.datos_act.descripcion_marca}}" id="marca">
+                </div>
+                <div class="input-group mb-3 editar-marca" id="item-marca" style="display: none">
+
                 </div>
             </form>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" onclick="alertaConfirmar('',argsModal)">Confirmar</button>
+            <button class="btn btn-primary" id="btnCarga">Confirmar</button>
             <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
         </div>
 
+        <script src="{% static './js/functions.js' %}"></script>
+        <script src="{% static './js/validate.js' %}"></script>
+        <script src="{% static './js/alerts.js' %}"></script>
         <script>
 
             var argsModal = {
-                TITLE: '',
-                TEXT: '',
-                ICON: '',
-                successPhrase: 'actualizado',
-                typeOfMethod: 'submit',
+                TITLE: 'Advertencia!',
+                TEXT: 'Estás seguro de cargar este Parametro?',
+                ICON: 'warning', 
+                successPhrase:'actualizado',
+                typeOfMethod:'confirm',
                 btnId: 'editarMarca'
             }
+
+            var validacion = true
+
+            document.getElementById("marca").addEventListener("keyup", (evt) => {
+                var flag = false
+                var valor = document.getElementById("marca").value
+                var valorOriginal = "{{parameters.datos_act.descripcion_marca}}"
+                var valorData
+                {% for marca in parameters.listamarca %}
+                valorData = "{{marca.descripcion_marca}}"
+                if(valor == valorData && valor != valorOriginal) {
+                    flag = true
+                }
+                {% endfor %}
+            
+                validacion = validarFormulario("item-marca", flag, "Nombre de Marca ya se encuentra en uso.")
+            })
+
+            document.getElementById("btnCarga").addEventListener("click", () => validarFormularioEdicion(validacion))
         </script>
     </div>

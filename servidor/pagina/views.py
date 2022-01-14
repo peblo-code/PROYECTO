@@ -126,6 +126,8 @@ def delete_product(request, product_actual):
 
 def mark_and_model(request, marcaModelo_actual = 0, tipo_carga = 0, redirigir = 0): #Funcion reutilizada en marca, modelo y color
     listamarca = marca.objects.all()
+    listamodelo = modelo.objects.all()
+    listacolor = modelo.objects.all()
     if tipo_carga==0:   #Se detecta el tipo de carga
         titulo = 'Nueva Marca'
     elif tipo_carga==1:
@@ -146,11 +148,13 @@ def mark_and_model(request, marcaModelo_actual = 0, tipo_carga = 0, redirigir = 
                 url = 'sections/config/parameters_products/colors.html'
             return validar(request, "sections/products/mark_and_model.html",
             {"datos_act":datos_marca_modelo, "marca_actual":marca_actual, "titulo":titulo, #RETURN A VISTA DE ACTUALIZAR
-            "marcaModelo_actual":marcaModelo_actual, "tipo_carga": tipo_carga, "redirigir":redirigir, "listamarca":listamarca})
+            "marcaModelo_actual":marcaModelo_actual, "tipo_carga": tipo_carga, "redirigir":redirigir,
+            "listamarca":listamarca, "listamodelo": listamodelo, "listacolor":listacolor})
         else:   #Pasa a crear la marca o modelo
             return validar(request, "sections/products/mark_and_model.html",
             {"nombre_completo":request.session.get("nombre_completo"), "marca_actual":marca_actual, #RETURN A VISTA DE CARGA
-            "titulo":titulo, "marcaModelo_actual":marcaModelo_actual, "tipo_carga": tipo_carga, "redirigir":redirigir, "listamarca":listamarca})
+            "titulo":titulo, "marcaModelo_actual":marcaModelo_actual, "tipo_carga": tipo_carga, "redirigir":redirigir,
+            "listamarca":listamarca, "listamodelo": listamodelo, "listacolor":listacolor})
 
     if request.method=="POST":
         #Redirige luego de hacer la carga
@@ -204,13 +208,14 @@ def mark(request):
     return validar(request, 'sections/config/parameters_products/mark.html',{"listamarca":listamarca, "listamodelo":listamodelo})
 
 def edit_mark(request, mark_actual=0):
+    listamarca = marca.objects.all()
     if request.method=="GET":
         listamarca = marca.objects.all()
         marca_actual=marca.objects.filter(id_marca=mark_actual).exists()
         if marca_actual:
             datos_marca=marca.objects.filter(id_marca=mark_actual).first()
             return validar(request, 'sections/config/parameters_products/mark/edit_mark.html',
-            {"datos_act":datos_marca, "mark_actual":mark_actual, "titulo": "Editar Marca"})
+            {"datos_act":datos_marca, "mark_actual":mark_actual, "titulo": "Editar Marca", "listamarca":listamarca})
     if request.method=="POST":
         marca_actual=marca.objects.get(id_marca=mark_actual)
         marca_actual.descripcion_marca=request.POST.get("marca")
