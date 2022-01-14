@@ -43,9 +43,13 @@
                         <span class="input-group-text" id="inputGroup-sizing-default">Documento</span>
                     </div>
                     <input type="text" name="documento_cliente" value="{{ parameters.datos_act.documento_cliente }}"
-                        class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                        class="format form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"
+                        id="documento_cliente" onkeydown="format(this)" onchange="format(this)">
                 </div>
     
+                <div class="input-group mb-3" id="item-documento">
+
+                </div>
     
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -124,16 +128,42 @@
         </div>
     </div>
     <script src="{% static './js/functions.js' %}"></script>
+    <script src="{% static './js/validate.js' %}"></script>
+    <script src="{% static './js/alerts.js' %}"></script>
+
     <script>
-        validarFormularioEdicion()
+        formatInputLoaded('format')
+
         var argsModal = {
             TITLE: 'Advertencia!', 
-            TEXT: 'Estás seguro de modificar este Producto?',
+            TEXT: 'Estás seguro de modificar este Cliente?',
             ICON: 'warning', 
             successPhrase:'actualizado',
             typeOfMethod:'confirm',
             btnId: 'cargarCliente'
         }
+
+        var validacion = true
+
+        document.getElementById("documento_cliente").addEventListener("keyup", (evt) => {
+            console.log("ou")
+            var flag = false
+            var valor = document.getElementById("documento_cliente").value
+            valor.replace(".","")
+            var valorOriginal = "{{parameters.datos_act.documento_cliente}}"
+            valorOriginal.replace(".","")
+            var valorData
+            {% for cliente in parameters.listacliente %}
+            valorData = "{{cliente.documento_cliente}}"
+            if(valor == valorData && valor != valorOriginal) {
+                flag = true
+            }
+            {% endfor %}
+
+            validacion = validarFormulario("item-documento", flag, "Nro. de documento ya se encuentra en uso.")
+        })
+
+        document.getElementById("btnCarga").addEventListener("click", () => validarFormularioEdicion(validacion))
     </script>
 
     <script src="{% static './js/jquery.chained.js' %}"></script>
