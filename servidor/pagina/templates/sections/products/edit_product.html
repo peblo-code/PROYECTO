@@ -191,6 +191,10 @@
         document.getElementById("chasis").addEventListener("keyup", (evt) => {
             var flag = false
             var valor = document.getElementById("chasis").value
+            var valorCorregido = ''
+            for(let i = 0; i < valor.length; i++) {
+                valorCorregido += valor.charAt(i).replace(".","")
+            }
             var valorData
             {% for producto in parameters.listaproducto %}
             valorData = "{{producto.nro_chassis_vehiculo}}"

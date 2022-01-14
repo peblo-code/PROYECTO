@@ -146,10 +146,12 @@
         var validacion = true
 
         document.getElementById("documento_cliente").addEventListener("keyup", (evt) => {
-            console.log("ou")
             var flag = false
             var valor = document.getElementById("documento_cliente").value
-            var valorCorregido = valor.replace(".","")
+            var valorCorregido = ''
+            for(let i = 0; i < valor.length; i++) {
+                valorCorregido += valor.charAt(i).replace(".","")
+            }
             var valorOriginal = "{{parameters.datos_act.documento_cliente}}"
             valorOriginal = valorOriginal.replace(".","")
             var valorData

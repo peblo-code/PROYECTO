@@ -28,7 +28,7 @@
             </a>
             <h1>{{ parameters.titulo }}</h1>
         </div>
-        <form action="{% url 'edit_client' parameters.clie_actual %}" method="POST" class="form-global-box" id="cargarCliente" onsubmit="return verificarFormulario(this)">
+        <form action="{% url 'edit_client' parameters.clie_actual %}" method="POST" class="form-global-box" id="cargarCliente" onsubmit="sessionStorage.setItem('1', 1);">
             {% csrf_token %}
             <div class="input-group">
                 <select class="custom-select" name="tipo_documento" id="tipo_documento" required>
@@ -142,7 +142,7 @@
         <div class="modal fade" id="edicion" role="dialog">
 
         </div>
-        <button class="btn btn-success" style="margin-top: 1em" form="cargarCliente" id="cargar">{{ parameters.titulo }}</button>
+        <button class="btn btn-success" style="margin-top: 1em" form="cargarCliente" id="cargar" onclick="return verificarFormulario(this)">{{ parameters.titulo }}</button>
     </div>
     <script src="{% static './js/jquery.js' %}"></script>
     <script src="{% static './js/jquery.chained.js' %}"></script>
@@ -165,11 +165,15 @@
         document.getElementById("documento_cliente").addEventListener("keyup", (evt) => {
             var flag = false
             var valor = document.getElementById("documento_cliente").value
-            valor = valor.replace(".","")
+            var valorCorregido = ''
+            for(let i = 0; i < valor.length; i++) {
+                valorCorregido += valor.charAt(i).replace(".","")
+            }
             var valorData
+            console.log(valorCorregido)
             {% for cliente in parameters.listacliente %}
             valorData = "{{cliente.documento_cliente}}"
-            if(valor == valorData) {
+            if(valorCorregido == valorData) {
                 flag = true
             }
             {% endfor %}

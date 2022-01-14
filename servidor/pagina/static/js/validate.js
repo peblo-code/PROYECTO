@@ -27,7 +27,7 @@ function validarFormulario(divValor, flag, message) {
         </div>`
         return alert
     }
-
+    debugger
 
     if(flag && !document.getElementById("alert-error")) {
        divValor.style = "display: inline"
