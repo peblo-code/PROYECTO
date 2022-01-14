@@ -1,7 +1,6 @@
  //CODIGO DE VALIDACION
 
 function verificarFormulario(form) {
-    debugger
     args = {
         TITLE: "Ups!",
         TEXT: "No se han podido registrar los datos. Por favor, asegúrese de que estén correctos.",
@@ -27,7 +26,6 @@ function validarFormulario(divValor, flag, message) {
         </div>`
         return alert
     }
-    debugger
 
     if(flag && !document.getElementById("alert-error")) {
        divValor.style = "display: inline"

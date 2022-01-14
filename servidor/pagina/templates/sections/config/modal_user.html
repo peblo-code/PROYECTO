@@ -28,10 +28,14 @@
                 {% csrf_token %}
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Nombre de Usuario</span>
+                        <span class="input-group-text" id="inputGroup-sizing-default">Id. del Usuario</span>
                     </div>
                     <input type="text" name="usuario" value="{{ parameters.datos_act.usuario }}" class="form-control"
-                        aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                        aria-label="Default" aria-describedby="inputGroup-sizing-default" id="id_usuario">
+                </div>
+
+                <div id="item-usuario" class="input-group mb-3" style="display: none">
+
                 </div>
 
                 <div class="input-group mb-3">
@@ -70,12 +74,19 @@
             </form>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" onclick="alertaConfirmar('',argsModal)">Confirmar</button>
+            <button class="btn btn-primary" id="btnCarga">Confirmar</button>
             <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
         </div>
     </div>
 
+    <script src="{% static './js/jquery.chained.js' %}"></script>
+    <script src="{% static './js/functions.js' %}"></script>
+    <script src="{% static './js/validate.js' %}"></script>
+    <script src="{% static './js/alerts.js' %}"></script>
+
     <script>
+        $("#modelo").chained("#marca")
+
         var argsModal = {
             TITLE: 'Advertencia!',
             TEXT: 'Estás seguro de modificar este Producto?',
@@ -84,10 +95,26 @@
             typeOfMethod: 'submitAndConfirm',
             btnId: 'editarUsuario'
         }
-    </script>
 
-    <script src="{% static './js/jquery.chained.js' %}"></script>
-    <script>
-        $("#modelo").chained("#marca")
+        var validacion = true
+
+        console.log(document.getElementById("id_usuario"))
+
+        document.getElementById("id_usuario").addEventListener("keyup", (evt) => {
+            var flag = false
+            var valor = document.getElementById("id_usuario").value
+            var valorOriginal = "{{parameters.datos_act.usuario}}"
+            var valorData
+            {% for user in parameters.listausuario %}
+            valorData = "{{user.usuario}}"
+            if(valor == valorData && valor != valorOriginal) {
+                flag = true
+            }
+            {% endfor %}
+
+            validacion = validarFormulario("item-usuario", flag, "Id del usuario ya se encuentra en uso.")
+        })
+
+        document.getElementById("btnCarga").addEventListener("click", () => validarFormularioEdicion(validacion))
     </script>
 </div>

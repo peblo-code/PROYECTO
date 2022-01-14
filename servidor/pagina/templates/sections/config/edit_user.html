@@ -24,14 +24,18 @@
             </a>
             <h1>{{parameters.titulo}}</h1>
         </div>
-        <form action="{% url 'edit_user' parameters.usu_actual %}" class="form-global-box" method="POST" id="cargarUsuario">
+        <form action="{% url 'edit_user' parameters.usu_actual %}" class="form-global-box" method="POST" id="cargarUsuario" onsubmit="sessionStorage.setItem('1', 1);">
             {% csrf_token %}
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroup-sizing-default">Nombre de Usuario</span>
+                    <span class="input-group-text" id="inputGroup-sizing-default">Id. del Usuario</span>
                 </div>
                 <input type="text" name="usuario" value="{{ parameters.datos_act.usuario }}"
-                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="id_usuario" required>
+            </div>
+
+            <div class="input-group mb-3" id="item-usuario" style="display: none">
+
             </div>
 
             <div class="input-group mb-3">
@@ -39,7 +43,7 @@
                     <span class="input-group-text" id="inputGroup-sizing-default">Nombre de Usuario</span>
                 </div>
                 <input type="text" name="nombre_completo" value="{{parameters.datos_act.nombre_completo}}"
-                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
             </div>
 
 
@@ -48,7 +52,7 @@
                     <span class="input-group-text" id="inputGroup-sizing-default">Clave</span>
                 </div>
                 <input type="password" name="clave" value="{{parameters.datos_act.clave}}"
-                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
             </div>
 
             <div class="input-group mb-3">
@@ -66,10 +70,11 @@
                 </select>
             </div>
         </form>
-        <button class="btn btn-success" onclick="alertaConfirmar('',args)" style="margin-top: 1em">{{ parameters.titulo }}</button>
+        <button class="btn btn-success" type="submit" form="cargarUsuario" onclick="return verificarFormulario(this)" style="margin-top: 1em">{{ parameters.titulo }}</button>
     </div>
     <script src="{% static './js/jquery.js' %}"></script>
     <script src="{% static 'js/alerts.js' %}"></script>
+    <script src="{% static 'js/validate.js' %}"></script>
     <script>
         var args = {
             TITLE: '', 
@@ -80,6 +85,18 @@
             btnId: 'cargarUsuario'
         }
 
+        document.getElementById("id_usuario").addEventListener("keyup", (evt) => {
+            var flag = false
+            var valor = document.getElementById("id_usuario").value
+            var valorData
+            {% for user in parameters.listausuario %}
+            valorData = "{{user.usuario}}"
+            if(valor == valorData) {
+                flag = true
+            }
+            {% endfor %}
+            validarFormulario("item-usuario", flag, "Id del usuario ya se encuentra en uso.")
+        })
     </script>
     {% endblock %}
 </body>

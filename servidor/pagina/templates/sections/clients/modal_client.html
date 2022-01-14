@@ -111,11 +111,11 @@
                     </div>
                     <select class="custom-select" id="genero_cliente" name="genero_cliente">
                         {% if parameters.datos_act.genero_cliente == 0%}
-                        <option value=0>Femenino</option>
-                        <option value=1 selected>Masculino</option>
+                        <option value="0" selected>Femenino</option>
+                        <option value="1">Masculino</option>
                         {% else %}
-                        <option value=0 selected>Femenino</option>
-                        <option value=1>Masculino</option>
+                        <option value="0">Femenino</option>
+                        <option value="1" selected>Masculino</option>
                         {% endif %}
                     </select>
                 </div>

@@ -287,15 +287,16 @@ def users(request):
 
 def edit_user(request, usu_actual=0):
     tipo_usu = tipo_usuario.objects.all()
+    listausuario = usuarios.objects.all()
     if request.method=="GET":
         usuario_actual=usuarios.objects.filter(id_usuario=usu_actual).exists()
         if usuario_actual:
             datos_usuario=usuarios.objects.filter(id_usuario=usu_actual).first()
             return validar(request, 'sections/config/modal_user.html',
-            {"datos_act":datos_usuario, "usu_actual":usu_actual, "titulo":"Editar Usuario", "tipo_usu":tipo_usu})
+            {"datos_act":datos_usuario, "usu_actual":usu_actual, "titulo":"Editar Usuario", "tipo_usu":tipo_usu, "listausuario":listausuario})
         else:
             return validar(request, "sections/config/edit_user.html",
-            {"nombre_completo":request.session.get("nombre_completo"), "usu_actual":usu_actual, "titulo":"Cargar Usuario", "tipo_usu":tipo_usu})
+            {"nombre_completo":request.session.get("nombre_completo"), "usu_actual":usu_actual, "titulo":"Cargar Usuario", "tipo_usu":tipo_usu, "listausuario":listausuario})
 
     if request.method=="POST":
         if usu_actual==0:
