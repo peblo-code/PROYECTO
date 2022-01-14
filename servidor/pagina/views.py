@@ -356,7 +356,7 @@ def edit_client(request, clie_actual=0):
 
     if request.method=="POST":
         if clie_actual==0:
-            cliente_nuevo=cliente(documento_cliente=request.POST.get('documento_cliente'),
+            cliente_nuevo=cliente(documento_cliente=request.POST.get('documento_cliente').replace(".",""),
             nombre_cliente=request.POST.get('nombre_cliente'),
             apellido_cliente=request.POST.get("apellido_cliente"),
             telefono_cliente=request.POST.get("telefono_cliente"),
@@ -368,7 +368,7 @@ def edit_client(request, clie_actual=0):
             cliente_nuevo.save()
         else:
             cliente_actual=cliente.objects.get(id_cliente=clie_actual)
-            cliente_actual.documento_cliente=request.POST.get("documento_cliente")
+            cliente_actual.documento_cliente=request.POST.get("documento_cliente").replace(".","")
             cliente_actual.nombre_cliente=request.POST.get("nombre_cliente")
             cliente_actual.apellido_cliente=request.POST.get("apellido_cliente")
             cliente_actual.telefono_cliente=request.POST.get("telefono_cliente")

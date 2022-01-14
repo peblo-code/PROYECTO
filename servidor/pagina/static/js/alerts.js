@@ -22,6 +22,7 @@ function alertaConfirmarAccion(url, successPhrase, typeOfMethod, btnId) {
             if(typeOfMethod == 'url') {
                 window.location.href = url
             } else {
+                sessionStorage.setItem('1', 1);
                 document.getElementById(btnId).submit()
             }
         }

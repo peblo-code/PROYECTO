@@ -36,7 +36,7 @@
             </a>
             <h1>{{parameters.titulo}}</h1>
         </div>
-        <form action="{% url 'edit_product' parameters.product_actual %}" method="POST" class="form-global-box" id="cargarProducto" onsubmit="return verificarFormulario(this)">
+        <form action="{% url 'edit_product' parameters.product_actual %}" method="POST" class="form-global-box" id="cargarProducto" onsubmit="sessionStorage.setItem('1', 1);">
             {% csrf_token %}
             <section class="form-section" >
                 <div class="form-item" id="item-marca">
@@ -165,7 +165,7 @@
 
             </section>
         </form>
-        <button class="btn btn-success" style="margin-top: 1em" type="submit" form="cargarProducto">Cargar Nuevo Producto</button>
+        <button class="btn btn-success" style="margin-top: 1em" type="submit" form="cargarProducto" onclick="return verificarFormulario(this)">Cargar Nuevo Producto</button>
 
         <div class="modal fade" id="edicion" role="dialog">
 

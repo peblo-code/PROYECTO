@@ -1,6 +1,7 @@
  //CODIGO DE VALIDACION
 
 function verificarFormulario(form) {
+    debugger
     args = {
         TITLE: "Ups!",
         TEXT: "No se han podido registrar los datos. Por favor, asegúrese de que estén correctos.",
@@ -9,8 +10,6 @@ function verificarFormulario(form) {
     if(document.getElementById("alert-error")) {
         alerta(args)
         return false
-    } else {
-        sessionStorage.setItem('1', 1);
     }
 }
 

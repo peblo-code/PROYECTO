@@ -149,13 +149,13 @@
             console.log("ou")
             var flag = false
             var valor = document.getElementById("documento_cliente").value
-            valor.replace(".","")
+            var valorCorregido = valor.replace(".","")
             var valorOriginal = "{{parameters.datos_act.documento_cliente}}"
-            valorOriginal.replace(".","")
+            valorOriginal = valorOriginal.replace(".","")
             var valorData
             {% for cliente in parameters.listacliente %}
             valorData = "{{cliente.documento_cliente}}"
-            if(valor == valorData && valor != valorOriginal) {
+            if(valorCorregido == valorData && valorCorregido != valorOriginal) {
                 flag = true
             }
             {% endfor %}
