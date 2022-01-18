@@ -178,6 +178,8 @@
     <script src="{% static 'js/alerts.js' %}"></script>
     <script src="{% static 'js/validate.js' %}"></script>
     <script>
+        window.onload = sessionStorage.setItem('1', 0);
+
         $("#modelo").chained("#marca")
 
         var $ = jQuery.noConflict();

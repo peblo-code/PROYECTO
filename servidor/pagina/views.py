@@ -127,13 +127,16 @@ def delete_product(request, product_actual):
 def mark_and_model(request, marcaModelo_actual = 0, tipo_carga = 0, redirigir = 0): #Funcion reutilizada en marca, modelo y color
     listamarca = marca.objects.all()
     listamodelo = modelo.objects.all()
-    listacolor = modelo.objects.all()
+    listacolor = color.objects.all() 
     if tipo_carga==0:   #Se detecta el tipo de carga
         titulo = 'Nueva Marca'
+        listaparametros = listamarca
     elif tipo_carga==1:
         titulo = 'Nuevo Modelo'
+        listaparametros = listamodelo
     else:
         titulo = 'Nuevo Color'
+        listaparametros = listacolor
     if request.method=="GET":
         marca_actual=marca.objects.filter(id_marca=marcaModelo_actual).exists()
         if marca_actual:    #Se retornan los datos existentes para actualizar
@@ -149,12 +152,12 @@ def mark_and_model(request, marcaModelo_actual = 0, tipo_carga = 0, redirigir = 
             return validar(request, "sections/products/mark_and_model.html",
             {"datos_act":datos_marca_modelo, "marca_actual":marca_actual, "titulo":titulo, #RETURN A VISTA DE ACTUALIZAR
             "marcaModelo_actual":marcaModelo_actual, "tipo_carga": tipo_carga, "redirigir":redirigir,
-            "listamarca":listamarca, "listamodelo": listamodelo, "listacolor":listacolor})
+            "listaparametros":listaparametros})
         else:   #Pasa a crear la marca o modelo
             return validar(request, "sections/products/mark_and_model.html",
             {"nombre_completo":request.session.get("nombre_completo"), "marca_actual":marca_actual, #RETURN A VISTA DE CARGA
             "titulo":titulo, "marcaModelo_actual":marcaModelo_actual, "tipo_carga": tipo_carga, "redirigir":redirigir,
-            "listamarca":listamarca, "listamodelo": listamodelo, "listacolor":listacolor})
+            "listaparametros":listaparametros, "listamarca":listamarca})
 
     if request.method=="POST":
         #Redirige luego de hacer la carga
@@ -174,10 +177,14 @@ def mark_and_model(request, marcaModelo_actual = 0, tipo_carga = 0, redirigir = 
                 marca_nueva=marca(descripcion_marca=request.POST.get('marca')) 
                 marca_nueva.save()
                 return redirect(urlPost)
-            else:
+            elif tipo_carga==1:
                 modelo_nuevo=modelo(descripcion_modelo=request.POST.get('modelo'),
                 id_marca_id=request.POST.get('marca'))
                 modelo_nuevo.save()
+                return redirect(urlPost)
+            else:
+                color_nuevo=color(descripcion_color=request.POST.get('color'))
+                color_nuevo.save()
                 return redirect(urlPost)
         else:
             marcaModelo_actual=usuarios.objects.get(descripcion_marca=marcaModelo_actual)
@@ -394,13 +401,18 @@ def disable_client(request, clie_actual, option):
 
 
 def parameters_modal_client(request, paisCiudad_actual=0, tipo_carga=0, redirigir=0):
+    listadocumento = tipo_documento.objects.all()
     listapais = pais.objects.all()
+    listaciudad = ciudad.objects.all()
     if tipo_carga==0:
         titulo = 'Nuevo Tipo Documento'
+        listaparametros = listadocumento
     elif tipo_carga==1:
         titulo = 'Nuevo País'
+        listaparametros = listapais
     else:
         titulo = 'Nueva Ciudad'
+        listaparametros = listaciudad
     if request.method=="GET":
         if tipo_carga==0:
             datos_actual = tipo_documento.objects.filter(id_tipo_documento=paisCiudad_actual).exists()
@@ -417,11 +429,11 @@ def parameters_modal_client(request, paisCiudad_actual=0, tipo_carga=0, redirigi
                 datos = ciudad.objects.filter(id_ciudad=paisCiudad_actual).first()
             return validar(request, 'sections/clients/parameters_modal_client.html',
             {"datos_act":datos, "datos_actual":datos_actual, "titulo":titulo, 
-            "paisCiudad_actual":paisCiudad_actual, "tipo_carga": tipo_carga, "redirigir":redirigir,"listapais":listapais})
+            "paisCiudad_actual":paisCiudad_actual, "tipo_carga": tipo_carga, "redirigir":redirigir, "listaparametros":listaparametros, "listapais":listapais})
         else:
             return validar(request, "sections/clients/parameters_modal_client.html",
             {"nombre_completo":request.session.get("nombre_completo"), "datos_actual":datos_actual, 
-            "titulo":titulo, "paisCiudad_actual":paisCiudad_actual, "tipo_carga": tipo_carga, "redirigir":redirigir, "listapais":listapais})
+            "titulo":titulo, "paisCiudad_actual":paisCiudad_actual, "tipo_carga": tipo_carga, "redirigir":redirigir, "listaparametros":listaparametros, "listapais":listapais})
 
     if request.method=="POST":
         if redirigir == 0:

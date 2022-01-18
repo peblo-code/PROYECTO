@@ -17,29 +17,33 @@
                 id="editarMarcaModelo">
                 {% csrf_token %}
                 {% if parameters.tipo_carga == 0%}
-                <div class="input-group mb-3 nueva-marca">
+                <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default" onclick="">Nueva Marca</span>
                     </div>
-                    <input type="text" name="marca" class="form-control" aria-label="Default"
-                        aria-describedby="inputGroup-sizing-default" id="marca">
+                    <input type="text" name="marca" class="form-control nueva-marca" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default" id="elemento">
                 </div>
 
-                <div class="input-group mb-3 nueva-marca" id="item-marca" style="display:none">
+                <div class="input-group mb-3" id="item-elemento" style="display:none">
 
                 </div>
 
                 {% elif parameters.tipo_carga == 1 %}
-                <div class="input-group mb-3 nuevo-modelo">
+                <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Nuevo Modelo</span>
                     </div>
-                    <input type="text" name="modelo" class="form-control" aria-label="Default"
-                        aria-describedby="inputGroup-sizing-default">
+                    <input type="text" name="modelo" class="form-control nueva-marca" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default" id="elemento">
+                </div>
+
+                <div class="input-group mb-3" id="item-elemento" style="display:none">
+
                 </div>
 
                 <div class="input-group">
-                    <select class="custom-select" name="marca" id="marca">
+                    <select class="custom-select" name="marca">
                         <option value="0" selected>------</option>
                         {% for marca in parameters.listamarca %}
                         {% if marca.id_marca == parameters.datos_act.id_marca_id %}
@@ -53,12 +57,15 @@
                 </div>
                 {% else %}
 
-                <div class="input-group mb-3 nueva-marca">
+                <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default" onclick="">Nuevo Color</span>
                     </div>
-                    <input type="text" name="color" class="form-control" aria-label="Default"
-                        aria-describedby="inputGroup-sizing-default">
+                    <input type="text" name="color" class="form-control nueva-marca" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default" id="elemento">
+                </div>
+                <div class="input-group mb-3" id="item-elemento" style="display:none">
+
                 </div>
 
                 {% endif %}
@@ -73,7 +80,6 @@
         <script src="{% static './js/validate.js' %}"></script>
         <script src="{% static './js/alerts.js' %}"></script>
         <script>
-
             var argsModal = {
                 TITLE: 'Advertencia!',
                 TEXT: 'Estás seguro de cargar este Parametro?',
@@ -85,23 +91,31 @@
 
             var validacion = true
 
-            document.getElementById("marca").addEventListener("keyup", (evt) => {
+            document.getElementById("elemento").addEventListener("keyup", (evt) => {
                 var flag = false
-                var valor = document.getElementById("marca").value
-                var valorOriginal = "{{parameters.datos_act.descripcion_marca}}"
+                var valor = document.getElementById("elemento").value
                 var valorData
-                {% for marca in parameters.listamarca %}
-                valorData = "{{marca.descripcion_marca}}"
-                if(valor == valorData && valor != valorOriginal) {
+                var msgError
+                
+                {% for parametro in parameters.listaparametros %}
+                    {% if parameters.tipo_carga == 0 %}
+                        valorData = "{{parametro.descripcion_marca}}"
+                        msgError = "Esa marca ya se existe."
+                    {% elif parameters.tipo_carga == 1 %}
+                        valorData = "{{parametro.descripcion_modelo}}"
+                        msgError = "Ese modelo ya se existe."
+                    {% else %}
+                        valorData = "{{parametro.descripcion_color}}"
+                        msgError = "Ese color ya se existe."
+                    {% endif %}
+                if(valor == valorData) {
                     flag = true
                 }
                 {% endfor %}
-            
-                validacion = validarFormulario("item-marca", flag, "Nombre de Marca ya se encuentra en uso.")
+                validacion = validarFormulario("item-elemento", flag, msgError)
             })
 
-            document.getElementById("btnCarga").addEventListener("click", () => validarFormularioEdicion(validacion))
+            document.getElementById("btnCarga").addEventListener("click", () => validarFormularioEdicion(validacion, "nueva-marca"))
         </script>
-
         <script src="{% static './js/jquery.chained.js' %}"></script>
     </div>

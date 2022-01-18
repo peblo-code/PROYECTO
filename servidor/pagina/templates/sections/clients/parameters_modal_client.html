@@ -21,16 +21,22 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Nuevo Documento</span>
                     </div>
-                    <input type="text" name="tipo_documento" class="form-control" aria-label="Default" 
-                    aria-describedby="inputGroup-sizing-default" value="{{parameters.datos_act.descripcion_tipo_documento}}">
+                    <input type="text" name="tipo_documento" class="form-control elemento" aria-label="Default" 
+                    aria-describedby="inputGroup-sizing-default" value="{{parameters.datos_act.descripcion_tipo_documento}}" id="cliente">
+                </div>
+                <div class="input-group mb-3" id="item-elemento" style="display:none">
+
                 </div>
                 {% elif parameters.tipo_carga == 1 %}
                 <div class="input-group mb-3 nuevo-modelo">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Nuevo Pais</span>
                     </div>
-                    <input type="text" name="pais" class="form-control" aria-label="Default"
-                        aria-describedby="inputGroup-sizing-default" value="{{parameters.datos_act.descripcion_pais}}">
+                    <input type="text" name="pais" class="form-control elemento" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default" value="{{parameters.datos_act.descripcion_pais}}" id="cliente">
+                </div>
+                <div class="input-group mb-3" id="item-elemento" style="display:none">
+
                 </div>
                 {% elif parameters.tipo_carga == 2 %}
                 <div class="input-group">
@@ -51,17 +57,23 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Nueva Ciudad</span>
                     </div>
-                    <input type="text" name="ciudad" class="form-control" aria-label="Default"
-                        aria-describedby="inputGroup-sizing-default" value="{{parameters.datos_act.descripcion_ciudad}}">
+                    <input type="text" name="ciudad" class="form-control elemento" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default" value="{{parameters.datos_act.descripcion_ciudad}}" id="cliente">
+                </div>
+                <div class="input-group mb-3" id="item-elemento" style="display:none">
+
                 </div>
                 {% endif %}
             </form>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" onclick="alertaConfirmar('',argsModal)">Confirmar</button>
+            <button class="btn btn-primary" id="btnCarga">Confirmar</button>
             <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
         </div>
 
+        <script src="{% static './js/functions.js' %}"></script>
+        <script src="{% static './js/validate.js' %}"></script>
+        <script src="{% static './js/alerts.js' %}"></script>
         <script>
 
             var argsModal = {
@@ -72,10 +84,47 @@
                 {% if parameters.paisCiudad_actual == 0 %}
                 typeOfMethod: 'submit',
                 {% else %}
-                typeOfMethod: 'submitAndConfirm',
+                typeOfMethod: 'confirm',
                 {% endif %}
                 btnId: 'cargarPaisCiudad'
             }
+
+            var validacion = true
+
+            {% if parameters.tipo_carga == 0 %}
+                var valorOriginal = "{{parameters.datos_act.descripcion_tipo_documento}}"
+            {% elif parameters.tipo_carga == 1 %}
+                var valorOriginal = "{{parameters.datos_act.descripcion_pais}}"
+            {% elif parameters.tipo_carga == 2 %}
+                var valorOriginal = "{{parameters.datos_act.descripcion_ciudad}}"
+            {% endif %}
+
+
+            document.getElementById("cliente").addEventListener("keyup", (evt) => {
+                var flag = false
+                var valor = document.getElementById("cliente").value
+                var valorData
+                var msgError
+                {% for parametro in parameters.listaparametros %}
+                    {% if parameters.tipo_carga == 0 %}
+                        valorData = "{{parametro.descripcion_tipo_documento}}"
+                        msgError = "Tipo de Documento ya se existe."
+                    {% elif parameters.tipo_carga == 1 %}
+                        valorData = "{{parametro.descripcion_pais}}"
+                        msgError = "Pais ya se existe."
+                    {% elif parameters.tipo_carga == 2 %}
+                        valorData = "{{parametro.descripcion_ciudad}}"
+                        msgError = "Ciudad ya se existe."
+                    {% endif %}
+                if(valor == valorData && valor != valorOriginal) {
+                    flag = true
+                }
+                {% endfor %}
+            
+                validacion = validarFormulario("item-elemento", flag, msgError)
+            })
+
+            document.getElementById("btnCarga").addEventListener("click", () => validarFormularioEdicion(validacion, "elemento"))
         </script>
 
         <script src="{% static './js/jquery.chained.js' %}"></script>
