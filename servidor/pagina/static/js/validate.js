@@ -10,6 +10,7 @@ function verificarFormulario(form) {
         alerta(args)
         return false
     }
+
 }
 
 
@@ -53,8 +54,6 @@ function validarFormulario(divValor, flag, message) {
     } else {
         verificarFormulario()
     }
-        
-        
     
 
   }

@@ -80,13 +80,33 @@
         <script src="{% static './js/validate.js' %}"></script>
         <script src="{% static './js/alerts.js' %}"></script>
         <script>
+
             var argsModal = {
                 TITLE: 'Advertencia!',
                 TEXT: 'Estás seguro de cargar este Parametro?',
                 ICON: 'warning', 
                 successPhrase:'actualizado',
                 typeOfMethod:'confirm',
-                btnId: 'editarMarcaModelo'
+                btnId: 'editarMarcaModelo',
+                ajx: true,
+                {% if parameters.tipo_carga == 0 %}
+                edit_name: 'edit_mark',
+                delete_name: 'delete_mark',
+                foreignFlag: true,
+                nombreSelect: 'elemento-1'
+
+                {% elif parameters.tipo_carga == 1 %}
+                edit_name: '',
+                delete_name: 'delete_model',
+                nombreSelect: 'elemento-2'
+
+                {% else %}
+                edit_name: 'edit_color',
+                delete_name: 'delete_color',
+                foreignFlag: true,
+                nombreSelect: 'elemento-3'
+
+                {% endif %}
             }
 
             var validacion = true
@@ -115,7 +135,7 @@
                 validacion = validarFormulario("item-elemento", flag, msgError)
             })
 
-            document.getElementById("btnCarga").addEventListener("click", () => validarFormularioEdicion(validacion, "nueva-marca"))
+            document.getElementById("btnCarga").addEventListener("click", () => validarFormularioEdicion(validacion, "nueva-marca", true))
         </script>
         <script src="{% static './js/jquery.chained.js' %}"></script>
     </div>

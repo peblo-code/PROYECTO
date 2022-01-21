@@ -1,3 +1,4 @@
+from distutils.log import error
 from django.shortcuts import redirect, render
 from pagina.models import usuarios
 from pagina.models import tipo_usuario
@@ -9,6 +10,8 @@ from pagina.models import tipo_documento
 from pagina.models import pais
 from pagina.models import ciudad
 from pagina.models import cliente
+from django.http import HttpResponse, JsonResponse, response
+from django.core import serializers
 
 # Create your views here.
 def validar(request, pageSuccess, parameters={}):
@@ -160,39 +163,41 @@ def mark_and_model(request, marcaModelo_actual = 0, tipo_carga = 0, redirigir = 
             "listaparametros":listaparametros, "listamarca":listamarca})
 
     if request.method=="POST":
-        #Redirige luego de hacer la carga
-        if redirigir == 0:
-            urlPost = '../../../edit_product/0'
-        elif redirigir == 1:
-            urlPost = '../../../mark'
-        elif redirigir == 2:
-            urlPost = '../../../models'
-        else:
-            urlPost = '../../../colors'
-        
-        redirigir = 0
-
-        if marcaModelo_actual==0:
-            if tipo_carga==0:
-                marca_nueva=marca(descripcion_marca=request.POST.get('marca')) 
-                marca_nueva.save()
-                return redirect(urlPost)
-            elif tipo_carga==1:
-                modelo_nuevo=modelo(descripcion_modelo=request.POST.get('modelo'),
-                id_marca_id=request.POST.get('marca'))
-                modelo_nuevo.save()
-                return redirect(urlPost)
+        if request.is_ajax():
+            #Redirige luego de hacer la carga
+            if redirigir == 0:
+                urlPost = '../../../edit_product/0'
+            elif redirigir == 1:
+                urlPost = '../../../mark'
+            elif redirigir == 2:
+                urlPost = '../../../models'
             else:
-                color_nuevo=color(descripcion_color=request.POST.get('color'))
-                color_nuevo.save()
-                return redirect(urlPost)
-        else:
-            marcaModelo_actual=usuarios.objects.get(descripcion_marca=marcaModelo_actual)
-            marcaModelo_actual.usuario=request.POST.get("modelo")
-            print(marcaModelo_actual)
-            marcaModelo_actual.save()
+                urlPost = '../../../colors'
+            redirigir = 0
 
-    return redirect('../../edit_product/0')
+            if marcaModelo_actual==0:
+                if tipo_carga==0:
+                    marca_nueva=marca(descripcion_marca=request.POST.get('marca'))
+                    marca_nueva.save()
+                    test = serializers.serialize('json', list(listamarca))
+                    #return redirect(urlPost)
+                elif tipo_carga==1:
+                    modelo_nuevo=modelo(descripcion_modelo=request.POST.get('modelo'),
+                    id_marca_id=request.POST.get('marca'))
+                    modelo_nuevo.save()
+                    test = serializers.serialize('json', list(listamodelo))
+                    #return redirect(urlPost)
+                else:
+                    color_nuevo=color(descripcion_color=request.POST.get('color'))
+                    color_nuevo.save()
+                    test = serializers.serialize('json', list(listacolor))
+                    #return redirect(urlPost)
+            error = 'No hay error!'
+            response = JsonResponse({'mensaje':test, 'error':error})
+            response.status_code = 201
+            return response
+
+    #return redirect('../../edit_product/0')
 
 def informes(request):
     return validar(request, 'sections/informs.html')
