@@ -43,14 +43,13 @@
                 </div>
 
                 <div class="input-group">
-                    <select class="custom-select" name="marca">
-                        <option value="0" selected>------</option>
+                    <select class="custom-select" name="marca" id="marca">
                         {% for marca in parameters.listamarca %}
                         {% if marca.id_marca == parameters.datos_act.id_marca_id %}
-                        <option value="{{marca.id_marca}}" id="opcion_select" selected>{{marca.descripcion_marca}}
+                        <option value="{{marca.id_marca}}" id="opcion_select" class="marca_select" selected>{{marca.descripcion_marca}}
                         </option>
                         {% else %}
-                        <option value="{{marca.id_marca}}" id="opcion_select">{{marca.descripcion_marca}}</option>
+                        <option value="{{marca.id_marca}}" id="opcion_select" class="marca_select">{{marca.descripcion_marca}}</option>
                         {% endif %}
                         {% endfor %}
                     </select>
@@ -80,6 +79,13 @@
         <script src="{% static './js/validate.js' %}"></script>
         <script src="{% static './js/alerts.js' %}"></script>
         <script>
+            {% if parameters.tipo_carga == 1 %}
+                var select = document.getElementById("marca")
+                var opcion = document.getElementsByClassName('marca_select')
+                var marcaForeign = ''
+                window.onload = marcaForeign = opcion[select.selectedIndex].text
+                select.addEventListener('change', () => {marcaForeign = opcion[select.selectedIndex].text})
+            {% endif %}
 
             var argsModal = {
                 TITLE: 'Advertencia!',
@@ -93,12 +99,12 @@
                 edit_name: 'edit_mark',
                 delete_name: 'delete_mark',
                 foreignFlag: true,
-                nombreSelect: 'elemento-1'
+                nombreSelect: 'elemento-1',
 
                 {% elif parameters.tipo_carga == 1 %}
                 edit_name: '',
                 delete_name: 'delete_model',
-                nombreSelect: 'elemento-2'
+                nombreSelect: 'elemento-2',
 
                 {% else %}
                 edit_name: 'edit_color',
