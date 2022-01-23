@@ -469,6 +469,8 @@ def parameters_modal_client(request, paisCiudad_actual=0, tipo_carga=0, redirigi
                 response = JsonResponse({'mensaje':test, 'error':error})
                 response.status_code = 201
                 return response
+            else:
+                return redirect(url)
         else:
             if tipo_carga==0:
                 tipo_documento_actual=tipo_documento.objects.get(id_tipo_documento=paisCiudad_actual)
@@ -485,4 +487,4 @@ def parameters_modal_client(request, paisCiudad_actual=0, tipo_carga=0, redirigi
                 ciudad_actual.descripcion_ciudad=request.POST.get("ciudad")
                 ciudad_actual.save()
 
-    #return redirect(url)
+            return redirect(url)

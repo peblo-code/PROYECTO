@@ -35,7 +35,6 @@ function alertaConfirmarAccion(url2, successPhrase, typeOfMethod, btnId, ajx, ed
 }
 
 function registrarAjx(formId, edit_name, delete_name, foreingFlag, nombreSelect, marcaForeign) {
-    debugger
     $.ajax({
         data: $(`#${formId}`).serialize(),
         url: $(`#${formId}`).attr('action'),
@@ -65,7 +64,6 @@ function registrarAjx(formId, edit_name, delete_name, foreingFlag, nombreSelect,
 }
 
 function actualizarTabla(listaTabla, edit_name, delete_name, foreingFlag, marcaForeign) {
-    debugger
     $('#tabla').DataTable().destroy();
     var lista = listaTabla[listaTabla.length-1]
     var columnas = ''

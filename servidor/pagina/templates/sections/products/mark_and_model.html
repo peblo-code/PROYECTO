@@ -79,6 +79,7 @@
         <script src="{% static './js/validate.js' %}"></script>
         <script src="{% static './js/alerts.js' %}"></script>
         <script>
+            var marcaForeign = ''
             {% if parameters.tipo_carga == 1 %}
                 var select = document.getElementById("marca")
                 var opcion = document.getElementsByClassName('marca_select')

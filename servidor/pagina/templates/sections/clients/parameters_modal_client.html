@@ -88,7 +88,10 @@
                 ICON: 'warning',
                 successPhrase: 'actualizado',
                 btnId: "cargarPaisCiudad",
+                {% if parameters.redirigir == 0 %}
                 ajx: true,
+                {% endif %}
+
                 {% if parameters.tipo_carga == 0 %}
                 edit_name: '',
                 delete_name: '',
