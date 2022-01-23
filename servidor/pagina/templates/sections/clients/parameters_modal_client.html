@@ -41,13 +41,12 @@
                 {% elif parameters.tipo_carga == 2 %}
                 <div class="input-group">
                     <select class="custom-select" name="pais" id="pais">
-                        <option value="0" selected>------</option>
                         {% for pais in parameters.listapais %}
                         {% if pais.id_pais == parameters.datos_act.id_pais_id %}
-                        <option value="{{pais.id_pais}}" id="opcion_select" selected>{{pais.descripcion_pais}}
+                        <option value="{{pais.id_pais}}" id="opcion_select" class="pais_select" selected>{{pais.descripcion_pais}}
                         </option>
                         {% else %}
-                        <option value="{{pais.id_pais}}" id="opcion_select">{{pais.descripcion_pais}}</option>
+                        <option value="{{pais.id_pais}}" id="opcion_select" class="pais_select">{{pais.descripcion_pais}}</option>
                         {% endif %}
                         {% endfor %}
                     </select>
@@ -75,12 +74,39 @@
         <script src="{% static './js/validate.js' %}"></script>
         <script src="{% static './js/alerts.js' %}"></script>
         <script>
+            var marcaForeign = ''
+            {% if parameters.tipo_carga == 2 %}
+                var select = document.getElementById("pais")
+                var opcion = document.getElementsByClassName('pais_select')
+                window.onload = marcaForeign = opcion[select.selectedIndex].text
+                select.addEventListener('change', () => {marcaForeign = opcion[select.selectedIndex].text})
+            {% endif %}
 
             var argsModal = {
                 TITLE: 'Advertencia!',
                 TEXT: 'Estas seguro de actualizar este registro?',
                 ICON: 'warning',
                 successPhrase: 'actualizado',
+                btnId: "cargarPaisCiudad",
+                ajx: true,
+                {% if parameters.tipo_carga == 0 %}
+                edit_name: '',
+                delete_name: '',
+                foreignFlag: true,
+                nombreSelect: 'elemento-1',
+
+                {% elif parameters.tipo_carga == 1 %}
+                edit_name: '',
+                delete_name: '',
+                nombreSelect: 'elemento-2',
+
+                {% else %}
+                edit_name: '',
+                delete_name: '',
+                foreignFlag: true,
+                nombreSelect: 'elemento-3',
+
+                {% endif %}
                 {% if parameters.paisCiudad_actual == 0 %}
                 typeOfMethod: 'submit',
                 {% else %}

@@ -35,6 +35,7 @@ function alertaConfirmarAccion(url2, successPhrase, typeOfMethod, btnId, ajx, ed
 }
 
 function registrarAjx(formId, edit_name, delete_name, foreingFlag, nombreSelect, marcaForeign) {
+    debugger
     $.ajax({
         data: $(`#${formId}`).serialize(),
         url: $(`#${formId}`).attr('action'),

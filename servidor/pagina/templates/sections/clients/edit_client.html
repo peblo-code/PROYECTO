@@ -31,7 +31,7 @@
         <form action="{% url 'edit_client' parameters.clie_actual %}" method="POST" class="form-global-box" id="cargarCliente" onsubmit="sessionStorage.setItem('1', 1);">
             {% csrf_token %}
             <div class="input-group">
-                <select class="custom-select" name="tipo_documento" id="tipo_documento" required>
+                <select class="custom-select" name="tipo_documento" id="elemento-1" required>
                     <option value="" data-chained="" selected></option>
                     {% for tipo_documento in parameters.listatipodoc %}
                     {% if tipo_documento.id_tipo_documento == parameters.datos_act.id_tipo_documento_id %}
@@ -88,7 +88,7 @@
             </div>
 
             <div class="input-group">
-                <select class="custom-select" name="pais" id="pais" required>
+                <select class="custom-select" name="pais" id="elemento-2" required>
                     <option value="" data-chained="" selected></option>
                     {% for pais in parameters.listapais %}
                     {% if pais.id_pais == parameters.datos_act.id_pais_id %}
@@ -106,7 +106,7 @@
 
 
             <div class="input-group">
-                <select class="custom-select" name="ciudad" id="ciudad" required>
+                <select class="custom-select" name="ciudad" id="elemento-3" required>
                     <option value="" data-chained="" selected></option>
                     {% for ciudad in parameters.listaciudad %}
                     {% if ciudad.id_ciudad == parameters.datos_act.id_ciudad_id %}
@@ -151,7 +151,7 @@
     <script src="{% static 'js/functions.js' %}"></script>
     <script>
 
-        $("#ciudad").chained("#pais")
+        $("#elemento3").chained("#elemento2")
 
         var $ = jQuery.noConflict();
         function abrirModalEdicion(url) {

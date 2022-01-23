@@ -173,7 +173,6 @@ def mark_and_model(request, marcaModelo_actual = 0, tipo_carga = 0, redirigir = 
                 urlPost = '../../../models'
             else:
                 urlPost = '../../../colors'
-            redirigir = 0
 
             if marcaModelo_actual==0:
                 if tipo_carga==0:
@@ -455,13 +454,21 @@ def parameters_modal_client(request, paisCiudad_actual=0, tipo_carga=0, redirigi
             if tipo_carga==0:
                 tipo_documento_nuevo=tipo_documento(descripcion_tipo_documento=request.POST.get('tipo_documento'))
                 tipo_documento_nuevo.save()
+                test = serializers.serialize('json', list(listadocumento))
             elif tipo_carga==1:
                 pais_nuevo=pais(descripcion_pais=request.POST.get('pais')) 
                 pais_nuevo.save()
+                test = serializers.serialize('json', list(listapais))
             else:
                 ciudad_nueva=ciudad(descripcion_ciudad=request.POST.get('ciudad'),
                 id_pais_id=request.POST.get('pais'))
                 ciudad_nueva.save()
+                test = serializers.serialize('json', list(listaciudad))
+            if redirigir == 0:
+                error = 'No hay error!'
+                response = JsonResponse({'mensaje':test, 'error':error})
+                response.status_code = 201
+                return response
         else:
             if tipo_carga==0:
                 tipo_documento_actual=tipo_documento.objects.get(id_tipo_documento=paisCiudad_actual)
@@ -478,4 +485,4 @@ def parameters_modal_client(request, paisCiudad_actual=0, tipo_carga=0, redirigi
                 ciudad_actual.descripcion_ciudad=request.POST.get("ciudad")
                 ciudad_actual.save()
 
-    return redirect(url)
+    #return redirect(url)
