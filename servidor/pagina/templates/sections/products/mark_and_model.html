@@ -17,54 +17,75 @@
                 id="editarMarcaModelo">
                 {% csrf_token %}
                 {% if parameters.tipo_carga == 0%}
-                <div class="input-group mb-3 nueva-marca">
+                <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default" onclick="">Nueva Marca</span>
                     </div>
-                    <input type="text" name="marca" class="form-control" aria-label="Default"
-                        aria-describedby="inputGroup-sizing-default">
+                    <input type="text" name="marca" class="form-control nueva-marca" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default" id="elemento">
                 </div>
+
+                <div class="input-group mb-3" id="item-elemento" style="display:none">
+
+                </div>
+
                 {% elif parameters.tipo_carga == 1 %}
-                <div class="input-group mb-3 nuevo-modelo">
+                <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Nuevo Modelo</span>
                     </div>
-                    <input type="text" name="modelo" class="form-control" aria-label="Default"
-                        aria-describedby="inputGroup-sizing-default">
+                    <input type="text" name="modelo" class="form-control nueva-marca" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default" id="elemento">
+                </div>
+
+                <div class="input-group mb-3" id="item-elemento" style="display:none">
+
                 </div>
 
                 <div class="input-group">
                     <select class="custom-select" name="marca" id="marca">
-                        <option value="0" selected>------</option>
                         {% for marca in parameters.listamarca %}
                         {% if marca.id_marca == parameters.datos_act.id_marca_id %}
-                        <option value="{{marca.id_marca}}" id="opcion_select" selected>{{marca.descripcion_marca}}
+                        <option value="{{marca.id_marca}}" id="opcion_select" class="marca_select" selected>{{marca.descripcion_marca}}
                         </option>
                         {% else %}
-                        <option value="{{marca.id_marca}}" id="opcion_select">{{marca.descripcion_marca}}</option>
+                        <option value="{{marca.id_marca}}" id="opcion_select" class="marca_select">{{marca.descripcion_marca}}</option>
                         {% endif %}
                         {% endfor %}
                     </select>
                 </div>
                 {% else %}
 
-                <div class="input-group mb-3 nueva-marca">
+                <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default" onclick="">Nuevo Color</span>
                     </div>
-                    <input type="text" name="color" class="form-control" aria-label="Default"
-                        aria-describedby="inputGroup-sizing-default">
+                    <input type="text" name="color" class="form-control nueva-marca" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default" id="elemento">
+                </div>
+                <div class="input-group mb-3" id="item-elemento" style="display:none">
+
                 </div>
 
                 {% endif %}
             </form>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" onclick="alertaConfirmar('',argsModal)">Confirmar</button>
+            <button class="btn btn-primary" id="btnCarga">Confirmar</button>
             <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
         </div>
 
+        <script src="{% static './js/functions.js' %}"></script>
+        <script src="{% static './js/validate.js' %}"></script>
+        <script src="{% static './js/alerts.js' %}"></script>
         <script>
+            {% if parameters.tipo_carga == 1 %}
+                var select = document.getElementById("marca")
+                var opcion = document.getElementsByClassName('marca_select')
+                var marcaForeign = ''
+                window.onload = marcaForeign = opcion[select.selectedIndex].text
+                select.addEventListener('change', () => {marcaForeign = opcion[select.selectedIndex].text})
+            {% endif %}
 
             var argsModal = {
                 TITLE: 'Advertencia!',
@@ -78,12 +99,12 @@
                 edit_name: 'edit_mark',
                 delete_name: 'delete_mark',
                 foreignFlag: true,
-                nombreSelect: 'elemento-1'
+                nombreSelect: 'elemento-1',
 
                 {% elif parameters.tipo_carga == 1 %}
                 edit_name: '',
                 delete_name: 'delete_model',
-                nombreSelect: 'elemento-2'
+                nombreSelect: 'elemento-2',
 
                 {% else %}
                 edit_name: 'edit_color',
@@ -93,7 +114,34 @@
 
                 {% endif %}
             }
-        </script>
 
+            var validacion = true
+
+            document.getElementById("elemento").addEventListener("keyup", (evt) => {
+                var flag = false
+                var valor = document.getElementById("elemento").value
+                var valorData
+                var msgError
+                
+                {% for parametro in parameters.listaparametros %}
+                    {% if parameters.tipo_carga == 0 %}
+                        valorData = "{{parametro.descripcion_marca}}"
+                        msgError = "Esa marca ya se existe."
+                    {% elif parameters.tipo_carga == 1 %}
+                        valorData = "{{parametro.descripcion_modelo}}"
+                        msgError = "Ese modelo ya se existe."
+                    {% else %}
+                        valorData = "{{parametro.descripcion_color}}"
+                        msgError = "Ese color ya se existe."
+                    {% endif %}
+                if(valor == valorData) {
+                    flag = true
+                }
+                {% endfor %}
+                validacion = validarFormulario("item-elemento", flag, msgError)
+            })
+
+            document.getElementById("btnCarga").addEventListener("click", () => validarFormularioEdicion(validacion, "nueva-marca", true))
+        </script>
         <script src="{% static './js/jquery.chained.js' %}"></script>
     </div>

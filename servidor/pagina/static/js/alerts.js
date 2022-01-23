@@ -1,4 +1,4 @@
-function alertaConfirmarAccion(url, successPhrase, typeOfMethod, btnId) {
+function alertaConfirmarAccion(url2, successPhrase, typeOfMethod, btnId, ajx, edit_name, delete_name, foreingFlag = false, nombreSelect) {
     let timerInterval
     Swal.fire({
         title: 'Cambios aplicados!',
@@ -20,11 +20,11 @@ function alertaConfirmarAccion(url, successPhrase, typeOfMethod, btnId) {
         /* Read more about handling dismissals below */
         if (result.dismiss === Swal.DismissReason.timer) {
             if(typeOfMethod == 'url') {
-                window.location.href = url
+                window.location.href = url2
             } else {
                 sessionStorage.setItem('1', 1);
                 if(ajx) {
-                    registrarAjx(btnId, edit_name, delete_name, foreingFlag, nombreSelect)
+                    registrarAjx(btnId, edit_name, delete_name, foreingFlag, nombreSelect, marcaForeign)
                 } else {
                     document.getElementById(btnId).submit()
                 }
@@ -34,14 +34,14 @@ function alertaConfirmarAccion(url, successPhrase, typeOfMethod, btnId) {
     })
 }
 
-function registrarAjx(formId, edit_name, delete_name, foreingFlag, nombreSelect) {
+function registrarAjx(formId, edit_name, delete_name, foreingFlag, nombreSelect, marcaForeign) {
     $.ajax({
         data: $(`#${formId}`).serialize(),
         url: $(`#${formId}`).attr('action'),
         type: $(`#${formId}`).attr('method'),
         success: function(response) {
             if(document.getElementById("tabla")) {
-                actualizarTabla( JSON.parse(response.mensaje), edit_name, delete_name, foreingFlag)
+                actualizarTabla( JSON.parse(response.mensaje), edit_name, delete_name, foreingFlag, marcaForeign)
             } else {
                 actualizarSelect( JSON.parse(response.mensaje), nombreSelect )
             }
@@ -63,7 +63,8 @@ function registrarAjx(formId, edit_name, delete_name, foreingFlag, nombreSelect)
     })
 }
 
-function actualizarTabla(listaTabla, edit_name, delete_name, foreingFlag) {
+function actualizarTabla(listaTabla, edit_name, delete_name, foreingFlag, marcaForeign) {
+    debugger
     $('#tabla').DataTable().destroy();
     var lista = listaTabla[listaTabla.length-1]
     var columnas = ''
@@ -74,10 +75,17 @@ function actualizarTabla(listaTabla, edit_name, delete_name, foreingFlag) {
         console.log("Iterando...");
         console.log("La clave es: " + clave);
         console.log("El valor es: " + valor);
-        columnas += 
-        `<td>
-            ${valor}
-        </td>`
+        if(clave.match(/id/g)) {
+            columnas += 
+            `<td>
+                ${marcaForeign}
+            </td>`
+        } else {
+            columnas += 
+            `<td>
+                ${valor}
+            </td>`
+        }
     }
 
     if(edit_name != '') {
@@ -131,7 +139,7 @@ function actualizarSelect(listaSelect, nombreSelect) {
 }
 
 //funcion que muestra una alerta para confirmar los cambios
-function alertaConfirmar(url, args) {
+function alertaConfirmar(url, args, marcaForeign) {
     return Swal.fire({
         title: args.TITLE,
         text: args.TEXT,
@@ -148,7 +156,7 @@ function alertaConfirmar(url, args) {
                 alertaConfirmarAccion(url, args.successPhrase, args.typeOfMethod)
             } else {
                 alertaConfirmarAccion(url, args.successPhrase, args.typeOfMethod, args.btnId, args.ajx, 
-                    args.edit_name, args.delete_name, args.foreingFlag, args.nombreSelect)
+                    args.edit_name, args.delete_name, args.foreingFlag, args.nombreSelect, marcaForeign)
             }
         }
     })

@@ -78,13 +78,13 @@
             {% endfor %}
 
             if(!flag) { //si la bandera es 0 quiere decir que no existe clave foranea, por la tanto es posible borrar
-                alertaConfirmar(url, args)
+                alertaConfirmar(url, argsDelete)
             } else {
                 alerta(args1)
             }
         }
 
-        var args = {
+        var argsDelete = {
             TITLE: 'Precaución!', 
             TEXT: 'Estás seguro de eliminar este Tipo de Documento?',
             ICON: 'warning', 
@@ -94,7 +94,7 @@
 
         var args1 = {
             TITLE: 'Error!', 
-            TEXT: 'No puedes eliminar esta documento porque ya tiene uno o mas clientes asociados!',
+            TEXT: 'No puedes eliminar este país porque ya tiene uno o mas clientes asociados!',
             ICON: 'error', 
         }
 

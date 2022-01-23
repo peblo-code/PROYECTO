@@ -10,13 +10,13 @@ function verificarFormulario(form) {
         alerta(args)
         return false
     }
+
 }
 
 
 function validarFormulario(divValor, flag, message) {
     //bandera
     divValor = document.getElementById(divValor)
-
     function alertMessage(message){
         var alert = 
         `<div class="alert alert-danger d-flex align-items-center" role="alert" id="alert-error" style="margin-bottom: 0px">
@@ -39,8 +39,8 @@ function validarFormulario(divValor, flag, message) {
     return true
  }
 
- function validarFormularioEdicion(validacion) {
-    let inputs = document.getElementsByClassName("form-control")
+ function validarFormularioEdicion(validacion, formValidar) {
+    let inputs = document.getElementsByClassName(formValidar)
     
     let flag = true
     for(let i=0; i < inputs.length; i++) {
@@ -50,12 +50,10 @@ function validarFormulario(divValor, flag, message) {
             i = inputs.length
         }
     } if(flag && validacion) {
-        return alertaConfirmar('',argsModal)
+        return alertaConfirmar('',argsModal, marcaForeign)
     } else {
         verificarFormulario()
     }
-        
-        
     
 
   }

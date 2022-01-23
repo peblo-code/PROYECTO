@@ -41,7 +41,7 @@
             <section class="form-section" >
                 <div class="form-item" id="item-marca">
                     <div class="input-group">
-                        <select class="custom-select" name="marca" id="marca" required>
+                        <select class="custom-select" name="marca" id="elemento-1" required>
                             <option value="" selected></option>
                             {% for marca in parameters.listamarca %}
                                 {% if marca.id_marca == parameters.datos_act.id_marca_id %}
@@ -52,13 +52,13 @@
                             {% endfor %}
                         </select>
                         <div class="input-group-append">
-                          <button class="btn btn-outline-secondary" type="button" onclick="abrirModalEdicion('{% url 'mark_and_model' 0 0 %}')">Nueva marca</button>
+                          <button class="btn btn-outline-secondary" id="boton1" type="button" onclick="abrirModalEdicion('{% url 'mark_and_model' 0 0 %}')">Nueva marca</button>
                         </div>
                     </div>
                 </div>
                 <div class="form-item" id="item-modelo">
                     <div class="input-group">
-                        <select class="custom-select" name="modelo" id="modelo" required>
+                        <select class="custom-select" name="modelo" id="elemento-2" required>
                             <option value="" selected></option>
                             {% for modelo in parameters.listamodelo %}
                                 {% if modelo.id_modelo == parameters.datos_act.id_modelo_id %}
@@ -69,14 +69,14 @@
                             {% endfor %}
                         </select>
                         <div class="input-group-append">
-                          <button class="btn btn-outline-secondary" type="button" onclick="abrirModalEdicion('{% url 'mark_and_model' 0 1 %}')">Nuevo modelo</button>
+                          <button class="btn btn-outline-secondary" id="boton2" type="button" onclick="abrirModalEdicion('{% url 'mark_and_model' 0 1 %}')">Nuevo modelo</button>
                         </div>
                     </div>
                 </div>
         
                 <div class="form-item" id="item-color">
                     <div class="input-group">
-                        <select class="custom-select" name="color" id="color" required>
+                        <select class="custom-select" name="color" id="elemento-3" required>
                             <option value="" selected></option>
                             {% for color in parameters.listacolor %}
                                 {% if color.id_color == parameters.datos_act.id_color_id %}
@@ -87,7 +87,7 @@
                             {% endfor %}
                         </select>
                         <div class="input-group-append">
-                          <button class="btn btn-outline-secondary" onclick="abrirModalEdicion('{% url 'mark_and_model' 0 2 %}')" type="button">Nuevo color</button>
+                          <button class="btn btn-outline-secondary" id="boton3" onclick="abrirModalEdicion('{% url 'mark_and_model' 0 2 %}')" type="button">Nuevo color</button>
                         </div>
                     </div>
                 </div>
@@ -178,7 +178,9 @@
     <script src="{% static 'js/alerts.js' %}"></script>
     <script src="{% static 'js/validate.js' %}"></script>
     <script>
-        $("#modelo").chained("#marca")
+        window.onload = sessionStorage.setItem('1', 0);
+
+        $("#elemento-2").chained("#elemento-1")
 
         var $ = jQuery.noConflict();
         function abrirModalEdicion(url) {

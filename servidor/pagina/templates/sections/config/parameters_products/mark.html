@@ -34,7 +34,7 @@
             <thead>
                 <tr>
                     <th>Marca</th>
-                    <th style="text-align:end">Acciones</th>
+                    <th style="text-align: end">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -78,13 +78,13 @@
             {% endfor %}
 
             if(!flag) { //si la bandera es 0 quiere decir que no existe clave foranea, por la tanto es posible borrar
-                alertaConfirmar(url, args)
+                alertaConfirmar(url, argsDelete)
             } else {
                 alerta(args1)
             }
         }
 
-        var args = {
+        var argsDelete = {
             TITLE: 'Precaución!', 
             TEXT: 'Estás seguro de eliminar este Producto?',
             ICON: 'warning', 
@@ -104,6 +104,7 @@
                 $(this).modal('show');
             })
         }
+
 
     </script>
     {% endblock %}
