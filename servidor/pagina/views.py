@@ -216,7 +216,7 @@ def parameters_clients(request):
 def mark(request):
     listamarca = marca.objects.all()
     listamodelo = modelo.objects.all()
-    return validar(request, 'sections/config/parameters_products/mark.html',{"listamarca":listamarca, "listamodelo":listamodelo})
+    return validar(request, 'sections/config/parameters_products/mark.html',{"listamarca":listamarca, "listamodelo":listamodelo, "listaproducto":listaproducto})
 
 def edit_mark(request, mark_actual=0):
     listamarca = marca.objects.all()
@@ -247,9 +247,10 @@ def edit_color(request, color_actual=0):
     return redirect('../color')
 
 def models(request):
+    listaproducto = vehiculo.objects.all()
     listamarca = marca.objects.all()
     listamodelo = modelo.objects.all()
-    return validar(request, 'sections/config/parameters_products/models.html',{"listamarca":listamarca,"listamodelo":listamodelo})
+    return validar(request, 'sections/config/parameters_products/models.html',{"listamarca":listamarca,"listamodelo":listamodelo, "listaproducto": listaproducto})
 
 def colors(request):
     listaproducto = vehiculo.objects.all()

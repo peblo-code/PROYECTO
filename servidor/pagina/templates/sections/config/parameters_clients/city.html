@@ -46,7 +46,7 @@
                     <td>{{pais.descripcion_pais}}</td>
                     <td>{{ciudad.descripcion_ciudad}}</td>
                     <td class="actions" style="justify-content:end">
-                        <button class="btn btn-danger" onclick="detectForeing('{% url 'delete_country' pais.id_pais %}', '{{pais.id_pais}}')">
+                        <button class="btn btn-danger" onclick="detectForeing('{% url 'delete_city' ciudad.id_ciudad %}', '{{pais.id_pais}}')">
                             Borrar
                         </button>
                     </td>

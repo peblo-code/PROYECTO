@@ -47,7 +47,7 @@
                     <td>{{modelo.descripcion_modelo}}</td>
 
                     <td class="actions" style="justify-content:end">
-                        <button class="btn btn-danger" onclick="alertaConfirmar('{% url 'delete_model' modelo.id_modelo %}', args)">
+                        <button class="btn btn-danger" onclick="detectForeing('{% url 'delete_model' modelo.id_modelo %}', '{{modelo.id_modelo}}')">
                             Borrar
                         </button>
                     </td>
@@ -71,12 +71,35 @@
     <script type="text/javascript" src="{% static 'js/DataTables/js/datatables.min.js' %}"></script>
     <script type="text/javascript">
         dataTable()
-        var args = {
+        function detectForeing(url, id_marca) { //funcion que comprueba si la marca contiene una clave foranea
+            var flag = 0;
+            var id_modelo
+            {% for producto in parameters.listaproducto %}  // bucle de los id de modelos 
+                id_modelo = {{ producto.id_modelo_id }}
+                if(id_marca == id_modelo) { //se existe un id de marca en la tabla de modelos la bandera pasa a ser 1
+                    flag = 1
+                }
+            {% endfor %}
+
+            if(!flag) { //si la bandera es 0 quiere decir que no existe clave foranea, por la tanto es posible borrar
+                alertaConfirmar(url, argsDelete)
+            } else {
+                alerta(args1)
+            }
+        }
+
+        var argsDelete = {
             TITLE: 'Precaución!', 
-            TEXT: 'Estás seguro de eliminar este Producto?',
+            TEXT: 'Estás seguro de eliminar este Modelo?',
             ICON: 'warning', 
             successPhrase:'eliminado',
             typeOfMethod:'url',
+        }
+
+        var args1 = {
+            TITLE: 'Error!', 
+            TEXT: 'No puedes eliminar este modelo porque ya existen productos empleandolo!',
+            ICON: 'error', 
         }
 
         var $ = jQuery.noConflict();
