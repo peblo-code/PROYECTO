@@ -67,7 +67,7 @@
     <script type="text/javascript">
         dataTable()
 
-        function detectForeing(url, id_documento) { //funcion que comprueba si la documento contiene una clave foranea
+        function detectForeing(url, id_documento) { //funcion que comprueba si el documento contiene una clave foranea
             var flag = 0;
             {% for cliente in parameters.listacliente %}  // bucle de los id de modelos 
                 var id_cliente = {{ cliente.id_tipo_documento_id }}
