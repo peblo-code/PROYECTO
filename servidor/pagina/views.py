@@ -63,7 +63,6 @@ def productos(request):
     listamarca = marca.objects.all()
     listamodelo = modelo.objects.all()
     listacolor = color.objects.all()
-
     return validar(request, 'sections/products/products.html',{"listaproducto":listaproducto, "listamarca":listamarca, 
     "listamodelo": listamodelo, "listacolor":listacolor})
 
