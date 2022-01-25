@@ -94,7 +94,7 @@ def edit_product(request, product_actual = 0):
             nro_chassis_vehiculo=request.POST.get("chasis"),
             precio_costo=request.POST.get("costo").replace(".","") ,
             precio_venta=request.POST.get("venta").replace(".","") ,
-            estado_vehiculo=1)
+            estado_vehiculo=2)
             vehiculo_nuevo.save()
         else:
             vehiculo_actual=vehiculo.objects.get(id_vehiculo=product_actual)
@@ -107,7 +107,7 @@ def edit_product(request, product_actual = 0):
             vehiculo_actual.nro_chassis_vehiculo=request.POST.get("chasis")
             vehiculo_actual.precio_costo=request.POST.get("costo").replace(".","")
             vehiculo_actual.precio_venta=request.POST.get("venta").replace(".","")
-            vehiculo_actual.estado_vehiculo=request.POST.get("existencia")
+            vehiculo_actual.estado_vehiculo=2
             vehiculo_actual.save()
         return redirect("../productos")
 
@@ -216,7 +216,7 @@ def parameters_clients(request):
 def mark(request):
     listamarca = marca.objects.all()
     listamodelo = modelo.objects.all()
-    return validar(request, 'sections/config/parameters_products/mark.html',{"listamarca":listamarca, "listamodelo":listamodelo, "listaproducto":listaproducto})
+    return validar(request, 'sections/config/parameters_products/mark.html',{"listamarca":listamarca, "listamodelo":listamodelo})
 
 def edit_mark(request, mark_actual=0):
     listamarca = marca.objects.all()

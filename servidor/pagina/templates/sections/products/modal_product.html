@@ -145,28 +145,6 @@
 
                     </div>
 
-                    <div class="form-item-radio">
-                        {% if parameters.datos_act.estado_vehiculo == 0%}
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="si" name="existencia" class="custom-control-input" value=1>
-                            <label class="custom-control-label" for="si">Disponible</label>
-                          </div>
-                          <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="no" name="existencia" class="custom-control-input" value=0 checked>
-                            <label class="custom-control-label" for="no">No disponible</label>
-                        </div>
-                        {% else %}
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="si" name="existencia" class="custom-control-input" checked value=1>
-                            <label class="custom-control-label" for="si">Disponible</label>
-                          </div>
-                          <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="no" name="existencia" class="custom-control-input" value=0>
-                            <label class="custom-control-label" for="no">No disponible</label>
-                        </div>
-                        {% endif %}
-                    </div>
-
                 </section>
             </form>
         </div>

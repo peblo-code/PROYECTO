@@ -42,12 +42,13 @@
                     <th>Año</th>
                     <th>Color</th>
                     <th>Precio Venta</th>
-                    <th>Disponibilidad</th>
+                    <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 {% for lista in parameters.listaproducto %}
+                {% if lista.estado_vehiculo > 0 %}
                 <tr>
                     {% for marca in parameters.listamarca %}
                     {% if marca.id_marca == lista.id_marca_id %}
@@ -73,10 +74,14 @@
 
                     <td class="precio">{{ lista.precio_venta }}</td>
 
-                    {% if lista.estado_vehiculo == 0 %}
-                    <td style="color: red;" id="estado">No Disponible</td>
+                    {% if lista.estado_vehiculo == 1 %}
+                    <td>
+                        <span class="badge bg-success" style="color: white">DISPONIBLE</span>
+                    </td>
                     {% else %}
-                    <td style="color: green">Disponible</td>
+                    <td>
+                        <span class="badge bg-secondary" style="color: white">LISTO</span>
+                    </td>
                     {% endif %}
 
                     <td class="actions">
@@ -89,6 +94,7 @@
                         </button>
                     </td>
                 </tr>
+                {% endif %}
                 {% endfor %}
             </tbody>
         </table>

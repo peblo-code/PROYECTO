@@ -50,7 +50,7 @@ function validarFormulario(divValor, flag, message) {
             i = inputs.length
         }
     } if(flag && validacion) {
-        return alertaConfirmar('',argsModal, marcaForeign)
+        return alertaConfirmar('',argsModal, marcaForeign='')
     } else {
         verificarFormulario()
     }
