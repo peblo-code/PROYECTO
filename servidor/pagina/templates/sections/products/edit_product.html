@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ parameters.titulo }}</title>
+    <link rel="stylesheet" href="{% static './css/index.css' %}">
     <link rel="stylesheet" href="{% static './css/section-styles/products/edit_product.css' %}">
     <!-- Fuentes de Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,7 +37,7 @@
             </a>
             <h1>{{parameters.titulo}}</h1>
         </div>
-        <form action="{% url 'edit_product' parameters.product_actual %}" method="POST" class="form-global-box" id="cargarProducto" onsubmit="sessionStorage.setItem('1', 1);">
+        <form action="{% url 'edit_product' parameters.product_actual %}" method="POST" class="form-global-box menu-fade" id="cargarProducto" onsubmit="sessionStorage.setItem('1', 1);">
             {% csrf_token %}
             <section class="form-section" >
                 <div class="form-item" id="item-marca">
@@ -192,14 +193,14 @@
 
         document.getElementById("chasis").addEventListener("keyup", (evt) => {
             var flag = false
-            var valor = document.getElementById("chasis").value
+            var valor = document.getElementById("chasis").value.toLowerCase();
             var valorCorregido = ''
             for(let i = 0; i < valor.length; i++) {
                 valorCorregido += valor.charAt(i).replace(".","")
             }
             var valorData
             {% for producto in parameters.listaproducto %}
-            valorData = "{{producto.nro_chassis_vehiculo}}"
+            valorData = "{{producto.nro_chassis_vehiculo}}".toLowerCase()
             if(valor == valorData) {
                 flag = true
             }

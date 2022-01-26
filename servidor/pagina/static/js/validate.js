@@ -15,6 +15,7 @@ function verificarFormulario(form) {
 
 
 function validarFormulario(divValor, flag, message) {
+    debugger
     //bandera
     divValor = document.getElementById(divValor)
     function alertMessage(message){
@@ -30,17 +31,22 @@ function validarFormulario(divValor, flag, message) {
     if(flag && !document.getElementById("alert-error")) {
        divValor.style = "display: inline"
        divValor.innerHTML += alertMessage(message)
-       return false
     } else if(document.getElementById("alert-error") && flag == false) {
        divValor.removeChild(document.getElementById("alert-error"))
        divValor.style = "display: none"
-    } 
-
-    return true
+    }
+    
+    if(flag) {
+        return false;
+    } else {
+        return true;
+    }
  }
 
  function validarFormularioEdicion(validacion, formValidar) {
     let inputs = document.getElementsByClassName(formValidar)
+    console.log("estoy en la validacion")
+    debugger
     
     let flag = true
     for(let i=0; i < inputs.length; i++) {

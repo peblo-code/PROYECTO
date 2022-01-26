@@ -174,11 +174,11 @@
         document.getElementById("chasis").addEventListener("keyup", (evt) => {
             console.log("ou")
             var flag = false
-            var valor = document.getElementById("chasis").value
-            var valorOriginal = "{{parameters.datos_act.nro_chassis_vehiculo}}"
+            var valor = document.getElementById("chasis").value.toLowerCase();
+            var valorOriginal = "{{parameters.datos_act.nro_chassis_vehiculo}}".toLowerCase();
             var valorData
             {% for producto in parameters.listaproducto %}
-            valorData = "{{producto.nro_chassis_vehiculo}}"
+            valorData = "{{producto.nro_chassis_vehiculo}}".toLowerCase();
             if(valor == valorData && valor != valorOriginal) {
                 flag = true
             }
