@@ -1,0 +1,95 @@
+{% extends 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    {% block cuerpo %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}">
+    <link rel="stylesheet" href="{% static 'css/section-styles/globals-section.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tables.css' %}">
+    <link rel="stylesheet" href="{% static 'css/section-styles/invoice.css' %}">
+    <title>Generar Compra</title>
+</head>
+<body>
+    <div class="form-container">
+        <div class="title-and-back">
+            <a href="factura" style="text-decoration: none">
+                <span class="icon-circle-left"></span>
+            </a>
+            <h1>Generar Compra</h1>
+        </div>
+
+        <div class="card menu-fade">
+            <div class="card-body">
+                <form action="" method="POST" class="form-invoice" id="cargarProducto">
+                    {% csrf_token %}
+                    <div class="form-body" style="margin-bottom: 1em">
+                        <section class="form-section-invoice">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Proveedor" aria-describedby="button-addon4" disabled>
+                                <div class="input-group-append" id="button-addon4">
+                                  <button class="btn btn-outline-primary" type="button">Seleccionar</button>
+                                  <button class="btn btn-outline-success" type="button">Nuevo</button>
+                                </div>
+                              </div>
+                        </section>
+                        <section class="form-section-invoice">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="inputGroup-sizing-default">RUC</span>
+                                </div>
+                                <input type="number" name="motor" id="motor" value="{{ parameters.datos_act.motor_vehiculo }}"
+                                class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="form-body">
+                        <section class="form-section-invoice">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <label class="input-group-text" for="transmision">Nro. Timbrado</label>
+                                </div>
+                                <select class="custom-select" id="transmision" name="transmision" required>
+                                    <option value="Automatica">Automática</option>
+                                    <option value="Manual" selected>Manual</option>
+                                </select>
+                            </div>
+                        </section>
+                        <section class="form-section-invoice">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="inputGroup-sizing-default">Nro. Factura</span>
+                                </div>
+                                <input type="number" name="motor" id="motor" value="{{ parameters.datos_act.motor_vehiculo }}"
+                                class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
+                            </div>
+                        </section>
+                        <section class="form-section-invoice">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="transmision">Fecha Vto.</label>
+                                </div>
+                                <input type="date" name="motor" id="motor" value="{{ parameters.datos_act.motor_vehiculo }}"
+                                class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                            </div>
+                        </section>
+                        <section class="form-section-invoice">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="transmision">Fecha Act.</label>
+                                </div>
+                                <input type="date" name="motor" id="motor" value="{{ parameters.datos_act.motor_vehiculo }}"
+                                class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                            </div>
+                        </section>
+                    </div>
+                </form>
+            </div>
+          </div>
+    </div>
+    {% endblock %}
+</body>
+</html>

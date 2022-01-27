@@ -203,6 +203,9 @@ def informes(request):
 def factura(request):
     return validar(request, 'sections/invoice.html')
 
+def factura_compra(request):
+    return validar(request, 'sections/invoice/invoice-buy.html')
+
 def config(request):
     return validar(request, 'sections/config.html')
 

@@ -7,85 +7,52 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{static '../css/globals.css'}">
-    <link rel="stylesheet" href="{statis '../css/section-styles/globals-section.css'}">
-    <link rel="stylesheet" href="{static '../css/tables.css'}">
-    <link rel="stylesheet" href="{static '../css/section-styles/invoice.css'}">
-    <title>Generar Factura</title>
+    <title>Parametros de Clientes: Automotores Benedix</title>
+    <link rel="stylesheet" href="{% static './css/globals.css' %}">
+    <link rel="stylesheet" href="{% static './css/header.css' %}">
+    <link rel="stylesheet" href="{% static './css/index.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/config.css' %}">
+     <!-- Fuentes de Google -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap" rel="stylesheet">
+     <!-- Fuentes de Google -->
 </head>
 <body>
-    <div class="form-container">
-        <div class="title-and-back">
-            <a href="{static '../index.html'}">
-                <span class="icon-circle-left"></span>
-            </a>
-            <h1>Generar Factura</h1>
-        </div>
-        <form action="" class="form-global-box">
-            <div class="form-global-box-container">
-                <div class="form-item">
-                    <h4>Nro. Factura</h4>
-                        <input type="number" disabled>
-                    </div>
-                    <div class="form-item">
-                        <h4>Fecha</h4>
-                        <input id="fechaActual" type="date" required>
-                    </div>
-                    <div class="form-item">
-                        <h4>RUC</h4>
-                        <input type="number" required>
-                    </div>
-                    <div class="form-item large">
-                        <h4>Producto</h4>
-                        <input type="text">
-                    </div>
-                    <div class="form-item"></div>
-                    <div class="form-item large">
-                        <h4>Razon Social</h4>
-                        <input type="text">
-                    </div>
+    <section class="menu-card menu-top">
+        <div class="container">
+            <div class="card">
+                <div class="card-icon" style="background: #B80C09;">
                 </div>
-                <div class="main-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Descripcion</th><th>Mes</th><th>Costo</th>
-                            </tr>
-                        </thead>
-    
-                        <tr>
-                            <td>Agua</td><td>Enero</td><td>$ 3,000</td>
-                        </tr>
-                        <tr>
-                            <td>Luz</td><td>Febrero</td><td>$ 5,500</td>
-                        </tr>
-                        <tr>
-                            <td>Coche</td><td>Marzo</td><td>$ 10,100</td>
-                        </tr>
-                        <tr>
-                            <td>Internet</td><td>Abril</td><td>$ 450</td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="bottom-form-global-box">
-                    <div class="form-item">
-                        <h4>SubTotal</h4>
-                        <input type="number" required>
-                    </div>
-                    <div class="form-item">
-                        <h4>IVA</h4>
-                        <input type="number" required>
-                    </div>
-                    <div class="form-item">
-                        <h4>Total</h4>
-                        <input type="number" required>
-                    </div>
-                </div>
-                <button type="submit" class="btn-cargar">Cargar Producto</button>
+                <h4>Caja</h4>
+                <p>Administre lista de Tipos de Documentos</p>
+                <a href="#">Ingresar</a>
             </div>
-        </form>
-    </div>
-    <script src="{static '../js/functions.js'}"></script>
+            <div class="card">
+                <div class="card-icon" style="background: #0b4f6c;">
+                </div>
+                <h4>Generar Compra</h4>
+                <p>Administre lista de Países.</p>
+                <a href="factura_compra">Ingresar</a>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: #01BAEF;">
+                    
+                </div>
+                <h4>Generar Venta</h4>
+                <p>Administre lista de Ciudades.</p>
+                <a href="#">Ingresar</a>
+            </div>
+            <div class="card">
+                <div class="card-icon">
+                    <span class="icon-circle-left"></span>
+                </div>
+                <h4>Regresar</h4>
+                <p>Regresa al menu principal</p>
+                <a href="inicio">Ingresar</a>
+            </div>
+        </div>
+    </section>
     {% endblock %}
 </body>
 </html>
