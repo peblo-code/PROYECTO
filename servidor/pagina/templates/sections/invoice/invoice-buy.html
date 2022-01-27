@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/globals.css' %}">
+    <link rel="stylesheet" href="{% static 'css/section-styles/invoice.css' %}">
     <link rel="stylesheet" href="{% static 'css/section-styles/globals-section.css' %}">
     <link rel="stylesheet" href="{% static 'css/tables.css' %}">
     <link rel="stylesheet" href="{% static 'css/section-styles/invoice.css' %}">
@@ -26,17 +27,17 @@
             <div class="card-body">
                 <form action="" method="POST" class="form-invoice" id="cargarProducto">
                     {% csrf_token %}
-                    <div class="form-body" style="margin-bottom: 1em">
-                        <section class="form-section-invoice">
-                            <div class="input-group">
+                    <div class="form-body" id="proveedor-data">
+                        <div class="form-div-invoice">
+                            <div class="input-group mb-3">
                                 <input type="text" class="form-control" placeholder="Proveedor" aria-describedby="button-addon4" disabled>
                                 <div class="input-group-append" id="button-addon4">
                                   <button class="btn btn-outline-primary" type="button">Seleccionar</button>
                                   <button class="btn btn-outline-success" type="button">Nuevo</button>
                                 </div>
                               </div>
-                        </section>
-                        <section class="form-section-invoice">
+                        </div>
+                        <div class="form-div-invoice">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text" id="inputGroup-sizing-default">RUC</span>
@@ -44,10 +45,19 @@
                                 <input type="number" name="motor" id="motor" value="{{ parameters.datos_act.motor_vehiculo }}"
                                 class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
                             </div>
-                        </section>
+                        </div>
+                        <div class="form-div-invoice">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="transmision">Fecha Act.</label>
+                                </div>
+                                <input type="input" name="motor" id="motor" value="{{ parameters.datos_act.motor_vehiculo }}"
+                                class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-body">
-                        <section class="form-section-invoice">
+                    <div class="form-body" id="factura-data">
+                        <div class="form-div-invoice">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                   <label class="input-group-text" for="transmision">Nro. Timbrado</label>
@@ -57,8 +67,8 @@
                                     <option value="Manual" selected>Manual</option>
                                 </select>
                             </div>
-                        </section>
-                        <section class="form-section-invoice">
+                        </div>
+                        <div class="form-div-invoice">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text" id="inputGroup-sizing-default">Nro. Factura</span>
@@ -66,25 +76,16 @@
                                 <input type="number" name="motor" id="motor" value="{{ parameters.datos_act.motor_vehiculo }}"
                                 class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
                             </div>
-                        </section>
-                        <section class="form-section-invoice">
+                        </div>
+                        <div class="form-div-invoice">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="transmision">Fecha Vto.</label>
                                 </div>
-                                <input type="date" name="motor" id="motor" value="{{ parameters.datos_act.motor_vehiculo }}"
-                                class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                                <input type="input" name="motor" id="motor" value="{{ parameters.datos_act.motor_vehiculo }}"
+                                class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
                             </div>
-                        </section>
-                        <section class="form-section-invoice">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="transmision">Fecha Act.</label>
-                                </div>
-                                <input type="date" name="motor" id="motor" value="{{ parameters.datos_act.motor_vehiculo }}"
-                                class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-                            </div>
-                        </section>
+                        </div>
                     </div>
                 </form>
             </div>
