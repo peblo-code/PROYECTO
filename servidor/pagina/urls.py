@@ -13,6 +13,7 @@ urlpatterns = [
     path('mark_and_model/<int:marcaModelo_actual>/<int:tipo_carga>/<int:redirigir>', views.mark_and_model, name='mark_and_model'),
     path('informes', views.informes, name='informes'),
     path('factura', views.factura, name='factura'),
+    path('factura_compra', views.factura_compra, name='factura_compra'),
     path('cancelar_pagare', views.cancelar_pagare, name='cancelar_pagare'),
     path('clientes/<int:mode>', views.clientes, name='clientes'),
     path('edit_client/<int:clie_actual>', views.edit_client, name="edit_client"),
