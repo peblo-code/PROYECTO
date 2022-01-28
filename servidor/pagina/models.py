@@ -64,3 +64,17 @@ class cliente(models.Model):
     id_tipo_documento = models.ForeignKey(tipo_documento, on_delete=models.CASCADE)
     id_pais = models.ForeignKey(pais, on_delete=models.CASCADE, null=True)
     id_ciudad = models.ForeignKey(ciudad, on_delete=models.CASCADE, null=True)
+
+class proveedor(models.Model):
+    id_proveedor = models.AutoField(primary_key=True)
+    ruc_proveedor = models.CharField(max_length=20)
+    razon_social_proveedor = models.CharField(max_length=50)
+    telefono_proveedor = models.CharField(max_length=50)
+    direccion_proveedor = models.CharField(max_length=100, null=True)
+    estado_proveedor = models.IntegerField()
+
+class timbrado(models.Model):
+    nro_timbrado = models.IntegerField(primary_key=True)
+    id_proveedor = models.ForeignKey(proveedor, on_delete=models.CASCADE)
+    fch_vencimiento_timbrado = models.DateField()
+

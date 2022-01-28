@@ -10,6 +10,7 @@ from pagina.models import tipo_documento
 from pagina.models import pais
 from pagina.models import ciudad
 from pagina.models import cliente
+from pagina.models import proveedor
 from django.http import HttpResponse, JsonResponse, response
 from django.core import serializers
 
@@ -342,6 +343,52 @@ def delete_user(request, usu_actual):
 def cancelar_pagare(request):
     return render(request, 'pay-fee.html')
 
+def personas(request):
+    return render(request,'sections/people.html')
+
+def proveedores(request, mode=0):
+    listaproveedor = proveedor.objects.all()
+
+    if mode == 0:
+        buttonText="Ver deshabilitados"
+        urlSwitch=1
+    else:
+        buttonText="Ocultar deshabilitados"
+        urlSwitch=0
+
+    return validar(request, 'sections/people/supplier.html', {"listaproveedor": listaproveedor, 
+    "urlSwitch":urlSwitch, "buttonText":buttonText, "mode":mode})
+
+def edit_proveedor(request, proveedor_actual = 0):
+    listaproveedor = proveedor.objects.all()
+    if request.method=="GET":
+        prov_actual=proveedor.objects.filter(id_proveedor=proveedor_actual).exists()
+        if prov_actual:
+            datos_proveedor=proveedor.objects.filter(id_proveedor=proveedor_actual).first()
+            return validar(request, 'sections/people/modal_proveedor.html',
+            {"datos_act":datos_proveedor, "proveedor_actual":proveedor_actual, "titulo":"Editar un Proveedor",
+            "listaproveedor":listaproveedor})
+        else:
+            return validar(request, "sections/people/edit_supplier.html", {"titulo":"Cargar nuevo Proveedor",
+            "listaproveedor":listaproveedor, "proveedor_actual": proveedor_actual})
+
+    if request.method=="POST":
+        if proveedor_actual==0:
+            proveedor_nuevo=proveedor(ruc_proveedor=request.POST.get('ruc_proveedor').replace(".",""),
+            razon_social_proveedor=request.POST.get('razon_social_proveedor'),
+            telefono_proveedor=request.POST.get("telefono_proveedor"),
+            direccion_proveedor=request.POST.get("direccion_proveedor"),
+            estado_proveedor=0)
+            proveedor_nuevo.save()
+        else:
+            proveedor_actual=proveedor.objects.get(id_proveedor=proveedor_actual)
+            proveedor_actual.ruc_proveedor=request.POST.get("ruc_proveedor").replace(".","")
+            proveedor_actual.razon_social_proveedor=request.POST.get("razon_social_proveedor")
+            proveedor_actual.telefono_proveedor=request.POST.get("telefono_proveedor")
+            proveedor_actual.direccion_proveedor=request.POST.get("direccion_proveedor")
+            proveedor_actual.save()
+        return redirect("../proveedores/0")
+
 def clientes(request, mode=0):
     listaclientes = cliente.objects.all()
     listadocumentos = tipo_documento.objects.all()
@@ -353,7 +400,7 @@ def clientes(request, mode=0):
     else:
         buttonText="Ocultar deshabilitados"
         urlSwitch=0
-    return validar(request, 'sections/clients/clients.html',
+    return validar(request, 'sections/people/clients.html',
     {"listadocumentos":listadocumentos, "listapais":listapais, 
     "listaciudad":listaciudad, "listaclientes":listaclientes, 
     "buttonText":buttonText, "urlSwitch":urlSwitch, "mode":mode})
@@ -367,11 +414,11 @@ def edit_client(request, clie_actual=0):
         cliente_actual=cliente.objects.filter(id_cliente=clie_actual).exists()
         if cliente_actual:
             datos_cliente=cliente.objects.filter(id_cliente=clie_actual).first()
-            return validar(request, 'sections/clients/modal_client.html',
+            return validar(request, 'sections/people/modal_client.html',
             {"datos_act":datos_cliente, "clie_actual":clie_actual, "titulo":"Editar un Cliente", 
             "listatipodoc":listatipodoc, "listapais":listapais, "listaciudad":listaciudad, "listacliente":listacliente})
         else:
-            return validar(request, "sections/clients/edit_client.html", {"titulo":"Cargar nuevo Cliente",
+            return validar(request, "sections/people/edit_client.html", {"titulo":"Cargar nuevo Cliente",
             "listatipodoc":listatipodoc, "listapais":listapais, "listaciudad":listaciudad, "clie_actual": clie_actual, "listacliente":listacliente})
 
     if request.method=="POST":
@@ -406,6 +453,11 @@ def disable_client(request, clie_actual, option):
     cliente_actual.save()
     return redirect("../../clientes/0")
 
+def disable_proveedor(request, proveedor_actual, option):
+    proveedor_actual=proveedor.objects.get(id_proveedor=proveedor_actual)
+    proveedor_actual.estado_proveedor=option
+    proveedor_actual.save()
+    return redirect("../../proveedores/0")
 
 def parameters_modal_client(request, paisCiudad_actual=0, tipo_carga=0, redirigir=0):
     listadocumento = tipo_documento.objects.all()
@@ -434,11 +486,11 @@ def parameters_modal_client(request, paisCiudad_actual=0, tipo_carga=0, redirigi
                 datos = pais.objects.filter(id_pais=paisCiudad_actual).first()
             else:
                 datos = ciudad.objects.filter(id_ciudad=paisCiudad_actual).first()
-            return validar(request, 'sections/clients/parameters_modal_client.html',
+            return validar(request, 'sections/people/parameters_modal_client.html',
             {"datos_act":datos, "datos_actual":datos_actual, "titulo":titulo, 
             "paisCiudad_actual":paisCiudad_actual, "tipo_carga": tipo_carga, "redirigir":redirigir, "listaparametros":listaparametros, "listapais":listapais})
         else:
-            return validar(request, "sections/clients/parameters_modal_client.html",
+            return validar(request, "sections/people/parameters_modal_client.html",
             {"nombre_completo":request.session.get("nombre_completo"), "datos_actual":datos_actual, 
             "titulo":titulo, "paisCiudad_actual":paisCiudad_actual, "tipo_carga": tipo_carga, "redirigir":redirigir, "listaparametros":listaparametros, "listapais":listapais})
 

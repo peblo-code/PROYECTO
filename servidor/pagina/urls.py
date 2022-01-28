@@ -15,7 +15,10 @@ urlpatterns = [
     path('factura', views.factura, name='factura'),
     path('factura_compra', views.factura_compra, name='factura_compra'),
     path('cancelar_pagare', views.cancelar_pagare, name='cancelar_pagare'),
+    path('personas', views.personas, name='personas'),
     path('clientes/<int:mode>', views.clientes, name='clientes'),
+    path('proveedores/<int:mode>', views.proveedores, name='proveedores'),
+    path('edit_proveedor/<int:proveedor_actual>', views.edit_proveedor, name='edit_proveedor'),
     path('edit_client/<int:clie_actual>', views.edit_client, name="edit_client"),
     path('config', views.config, name='config'),
     path('parameters_products', views.parameters_products, name='parameters_products'),
@@ -40,4 +43,5 @@ urlpatterns = [
     path('delete_user/<int:usu_actual>', views.delete_user, name='delete_user'),
     path('parameters_modal_client/<int:paisCiudad_actual>/<int:tipo_carga>/<int:redirigir>', views.parameters_modal_client, name='parameters_modal_client'),
     path('disable_client/<int:clie_actual>/<int:option>', views.disable_client, name='disable_client'),
+    path('disable_proveedor/<int:proveedor_actual>/<int:option>', views.disable_proveedor, name='disable_proveedor'),
 ]

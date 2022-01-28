@@ -1,0 +1,116 @@
+{% extends 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+{% block cuerpo %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static './css/index.css' %}">
+    <link rel="stylesheet" href="{% static './css/globals.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/globals-section.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/clients/edit_client.css' %}">
+    <!-- Fuentes de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap"
+        rel="stylesheet">
+    <!-- Fuentes de Google -->
+    <title>{{ parameters.titulo }}</title>
+</head>
+
+<body>
+    <div class="form-container">
+        <div class="title-and-back">
+            <a href="../proveedores/0" style="text-decoration: none">
+                <span class="icon-circle-left"></span>
+            </a>
+            <h1>{{ parameters.titulo }}</h1>
+        </div>
+        <form action="{% url 'edit_proveedor' parameters.proveedor_actual %}" method="POST" class="form-global-box menu-fade" id="cargarProveedor" onsubmit="sessionStorage.setItem('1', 1);">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">RUC</span>
+                </div>
+                <input type="text" name="ruc_proveedor" id="ruc_proveedor" value="{{ parameters.datos_act.ruc_proveedor }}"
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" onkeydown="format(this)" onchange="format(this)" required>
+            </div>
+
+            <div class="input-group mb-3" id="item-documento" style="display:none">
+
+            </div>
+
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Razón Social</span>
+                </div>
+                <input type="text" name="razon_social_proveedor" value="{{ parameters.datos_act.razon_social_proveedor }}"
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Telefono</span>
+                </div>
+                <input type="number" name="telefono_proveedor" value="{{ parameters.datos_act.telefono_proveedor }}"
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Direccion</span>
+                </div>
+                <input type="text" name="direccion_proveedor" value="{{ parameters.datos_act.direccion_proveedor }}"
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
+            </div>
+
+        <div class="modal fade" id="edicion" role="dialog">
+
+        </div>
+        <button class="btn btn-success" style="margin-top: 1em" form="cargarProveedor" id="cargar" onclick="return verificarFormulario(this)">{{ parameters.titulo }}</button>
+    </div>
+    <script src="{% static './js/jquery.js' %}"></script>
+    <script src="{% static './js/jquery.chained.js' %}"></script>
+    <script src="{% static 'js/alerts.js' %}"></script>
+    <script src="{% static 'js/validate.js' %}"></script>
+    <script src="{% static 'js/functions.js' %}"></script>
+    <script>
+
+        var $ = jQuery.noConflict();
+        function abrirModalEdicion(url) {
+            console.log(url)
+            $('#edicion').load(url, function () {
+                $(this).modal('show');
+            })
+        }
+
+
+        document.getElementById("ruc_proveedor").addEventListener("keyup", (evt) => {
+            var flag = false
+            var valor = document.getElementById("ruc_proveedor").value
+            var valorCorregido = ''
+            for(let i = 0; i < valor.length; i++) {
+                valorCorregido += valor.charAt(i).replace(".","")
+            }
+            var valorData
+            console.log(valorCorregido)
+            {% for proveedor in parameters.listaproveedor %}
+            valorData = "{{proveedor.ruc_proveedor}}"
+            if(valorCorregido == valorData) {
+                flag = true
+            }
+            {% endfor %}
+            validarFormulario("item-documento", flag, "Nro. de RUC ya se encuentra en uso.")
+        })
+            
+        
+
+    </script>
+    {% endblock %}
+</body>
+
+</html>
