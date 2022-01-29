@@ -10,7 +10,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proveedores</title>
     <link rel="stylesheet" href="{% static './css/index.css' %}">
-    <link rel="stylesheet" href="{% static './css/section-styles/search.css' %}">
     <link rel="stylesheet" href="{% static './css/section-styles/clients/clients.css' %}">
     <link rel="stylesheet" href="{% static 'css/modal.css' %}">
     <!-- Fuentes de Google -->
@@ -40,7 +39,7 @@
             Los clientes que se encuentren en esta lista no aparecerán disponibles para efectuar ventas
         </div>
         {% endif %}
-        <table id="tabla">
+        <table id="tablaProveedor">
             <thead>
                 <tr>
                     <th>RUC</th>
@@ -63,6 +62,9 @@
                     <td>{{ proveedor.direccion_proveedor }}</td>
 
                     <td class="actions">
+                        <button class="btn btn-info" onclick="abrirModalEdicion('{% url 'timbrado' proveedor.id_proveedor %}')">
+                            Timbrado
+                        </button>
                         <button onclick="abrirModalEdicion('{% url 'edit_proveedor' proveedor.id_proveedor %}')"
                             class="btn btn-warning">Editar</button>
                             {% if parameters.mode == 0 %}
@@ -104,7 +106,7 @@
             }
         }
 
-       dataTable()
+       dataTableId('tablaProveedor')
 
         var args = {
             TITLE: 'Precaución!', 
@@ -139,6 +141,7 @@
             window.onload = alerta(argsInsert)
             sessionStorage.setItem('1', 0);
         }
+        
 
         formatText("documento") //formatear numeros
 

@@ -11,6 +11,7 @@ from pagina.models import pais
 from pagina.models import ciudad
 from pagina.models import cliente
 from pagina.models import proveedor
+from pagina.models import timbrado
 from django.http import HttpResponse, JsonResponse, response
 from django.core import serializers
 
@@ -388,6 +389,30 @@ def edit_proveedor(request, proveedor_actual = 0):
             proveedor_actual.direccion_proveedor=request.POST.get("direccion_proveedor")
             proveedor_actual.save()
         return redirect("../proveedores/0")
+
+def timbrados(request, proveedor_actual=0):
+    listatimbrado = timbrado.objects.all()
+    if request.method == "GET":
+        return validar(request, 'sections/people/timbrado/timbrado.html', {"listatimbrado": listatimbrado, "proveedor_actual":proveedor_actual})
+
+    elif request.method == "POST":
+        timbrado_nuevo=timbrado(nro_timbrado=request.POST.get('nro_timbrado'),
+        id_proveedor_id=proveedor_actual,
+        fch_vencimiento_timbrado=request.POST.get("fch_vencimiento_timbrado"))
+        timbrado_nuevo.save()
+        
+        test = serializers.serialize('json', list(listatimbrado))
+        error = 'No hay error!'
+        response = JsonResponse({'mensaje':test, 'error':error})
+        response.status_code = 201
+        return response 
+
+
+
+def delete_timbrado(request, timbra_actual=0):
+    timbrado.objects.filter(nro_timbrado=timbra_actual).delete()
+    return redirect("../proveedores/0")
+
 
 def clientes(request, mode=0):
     listaclientes = cliente.objects.all()
