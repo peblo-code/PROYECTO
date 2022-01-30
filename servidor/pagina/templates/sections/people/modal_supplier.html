@@ -1,0 +1,115 @@
+{% load static %}
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-modal-header">
+            <h2 class="modal-title">{{parameters.titulo}}</h2>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        </div>
+        <div class="modal-body">
+            <style>
+                form {
+                    display: flex;
+                    flex-direction: column;
+                    margin-top: 0;
+                }
+                .input-group {
+                    margin-bottom: 1em;
+                }
+            </style>
+            <form action="{% url 'modal_proveedor' parameters.proveedor_actual %}" method="POST" id="cargarProveedor">
+                {% csrf_token %}
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">RUC</span>
+                    </div>
+                    <input type="text" name="ruc_proveedor" id="ruc_proveedor" value="{{ parameters.datos_act.ruc_proveedor }}"
+                        class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" onkeydown="format(this)" onchange="format(this)" required>
+                </div>
+    
+                <div class="input-group mb-3" id="item-documento" style="display:none">
+    
+                </div>
+    
+    
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Razón Social</span>
+                    </div>
+                    <input type="text" name="razon_social_proveedor" value="{{ parameters.datos_act.razon_social_proveedor }}"
+                        class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
+                </div>
+    
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Telefono</span>
+                    </div>
+                    <input type="number" name="telefono_proveedor" value="{{ parameters.datos_act.telefono_proveedor }}"
+                        class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
+                </div>
+    
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Direccion</span>
+                    </div>
+                    <input type="text" name="direccion_proveedor" value="{{ parameters.datos_act.direccion_proveedor }}"
+                        class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
+                </div>
+            </form>
+ 
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" id="btnCarga">Confirmar</button>
+            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
+        </div>
+    </div>
+    <script src="{% static './js/functions.js' %}"></script>
+    <script src="{% static './js/validate.js' %}"></script>
+    <script src="{% static './js/alerts.js' %}"></script>
+
+    <script>
+        formatInputLoaded('format')
+
+        var argsModal = {
+            TITLE: 'Advertencia!', 
+            TEXT: 'Estás seguro de modificar este Proveedor?',
+            ICON: 'warning', 
+            successPhrase:'actualizado',
+            typeOfMethod:'confirm',
+            btnId: 'cargarProveedor'
+        }
+
+        var validacion = true
+
+        document.getElementById("ruc_proveedor").addEventListener("keyup", (evt) => {
+            var flag = false
+            var valor = document.getElementById("ruc_proveedor").value
+            var valorCorregido = ''
+            for(let i = 0; i < valor.length; i++) {
+                valorCorregido += valor.charAt(i).replace(".","")
+            }
+            var valorOriginal = "{{parameters.datos_act.ruc_proveedor}}"
+            valorOriginal = valorOriginal.replace(".","")
+            var valorData
+            {% for proveedor in parameters.listaproveedor %}
+            valorData = "{{proveedor.ruc_proveedor}}"
+            if(valorCorregido == valorData && valorCorregido != valorOriginal) {
+                flag = true
+            }
+            {% endfor %}
+
+            validacion = validarFormulario("item-documento", flag, "RUC ya se encuentra en uso.")
+        })
+
+        document.getElementById("btnCarga").addEventListener("click", () => validarFormularioEdicion(validacion))
+    </script>
+
+    <script src="{% static './js/jquery.chained.js' %}"></script>
+    <script>
+        $("#modelo").chained("#marca")
+    </script>
+</div>

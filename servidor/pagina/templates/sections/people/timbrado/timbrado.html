@@ -42,16 +42,18 @@
                 </thead>
                 <tbody>
                     {% for timbrado in parameters.listatimbrado %}
+                    {% if timbrado.id_proveedor_id == parameters.proveedor_actual %}
                     <tr>
                         <td>{{ timbrado.nro_timbrado }}</td>
                         <td>{{ timbrado.fch_vencimiento_timbrado }}</td>
                         <td>
                             <button class="btn btn-danger"
-                                onclick="alertaConfirmar('{% url 'delete_timbrado' timbrado.nro_timbrado %}', args)">
+                                onclick="detectForeing('{% url 'delete_timbrado' timbrado.nro_timbrado %}', {{timbrado.id_proveedor_id}})">
                                 Borrar
                             </button>
                         </td>
                     </tr>
+                    {% endif %}
                     {% endfor %}
                 </tbody>
             </table>
@@ -153,16 +155,16 @@
 
         var validacion = true
 
-        document.getElementById("fch_vencimiento_timbrado").addEventListener("keyup", (evt) => {
+        document.getElementById("nro_timbrado").addEventListener("keyup", (evt) => {
             var flag = false
-            var valor = document.getElementById("fch_vencimiento_timbrado").value
+            var valor = document.getElementById("nro_timbrado").value
             var valorCorregido = ''
             for(let i = 0; i < valor.length; i++) {
                 valorCorregido += valor.charAt(i).replace(".","")
             }
             var valorData
             {% for timbrado in parameters.listatimbrado %}
-                valorData = "{{timbrado.fch_vencimiento_timbrado}}"
+                valorData = "{{timbrado.nro_timbrado}}"
                 if(valorCorregido == valorData) {
                     flag = true
                 }
@@ -185,19 +187,44 @@
             successPhrase: 'cargado',
             ajx: true,
             delete_name: 'delete_timbrado',
-            btnId: 'cargarTimbrado'
+            btnId: 'cargarTimbrado',
+            foreignFlag: true
         }
 
-        var args = {
+        var argsDelete = {
             TITLE: 'Precaución!', 
-            TEXT: 'Estás seguro de eliminar este Producto?',
+            TEXT: 'Estás seguro de eliminar este Timbrado?',
             ICON: 'warning', 
             successPhrase:'eliminado',
             typeOfMethod:'url'
         }
+
+        var args1 = {
+            TITLE: 'Error!', 
+            TEXT: 'No puedes eliminar este timbrado porque ya se utilizó en una factura de venta!',
+            ICON: 'error', 
+        }
+
         if(sessionStorage.getItem('1') == 1) {
             window.onload = alerta(argsInsert)
             sessionStorage.setItem('1', 0);
-        } 
+        }
+        
+        function detectForeing(url, id_timbrado) { //funcion que comprueba si la marca contiene una clave foranea
+            var flag = 0;
+            {% for proveedor in parameters.listaproveedor %}  // bucle de los id de modelos 
+                var id_proveedor = {{ proveedor.id_proveedor }}
+
+                if(id_timbrado == id_proveedor) { //se existe un id de marca en la tabla de modelos la bandera pasa a ser 1
+                    flag = 1
+                }
+            {% endfor %}
+
+            if(!flag) { //si la bandera es 0 quiere decir que no existe clave foranea, por la tanto es posible borrar
+                alertaConfirmar(url, argsDelete)
+            } else {
+                alerta(args1)
+            }
+        }
     </script>
 </div>

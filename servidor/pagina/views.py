@@ -366,7 +366,7 @@ def edit_proveedor(request, proveedor_actual = 0):
         prov_actual=proveedor.objects.filter(id_proveedor=proveedor_actual).exists()
         if prov_actual:
             datos_proveedor=proveedor.objects.filter(id_proveedor=proveedor_actual).first()
-            return validar(request, 'sections/people/modal_proveedor.html',
+            return validar(request, 'sections/people/modal_supplier.html',
             {"datos_act":datos_proveedor, "proveedor_actual":proveedor_actual, "titulo":"Editar un Proveedor",
             "listaproveedor":listaproveedor})
         else:
