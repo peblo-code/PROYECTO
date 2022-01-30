@@ -78,3 +78,12 @@ class timbrado(models.Model):
     id_proveedor = models.ForeignKey(proveedor, on_delete=models.CASCADE)
     fch_vencimiento_timbrado = models.DateField()
 
+class factura_compra(models.Model):
+    id_factura_compra = models.IntegerField(primary_key=True)
+    id_proveedor = models.ForeignKey(proveedor, on_delete=models.CASCADE)
+    id_timbrado = models.ForeignKey(timbrado, on_delete=models.CASCADE)
+    id_vehiculo = models.ForeignKey(vehiculo, on_delete=models.CASCADE)
+    nro_factura_compra = models.IntegerField()
+    fch_factura_compra = models.DateField()
+    condicion_factura_compra = models.IntegerField()
+
