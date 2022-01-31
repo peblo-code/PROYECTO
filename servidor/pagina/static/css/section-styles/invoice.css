@@ -42,6 +42,16 @@
 }
 
 #factura-data {
-    grid-template-columns: 1fr 1fr 1fr;
-    max-width: 80%;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    max-width: 100%;
+}
+
+#factura-data .form-div-invoice:last-child {
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    background: #e9ecef;
 }

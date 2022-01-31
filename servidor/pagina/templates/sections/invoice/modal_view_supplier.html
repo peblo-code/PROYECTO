@@ -1,0 +1,82 @@
+{% load static %}
+<div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Proveedores</title>
+            <link rel="stylesheet" href="{% static 'css/modal.css' %}">
+            <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
+            <!-- Fuentes de Google -->
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap"
+                rel="stylesheet">
+            <!-- Fuentes de Google -->
+            <h2 class="modal-title">{{parameters.titulo}}</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        </div>
+        <div class="modal-body">
+            <table id="tablaProveedor">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>RUC</th>
+                        <th>Razon Social</th>
+                        <th>Telefono</th>
+                        <th>Direccion</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for proveedor in parameters.listaproveedor  %}
+                    {% if proveedor.estado_proveedor == 0 %}
+                    <tr>
+                        <td>{{ proveedor.id_proveedor }}</td>
+                        <td class="documento">{{ proveedor.ruc_proveedor }}</td>
+                        <td>{{ proveedor.razon_social_proveedor}}</td>
+                        <td>{{ proveedor.telefono_proveedor }}</td>
+                        <td>{{ proveedor.direccion_proveedor }}</td>
+                        <td class="actions">
+                            <button class="btn btn-info boton-seleccionar" data-bs-dismiss="modal" onclick="obtenerValores(this)">
+                                Seleccionar
+                            </button>
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap/bootstrap.js' %}"></script>
+        <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
+        <script src="{% static 'js/alerts.js' %}"></script>
+        <script src="{% static 'js/datatables.js'%}"></script>
+        <script src="{% static 'js/functions.js'%}"></script>
+        <script type="text/javascript" src="{% static 'js/DataTables/js/datatables.min.js' %}"></script>
+        <script type="text/javascript">
+
+            dataTableId('tablaProveedor')
+
+            function obtenerValores(e) {
+                // vamos al elemento padre (<tr>) y buscamos todos los elementos <td>
+                // que contenga el elemento padre
+                var elementosTD=e.parentElement.parentElement
+                
+                // recorremos cada uno de los elementos del array de elementos <td>
+                document.getElementById("proveedor").value = elementosTD.cells.item(2).innerText;
+                document.getElementById("ruc").value = elementosTD.cells.item(1).innerText;
+                document.getElementById("id_proveedor").value = elementosTD.cells.item(0).innerText;
+            }
+
+            formatText("documento") //formatear numeros
+
+        </script>
+    </div>
+</div>

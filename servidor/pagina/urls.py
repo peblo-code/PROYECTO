@@ -20,6 +20,7 @@ urlpatterns = [
     path('proveedores/<int:mode>', views.proveedores, name='proveedores'),
     path('edit_proveedor/<int:proveedor_actual>', views.edit_proveedor, name='edit_proveedor'),
     path('modal_proveedor/<int:proveedor_actual>', views.edit_proveedor, name='modal_proveedor'),
+    path('modal_view_proveedor', views.modal_view_proveedor, name='modal_view_proveedor'),
     path('timbrado/<int:proveedor_actual>', views.timbrados, name='timbrado'),
     path('delete_timbrado/<int:timbra_actual>', views.delete_timbrado, name='delete_timbrado'),
     path('edit_client/<int:clie_actual>', views.edit_client, name="edit_client"),

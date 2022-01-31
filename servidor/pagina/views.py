@@ -14,6 +14,7 @@ from pagina.models import proveedor
 from pagina.models import timbrado
 from django.http import HttpResponse, JsonResponse, response
 from django.core import serializers
+from datetime import datetime
 
 # Create your views here.
 def validar(request, pageSuccess, parameters={}):
@@ -206,7 +207,15 @@ def factura(request):
     return validar(request, 'sections/invoice.html')
 
 def factura_compra(request):
-    return validar(request, 'sections/invoice/invoice-buy.html')
+    listaproveedor = proveedor.objects.all()
+    listatimbrado = timbrado.objects.all()
+    listavehiculo = vehiculo.objects.all()
+
+    if request.method == 'GET':
+        return validar(request, 'sections/invoice/invoice-buy.html', {
+            'listaproveedor': listaproveedor, "listatimbrado":listatimbrado, "listavehiculo": listavehiculo,
+            "fecha_act": datetime.today().strftime('%Y-%m-%d')
+        })
 
 def config(request):
     return validar(request, 'sections/config.html')
@@ -389,6 +398,10 @@ def edit_proveedor(request, proveedor_actual = 0):
             proveedor_actual.direccion_proveedor=request.POST.get("direccion_proveedor")
             proveedor_actual.save()
         return redirect("../proveedores/0")
+
+def modal_view_proveedor(request):
+    listaproveedor = proveedor.objects.all
+    return validar(request, 'sections/invoice/modal_view_supplier.html', {"listaproveedor":listaproveedor, "titulo": "Proveedores"})
 
 def timbrados(request, proveedor_actual=0):
     listatimbrado = timbrado.objects.all()

@@ -27,22 +27,21 @@
             <div class="card-body">
                 <form action="" method="POST" class="form-invoice" id="cargarProducto">
                     {% csrf_token %}
+                    <input type="hidden" id="id_proveedor"></input>
                     <div class="form-body" id="proveedor-data">
                         <div class="form-div-invoice">
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="Proveedor" aria-describedby="button-addon4" disabled>
-                                <div class="input-group-append" id="button-addon4">
-                                  <button class="btn btn-outline-primary" type="button">Seleccionar</button>
+                                <input type="text" class="form-control" id="proveedor" placeholder="Proveedor" aria-describedby="button-addon4" disabled>
+                                  <button class="btn btn-outline-primary" id="mostrarProveedores" type="button" onclick="abrirModalEdicion('{% url 'modal_view_proveedor' %}')">Seleccionar</button>
                                   <button class="btn btn-outline-success" type="button">Nuevo</button>
-                                </div>
-                              </div>
+                            </div>
                         </div>
                         <div class="form-div-invoice">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text" id="inputGroup-sizing-default">RUC</span>
                                 </div>
-                                <input type="number" name="motor" id="motor" value="{{ parameters.datos_act.motor_vehiculo }}"
+                                <input type="text" name="ruc" id="ruc"
                                 class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
                             </div>
                         </div>
@@ -51,7 +50,7 @@
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="transmision">Fecha Act.</label>
                                 </div>
-                                <input type="input" name="motor" id="motor" value="{{ parameters.datos_act.motor_vehiculo }}"
+                                <input type="date" name="motor" id="motor" value="{{ parameters.fecha_act }}"
                                 class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
                             </div>
                         </div>
@@ -62,9 +61,10 @@
                                 <div class="input-group-prepend">
                                   <label class="input-group-text" for="transmision">Nro. Timbrado</label>
                                 </div>
-                                <select class="custom-select" id="transmision" name="transmision" required>
-                                    <option value="Automatica">Automática</option>
-                                    <option value="Manual" selected>Manual</option>
+                                <select class="form-select" id="nro_timbrado" name="nro_timbrado" required>
+                                    {% for timbrado in parameters.listatimbrado %}
+                                    <option value="{{timbrado.nro_timbrado}}" >{{timbrado.nro_timbrado}}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -86,11 +86,50 @@
                                 class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
                             </div>
                         </div>
+
+                        <div class="form-div-invoice mb-3" id="condicion-pago">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                  Crédito
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                  Contado
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
-          </div>
+        </div>
     </div>
+
+    <div class="modal fade" id="edicion" role="dialog">
+
+    </div>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static './js/jquery.chained.js' %}"></script>
+    <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
+    <script src="{% static 'js/alerts.js' %}"></script>
+    <script src="{% static 'js/datatables.js'%}"></script>
+    <script src="{% static 'js/functions.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/DataTables/js/datatables.min.js' %}"></script>
+    <script>
+
+        $("#nro_timbrado").chained("#id_proveedor")
+
+        var $ = jQuery.noConflict();
+        function abrirModalEdicion(url) {
+            $('#edicion').load(url, function () {
+                $(this).modal('show');
+            })
+        }
+
+    </script>
     {% endblock %}
 </body>
 </html>
