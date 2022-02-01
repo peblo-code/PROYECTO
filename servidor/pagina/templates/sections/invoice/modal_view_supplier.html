@@ -65,6 +65,12 @@
             dataTableId('tablaProveedor')
 
             function obtenerValores(e) {
+                var SELECT = document.getElementById("nro_timbrado")
+                
+                for(var i = SELECT.options.length ; i >=0 ; i--) {
+                    SELECT.remove(i)
+                }
+
                 // vamos al elemento padre (<tr>) y buscamos todos los elementos <td>
                 // que contenga el elemento padre
                 var elementosTD=e.parentElement.parentElement
@@ -72,7 +78,21 @@
                 // recorremos cada uno de los elementos del array de elementos <td>
                 document.getElementById("proveedor").value = elementosTD.cells.item(2).innerText;
                 document.getElementById("ruc").value = elementosTD.cells.item(1).innerText;
-                document.getElementById("id_proveedor").value = elementosTD.cells.item(0).innerText;
+                var proveedorSeleccionado = elementosTD.cells.item(0).innerText;
+                var aux = ""
+
+                {% for timbrado in parameters.listatimbrado %}
+                    aux = "{{timbrado.id_proveedor_id}}"
+                    if(proveedorSeleccionado == aux){
+                        const option = document.createElement('option');
+                        option.id = "opcion_select"
+                        option.value = "{{timbrado.nro_timbrado}}";
+                        option.text = "{{timbrado.nro_timbrado}}";
+                        SELECT.appendChild(option);
+                    }
+                {% endfor %}
+
+                cargarFecha(document.getElementById("nro_timbrado"))
             }
 
             formatText("documento") //formatear numeros

@@ -27,13 +27,11 @@
             <div class="card-body">
                 <form action="" method="POST" class="form-invoice" id="cargarProducto">
                     {% csrf_token %}
-                    <input type="hidden" id="id_proveedor"></input>
                     <div class="form-body" id="proveedor-data">
                         <div class="form-div-invoice">
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" id="proveedor" placeholder="Proveedor" aria-describedby="button-addon4" disabled>
                                   <button class="btn btn-outline-primary" id="mostrarProveedores" type="button" onclick="abrirModalEdicion('{% url 'modal_view_proveedor' %}')">Seleccionar</button>
-                                  <button class="btn btn-outline-success" type="button">Nuevo</button>
                             </div>
                         </div>
                         <div class="form-div-invoice">
@@ -50,7 +48,7 @@
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="transmision">Fecha Act.</label>
                                 </div>
-                                <input type="date" name="motor" id="motor" value="{{ parameters.fecha_act }}"
+                                <input type="text" name="fch_actual" id="fch_actual" value="{{parameters.fecha_act}}"
                                 class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
                             </div>
                         </div>
@@ -61,10 +59,8 @@
                                 <div class="input-group-prepend">
                                   <label class="input-group-text" for="transmision">Nro. Timbrado</label>
                                 </div>
-                                <select class="form-select" id="nro_timbrado" name="nro_timbrado" required>
-                                    {% for timbrado in parameters.listatimbrado %}
-                                    <option value="{{timbrado.nro_timbrado}}" >{{timbrado.nro_timbrado}}</option>
-                                    {% endfor %}
+                                <select class="form-select" id="nro_timbrado" name="nro_timbrado" onchange="cargarFecha(this)" required>
+                                    <option value="" ></option>
                                 </select>
                             </div>
                         </div>
@@ -80,9 +76,9 @@
                         <div class="form-div-invoice">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <label class="input-group-text" for="transmision">Fecha Vto.</label>
+                                    <label class="input-group-text" for="">Fecha Vto.</label>
                                 </div>
-                                <input type="input" name="motor" id="motor" value="{{ parameters.datos_act.motor_vehiculo }}"
+                                <input type="text" name="fch_vencimiento" id="fch_vencimiento" value=""
                                 class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
                             </div>
                         </div>
@@ -112,23 +108,30 @@
     </div>
 
     <script src="{% static 'js/jquery.min.js' %}"></script>
-    <script src="{% static './js/jquery.chained.js' %}"></script>
     <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
     <script src="{% static 'js/alerts.js' %}"></script>
     <script src="{% static 'js/datatables.js'%}"></script>
     <script src="{% static 'js/functions.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/DataTables/js/datatables.min.js' %}"></script>
     <script>
-
-        $("#nro_timbrado").chained("#id_proveedor")
-
         var $ = jQuery.noConflict();
         function abrirModalEdicion(url) {
             $('#edicion').load(url, function () {
                 $(this).modal('show');
             })
         }
-
+        
+        function cargarFecha(event) {
+            var auxTimbrado = ""
+            var inputFch = document.getElementById("fch_vencimiento")
+            {% for timbrado in parameters.listatimbrado %}
+            auxTimbrado = "{{timbrado.nro_timbrado}}"
+                if(auxTimbrado == event.value) {
+                    inputFch.value = "{{timbrado.fch_vencimiento_timbrado}}"
+                    console.log("{{timbrado.fch_vencimiento_timbrado}}")
+                }
+            {% endfor %}
+        }
     </script>
     {% endblock %}
 </body>

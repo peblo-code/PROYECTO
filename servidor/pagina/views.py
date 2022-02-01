@@ -14,7 +14,7 @@ from pagina.models import proveedor
 from pagina.models import timbrado
 from django.http import HttpResponse, JsonResponse, response
 from django.core import serializers
-from datetime import datetime
+from datetime import date
 
 # Create your views here.
 def validar(request, pageSuccess, parameters={}):
@@ -214,7 +214,7 @@ def factura_compra(request):
     if request.method == 'GET':
         return validar(request, 'sections/invoice/invoice-buy.html', {
             'listaproveedor': listaproveedor, "listatimbrado":listatimbrado, "listavehiculo": listavehiculo,
-            "fecha_act": datetime.today().strftime('%Y-%m-%d')
+            "fecha_act": date.today()
         })
 
 def config(request):
@@ -400,8 +400,10 @@ def edit_proveedor(request, proveedor_actual = 0):
         return redirect("../proveedores/0")
 
 def modal_view_proveedor(request):
-    listaproveedor = proveedor.objects.all
-    return validar(request, 'sections/invoice/modal_view_supplier.html', {"listaproveedor":listaproveedor, "titulo": "Proveedores"})
+    listaproveedor = proveedor.objects.all()
+    listatimbrado = timbrado.objects.all()
+
+    return validar(request, 'sections/invoice/modal_view_supplier.html', {"listaproveedor":listaproveedor, "listatimbrado":listatimbrado, "titulo": "Proveedores"})
 
 def timbrados(request, proveedor_actual=0):
     listatimbrado = timbrado.objects.all()
@@ -419,7 +421,6 @@ def timbrados(request, proveedor_actual=0):
         response = JsonResponse({'mensaje':test, 'error':error})
         response.status_code = 201
         return response 
-
 
 
 def delete_timbrado(request, timbra_actual=0):
