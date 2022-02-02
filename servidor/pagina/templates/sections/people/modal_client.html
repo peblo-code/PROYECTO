@@ -3,9 +3,7 @@
     <div class="modal-content">
         <div class="modal-modal-header">
             <h2 class="modal-title">{{parameters.titulo}}</h2>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +22,7 @@
             <form action="{% url 'edit_client' parameters.clie_actual %}" method="POST" id="cargarCliente">
                 {% csrf_token %}
                 <div class="input-group">
-                    <select class="custom-select" name="tipo_documento" id="tipo_documento">
+                    <select class="form-select" name="tipo_documento" id="tipo_documento">
                         <option value="0" data-chained="0" selected>------</option>
                         {% for tipo_documento in parameters.listatipodoc %}
                         {% if tipo_documento.id_tipo_documento == parameters.datos_act.id_tipo_documento_id %}
@@ -47,7 +45,7 @@
                         id="documento_cliente" onkeydown="format(this)" onchange="format(this)">
                 </div>
     
-                <div class="input-group mb-3" id="item-documento">
+                <div class="input-group mb-3" id="item-documento" style="display:none">
 
                 </div>
     
@@ -76,7 +74,7 @@
                 </div>
     
                 <div class="input-group">
-                    <select class="custom-select" name="pais" id="pais">
+                    <select class="form-select" name="pais" id="pais">
                         <option value="0" data-chained="0" selected>------</option>
                         {% for pais in parameters.listapais %}
                         {% if pais.id_pais == parameters.datos_act.id_pais_id %}
@@ -90,7 +88,7 @@
     
     
                 <div class="input-group">
-                    <select class="custom-select" name="ciudad" id="ciudad">
+                    <select class="form-select" name="ciudad" id="ciudad">
                         <option value="0" data-chained="0" selected>------</option>
                         {% for ciudad in parameters.listaciudad %}
                         {% if ciudad.id_ciudad == parameters.datos_act.id_ciudad_id %}
@@ -108,7 +106,7 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="genero_cliente">Género</label>
                     </div>
-                    <select class="custom-select" id="genero_cliente" name="genero_cliente">
+                    <select class="form-select" id="genero_cliente" name="genero_cliente">
                         {% if parameters.datos_act.genero_cliente == 0%}
                         <option value="0" selected>Femenino</option>
                         <option value="1">Masculino</option>
@@ -123,7 +121,7 @@
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" id="btnCarga">Confirmar</button>
-            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
+            <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancelar</button>
         </div>
     </div>
     <script src="{% static './js/functions.js' %}"></script>
