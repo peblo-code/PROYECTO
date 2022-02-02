@@ -77,5 +77,3 @@ function formatearFecha(msg) {
     
     return `${anio}-${mes}-${dia}`
 }
-
-console.log(formatearFecha("9 de Septiembre de 2022"))

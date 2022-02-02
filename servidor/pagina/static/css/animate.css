@@ -1,0 +1,59 @@
+.menu-entry {
+    animation: cargaMenu 1s ease 0s 1 normal none;
+}
+
+@keyframes cargaMenu {
+    0% {
+      transform: scale(0.5);
+    }
+    
+    100% {
+      transform: scale(1);
+    }
+}
+
+.menu-right {
+    animation: cargaDerecha 1000ms ease-out 0ms 1 normal none;
+}
+
+@keyframes cargaDerecha {
+    0% {
+      opacity: 0;
+      transform: translateX(-250px);
+    }
+  
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+}
+
+.menu-top {
+    animation: cargaArriba 1000ms ease-out 0ms 1 normal none;
+}
+
+@keyframes cargaArriba {
+    0% {
+      opacity: 0;
+      transform: translateY(-250px);
+    }
+  
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+}
+
+.menu-fade {
+    animation: cargaFade 1000ms ease 0ms 1 normal none;
+}
+
+@keyframes cargaFade {
+    0% {
+      opacity: 0;
+    }
+  
+    100% {
+      opacity: 1;
+    }
+}

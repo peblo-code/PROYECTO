@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ parameters.titulo }}</title>
-    <link rel="stylesheet" href="{% static './css/index.css' %}">
+    <link rel="stylesheet" href="{% static './css/globals.css'%}">
     <link rel="stylesheet" href="{% static './css/section-styles/products/edit_product.css' %}">
     <!-- Fuentes de Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,19 +17,6 @@
     <!-- Fuentes de Google -->
 </head>
 <body>
-    <style>
-        .mb-3 {
-            margin-bottom: 0!important;
-        }
-
-        .form-item {
-            display: flex;
-            flex-direction: column;
-            gap: 1em;
-            height: initial;
-        }
-
-    </style>
     <div class="form-container">
         <div class="title-and-back">
             <a href="../productos" style="text-decoration: none">
@@ -37,133 +24,121 @@
             </a>
             <h1>{{parameters.titulo}}</h1>
         </div>
-        <form action="{% url 'edit_product' parameters.product_actual %}" method="POST" class="form-global-box menu-fade" id="cargarProducto" onsubmit="sessionStorage.setItem('1', 1);">
+        <form action="{% url 'edit_product' parameters.product_actual %}" method="POST" class="card menu-fade" id="cargarProducto" onsubmit="sessionStorage.setItem('1', 1);">
             {% csrf_token %}
             <section class="form-section" >
-                <div class="form-item" id="item-marca">
-                    <div class="input-group">
-                        <select class="custom-select" name="marca" id="elemento-1" required>
-                            <option value="" selected></option>
-                            {% for marca in parameters.listamarca %}
-                                {% if marca.id_marca == parameters.datos_act.id_marca_id %}
-                                <option value="{{marca.id_marca}}" id="opcion_select" selected>{{marca.descripcion_marca}}</option>
-                                {% else %}
-                                <option value="{{marca.id_marca}}" id="opcion_select">{{marca.descripcion_marca}}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                        <div class="input-group-append">
-                          <button class="btn btn-outline-secondary" id="boton1" type="button" onclick="abrirModalEdicion('{% url 'mark_and_model' 0 0 %}')">Nueva marca</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-item" id="item-modelo">
-                    <div class="input-group">
-                        <select class="custom-select" name="modelo" id="elemento-2" required>
-                            <option value="" selected></option>
-                            {% for modelo in parameters.listamodelo %}
-                                {% if modelo.id_modelo == parameters.datos_act.id_modelo_id %}
-                                <option value="{{modelo.id_modelo}}" id="opcion_select" data-chained="{{modelo.id_marca_id}}" selected>{{modelo.descripcion_modelo}}</option>
-                                {% else %}
-                                <option value="{{modelo.id_modelo}}" id="opcion_select" data-chained="{{modelo.id_marca_id}}">{{modelo.descripcion_modelo}}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                        <div class="input-group-append">
-                          <button class="btn btn-outline-secondary" id="boton2" type="button" onclick="abrirModalEdicion('{% url 'mark_and_model' 0 1 %}')">Nuevo modelo</button>
-                        </div>
-                    </div>
-                </div>
-        
-                <div class="form-item" id="item-color">
-                    <div class="input-group">
-                        <select class="custom-select" name="color" id="elemento-3" required>
-                            <option value="" selected></option>
-                            {% for color in parameters.listacolor %}
-                                {% if color.id_color == parameters.datos_act.id_color_id %}
-                                <option value="{{color.id_color}}" id="opcion_select" selected>{{color.descripcion_color}}</option>
-                                {% else %}
-                                <option value="{{color.id_color}}" id="opcion_select">{{color.descripcion_color}}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                        <div class="input-group-append">
-                          <button class="btn btn-outline-secondary" id="boton3" onclick="abrirModalEdicion('{% url 'mark_and_model' 0 2 %}')" type="button">Nuevo color</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-item" id="item-transmision">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <label class="input-group-text" for="transmision">Transmision</label>
-                        </div>
-                        <select class="custom-select" id="transmision" name="transmision" required>
-                            {% if parameters.datos_act.transmision_vehiculo == 'Manual'%}
-                            <option value="Automatica">Automática</option>
-                            <option value="Manual" selected>Manual</option>
-                            {% elif parameters.datos_act.transmision_vehiculo == 'Automática' %}
-                            <option value="Automatica" selected>Automática</option>
-                            <option value="Manual">Manual</option>
+                <div class="input-group mb-3">
+                    <select class="form-select" name="marca" id="elemento-1" required>
+                        <option value="" selected></option>
+                        {% for marca in parameters.listamarca %}
+                            {% if marca.id_marca == parameters.datos_act.id_marca_id %}
+                            <option value="{{marca.id_marca}}" id="opcion_select" selected>{{marca.descripcion_marca}}</option>
                             {% else %}
-                            <option value=""></option>
-                            <option value="Automatica">Automática</option>
-                            <option value="Manual">Manual</option>
+                            <option value="{{marca.id_marca}}" id="opcion_select">{{marca.descripcion_marca}}</option>
                             {% endif %}
-                        </select>
+                        {% endfor %}
+                    </select>
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" id="boton1" type="button" onclick="abrirModalEdicion('{% url 'mark_and_model' 0 0 %}')">Nueva marca</button>
                     </div>
+                </div>
+            
+                <div class="input-group mb-3">
+                    <select class="form-select" name="modelo" id="elemento-2" required>
+                        <option value="" selected></option>
+                        {% for modelo in parameters.listamodelo %}
+                            {% if modelo.id_modelo == parameters.datos_act.id_modelo_id %}
+                            <option value="{{modelo.id_modelo}}" id="opcion_select" data-chained="{{modelo.id_marca_id}}" selected>{{modelo.descripcion_modelo}}</option>
+                            {% else %}
+                            <option value="{{modelo.id_modelo}}" id="opcion_select" data-chained="{{modelo.id_marca_id}}">{{modelo.descripcion_modelo}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" id="boton2" type="button" onclick="abrirModalEdicion('{% url 'mark_and_model' 0 1 %}')">Nuevo modelo</button>
+                    </div>
+                </div>
+            
+                <div class="input-group mb-3">
+                    <select class="form-select" name="color" id="elemento-3" required>
+                        <option value="" selected></option>
+                        {% for color in parameters.listacolor %}
+                            {% if color.id_color == parameters.datos_act.id_color_id %}
+                            <option value="{{color.id_color}}" id="opcion_select" selected>{{color.descripcion_color}}</option>
+                            {% else %}
+                            <option value="{{color.id_color}}" id="opcion_select">{{color.descripcion_color}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" id="boton3" onclick="abrirModalEdicion('{% url 'mark_and_model' 0 2 %}')" type="button">Nuevo color</button>
+                    </div>
+                </div>
+            
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="transmision">Transmision</label>
+                    </div>
+                    <select class="form-select" id="transmision" name="transmision" required>
+                        {% if parameters.datos_act.transmision_vehiculo == 'Manual'%}
+                        <option value="Automatica">Automática</option>
+                        <option value="Manual" selected>Manual</option>
+                        {% elif parameters.datos_act.transmision_vehiculo == 'Automática' %}
+                        <option value="Automatica" selected>Automática</option>
+                        <option value="Manual">Manual</option>
+                        {% else %}
+                        <option value=""></option>
+                        <option value="Automatica">Automática</option>
+                        <option value="Manual">Manual</option>
+                        {% endif %}
+                    </select>
                 </div>
             </section>
             
             <section class="form-section">
-                <div class="form-item" id="item-motor">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="inputGroup-sizing-default">Motor</span>
-                        </div>
-                        <input type="number" name="motor" id="motor" value="{{ parameters.datos_act.motor_vehiculo }}"
-                        class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-sizing-default">Motor</span>
                     </div>
+                    <input type="number" name="motor" id="motor" value="{{ parameters.datos_act.motor_vehiculo }}"
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
                 </div>
-                <div class="form-item" class="item-anio">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="inputGroup-sizing-default">Año</span>
-                        </div>
-                        <input type="number" name="anio" id="anio" class="form-control" aria-label="Default"
-                        aria-describedby="inputGroup-sizing-default" value="{{ parameters.datos_act.anio_vehiculo }}" required>
+            
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-sizing-default">Año</span>
                     </div>
+                    <input type="number" name="anio" id="anio" class="form-control" aria-label="Default"
+                    aria-describedby="inputGroup-sizing-default" value="{{ parameters.datos_act.anio_vehiculo }}" required>
                 </div>
-                <div class="form-item">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="inputGroup-sizing-default">Chasis</span>
-                        </div>
-                        <input type="text" name="chasis" id="chasis" value="{{ parameters.datos_act.nro_chassis_vehiculo }}" 
-                        class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
+            
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-sizing-default">Chasis</span>
                     </div>
+                    <input type="text" name="chasis" id="chasis" value="{{ parameters.datos_act.nro_chassis_vehiculo }}" 
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
                 </div>
+            
                 <div class="input-group mb-3" id="item-chasis" style="display:none">
 
                 </div>
-                <div class="form-item" id="item-costo">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="inputGroup-sizing-default">Costo</span>
-                        </div>
-                        <input type="text" name="costo" value="{{ parameters.datos_act.precio_costo }}" 
-                        class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" onkeydown="format(this)" onchange="format(this)" required>
+                
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-sizing-default">Costo</span>
                     </div>
+                    <input type="text" name="costo" value="{{ parameters.datos_act.precio_costo }}" 
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" onkeydown="format(this)" onchange="format(this)" required>
                 </div>
-                <div class="form-item" id="item-venta">
-                    <div class="input-group mb-3"> 
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-default">Venta</span>
-                          </div>
-                          <input type="text" name="venta" id="venta" value="{{ parameters.datos_act.precio_venta }}" 
-                          class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" onkeydown="format(this)" onchange="format(this)" required>
-                    </div>
+            
+                <div class="input-group mb-3"> 
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Venta</span>
+                      </div>
+                      <input type="text" name="venta" id="venta" value="{{ parameters.datos_act.precio_venta }}" 
+                      class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" onkeydown="format(this)" onchange="format(this)" required>
                 </div>
-
             </section>
         </form>
         <button class="btn btn-success" style="margin-top: 1em" type="submit" form="cargarProducto" onclick="return verificarFormulario(this)">Cargar Nuevo Producto</button>
