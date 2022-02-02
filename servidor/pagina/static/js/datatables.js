@@ -22,6 +22,7 @@ function dataTable() {
             }
         });
     });
+    document.getElementById('tabla').style = "padding-top: 1em"
 }
 
 function dataTableId(tabla) {
@@ -48,4 +49,5 @@ function dataTableId(tabla) {
             }
         });
     });
+    document.getElementById(tabla).style = "padding-top: 1em"
 }

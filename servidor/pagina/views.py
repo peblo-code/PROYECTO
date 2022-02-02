@@ -209,12 +209,19 @@ def factura(request):
 def factura_compra(request):
     listaproveedor = proveedor.objects.all()
     listatimbrado = timbrado.objects.all()
-    listavehiculo = vehiculo.objects.all()
+    listaproducto = vehiculo.objects.all()
+    listamarca = marca.objects.all()
+    listamodelo = modelo.objects.all()
+    listacolor = color.objects.all()
+
 
     if request.method == 'GET':
+
         return validar(request, 'sections/invoice/invoice-buy.html', {
-            'listaproveedor': listaproveedor, "listatimbrado":listatimbrado, "listavehiculo": listavehiculo,
-            "fecha_act": date.today()
+            'listaproveedor': listaproveedor, "listatimbrado":listatimbrado, 
+            "listaproducto": listaproducto, "listamarca": listamarca, "listamodelo": listamodelo,
+            "listacolor": listacolor,
+            "fecha_act": date.today().isoformat()
         })
 
 def config(request):

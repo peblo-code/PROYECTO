@@ -50,3 +50,32 @@ function formatInputLoaded(data) {
     data[i].value = value
   }
 }
+
+function formatearFecha(msg) {
+    let meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
+    let fecha = msg.split(' de ')
+
+    if(fecha[0].length > 1) {
+      var dia = fecha[0]
+    } else {
+      var dia = `0${fecha[0]}`
+    }
+
+    var mes = ''
+
+    var anio = fecha[2]
+
+    for(let i = 0; i < meses.length; i++) {
+      if(meses[i] == fecha[1]) {
+        if(i + 1 < 10) {
+          mes = `0${i + 1}`
+        } else {
+          mes = `${i + 1}`
+        }
+      }
+    }
+    
+    return `${anio}-${mes}-${dia}`
+}
+
+console.log(formatearFecha("9 de Septiembre de 2022"))

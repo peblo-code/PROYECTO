@@ -42,7 +42,7 @@
                         <td>{{ proveedor.telefono_proveedor }}</td>
                         <td>{{ proveedor.direccion_proveedor }}</td>
                         <td class="actions">
-                            <button class="btn btn-info boton-seleccionar" data-bs-dismiss="modal" onclick="obtenerValores(this)">
+                            <button class="btn btn-primary boton-seleccionar" data-bs-dismiss="modal" onclick="obtenerValores(this)">
                                 Seleccionar
                             </button>
                         </td>
@@ -93,9 +93,8 @@
                 {% endfor %}
 
                 cargarFecha(document.getElementById("nro_timbrado"))
+                $('#btn-ver-vehiculo').show(500); //muestro mediante id
             }
-
-            formatText("documento") //formatear numeros
 
         </script>
     </div>
