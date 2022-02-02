@@ -12,6 +12,7 @@ from pagina.models import ciudad
 from pagina.models import cliente
 from pagina.models import proveedor
 from pagina.models import timbrado
+from pagina.models import factura_compra
 from django.http import HttpResponse, JsonResponse, response
 from django.core import serializers
 from datetime import date
@@ -206,13 +207,14 @@ def informes(request):
 def factura(request):
     return validar(request, 'sections/invoice.html')
 
-def factura_compra(request):
+def factura_comprar(request):
     listaproveedor = proveedor.objects.all()
     listatimbrado = timbrado.objects.all()
     listaproducto = vehiculo.objects.all()
     listamarca = marca.objects.all()
     listamodelo = modelo.objects.all()
     listacolor = color.objects.all()
+    listafacturacompra = factura_compra.objects.all()
 
 
     if request.method == 'GET':
@@ -221,8 +223,26 @@ def factura_compra(request):
             'listaproveedor': listaproveedor, "listatimbrado":listatimbrado, 
             "listaproducto": listaproducto, "listamarca": listamarca, "listamodelo": listamodelo,
             "listacolor": listacolor,
+            "listafacturacompra": listafacturacompra,
             "fecha_act": date.today().isoformat()
         })
+
+    if request.method == 'POST':
+        nueva_compra=factura_compra(
+            id_proveedor_id = request.POST.get('id_proveedor'),
+            nro_timbrado_id = request.POST.get('nro_timbrado'),
+            id_vehiculo_id = request.POST.get('id_vehiculo'),
+            nro_factura_compra = request.POST.get('nro_factura'),
+            fch_factura_compra = date.today().isoformat(),
+            condicion_factura_compra = request.POST.get('condicion_factura')
+        )
+        nueva_compra.save()
+
+        modificar_vehiculo=vehiculo.objects.get(id_vehiculo=request.POST.get('id_vehiculo'))
+        modificar_vehiculo.estado_vehiculo = 1
+        modificar_vehiculo.save()
+
+    return redirect('./factura_compra')
 
 def config(request):
     return validar(request, 'sections/config.html')

@@ -24,12 +24,16 @@
 
         <div class="card menu-fade">
             <div class="card-body">
-                <form action="" method="POST" class="form-invoice" id="cargarProducto">
+                <form action="" method="POST" class="form-invoice" id="cargarCompra">
                     {% csrf_token %}
+
+                    <input type="text" id="id_proveedor" name="id_proveedor" style="display: none;">
+                    <input type="text" id="id_vehiculo" name="id_vehiculo" style="display: none;">
+
                     <div class="form-body" id="proveedor-data">
                         <div class="form-div-invoice">
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" id="proveedor" placeholder="Proveedor" aria-describedby="button-addon4" disabled>
+                                <input type="text" class="form-control validar" id="proveedor" name="proveedor" placeholder="Proveedor" aria-describedby="button-addon4" disabled>
                                   <button class="btn btn-outline-primary" id="mostrarProveedores" type="button" onclick="abrirModalEdicion('{% url 'modal_view_proveedor' %}')">Buscar</button>
                             </div>
                         </div>
@@ -39,7 +43,7 @@
                                   <span class="input-group-text" id="inputGroup-sizing-default">RUC</span>
                                 </div>
                                 <input type="text" name="ruc" id="ruc"
-                                class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
+                                class="form-control validar" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
                             </div>
                         </div>
                         <div class="form-div-invoice">
@@ -48,7 +52,7 @@
                                     <label class="input-group-text" for="transmision">Fecha Act.</label>
                                 </div>
                                 <input type="date" name="fch_actual" id="fch_actual" value={{parameters.fecha_act}}
-                                class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
+                                class="form-control validar" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
                             </div>
                         </div>
                     </div>
@@ -58,7 +62,7 @@
                                 <div class="input-group-prepend">
                                   <label class="input-group-text" for="transmision">Nro. Timbrado</label>
                                 </div>
-                                <select class="form-select" id="nro_timbrado" name="nro_timbrado" onchange="cargarFecha(this)" required>
+                                <select class="form-select validar" id="nro_timbrado" name="nro_timbrado" onchange="cargarFecha(this)" required>
                                     <option value="" ></option>
                                 </select>
                             </div>
@@ -69,7 +73,7 @@
                                     <label class="input-group-text" for="">Fecha Vto.</label>
                                 </div>
                                 <input type="date" name="fch_vencimiento" id="fch_vencimiento" value=""
-                                class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
+                                class="form-control validar" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
                             </div>
                         </div>
                         <div class="form-div-invoice">
@@ -78,18 +82,21 @@
                                   <span class="input-group-text" id="inputGroup-sizing-default">Nro. Factura</span>
                                 </div>
                                 <input type="number" name="nro_factura" id="nro_factura" value="{{ parameters.datos_act.motor_vehiculo }}"
-                                class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
+                                class="form-control validar" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
+                            </div>
+                            <div class="input-group mb-3" id="item-documento" style="display: none;">
+
                             </div>
                         </div>
                         <div class="form-div-invoice mb-3" id="condicion-pago">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+                                <input class="form-check-input" type="radio" name="condicion_factura" id="flexRadioDefault1" value="0" checked>
                                 <label class="form-check-label" for="flexRadioDefault1">
                                   Contado
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                                <input class="form-check-input" type="radio" name="condicion_factura" id="flexRadioDefault2" value="1">
                                 <label class="form-check-label" for="flexRadioDefault2">
                                   Crédito
                                 </label>
@@ -172,10 +179,13 @@
                         <input type="text" id="venta" name="venta" class="format form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
                     </div>
                 </section>
+                <button class="btn btn-success" id="btnCarga">
+                    Generar Factura
+                </button>
             </div>
         </div>
 
-        <div class="card" id="tabla-vehiculo" style="display: none">
+        <div class="card" id="tabla-vehiculo" style="display:none">
             <div class="card-body">
                 <h3>Vehiculos</h3>
                 <div class="div-tabla">
@@ -252,6 +262,7 @@
     <script src="{% static 'js/alerts.js' %}"></script>
     <script src="{% static 'js/datatables.js'%}"></script>
     <script src="{% static 'js/functions.js'%}"></script>
+    <script src="{% static 'js/validate.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/DataTables/js/datatables.min.js' %}"></script>
     <script>
         dataTable()
@@ -303,6 +314,7 @@
 
             {% for vehiculo in parameters.listaproducto %}
                 if(id_vehiculo == "{{vehiculo.id_vehiculo}}") {
+                    document.getElementById("id_vehiculo").value = "{{vehiculo.id_vehiculo}}"
                     document.getElementById("transmision").value = "{{vehiculo.transmision_vehiculo}}"
                     document.getElementById("motor").value = "{{vehiculo.motor_vehiculo}}"
                     document.getElementById("anio").value = "{{vehiculo.anio_vehiculo}}"
@@ -322,7 +334,49 @@
             document.getElementById("color").value = elementosTD.cells.item(4).innerText;
 
         }
+        var argsModal = {
+            TITLE: 'Advertencia!', 
+            TEXT: 'Estás seguro de generar esta Factura de Compra?',
+            ICON: 'warning', 
+            successPhrase:'generado',
+            typeOfMethod:'confirm',
+            btnId: 'cargarCompra'
+        }
+
+        var validacion = true
+
+        document.getElementById("nro_factura").addEventListener("keyup", (evt) => {
+            var flag = false
+            var valor = document.getElementById("nro_factura").value
+            var valorCorregido = ''
+            for(let i = 0; i < valor.length; i++) {
+                valorCorregido += valor.charAt(i).replace(".","")
+            }
+
+            var valorData
+            {% for factura_compra in parameters.listafacturacompra %}
+            valorData = "{{factura_compra.nro_factura_compra}}"
+            if(valor == valorData) {
+                flag = true
+            }
+            {% endfor %}
+
+            validacion = validarFormulario("item-documento", flag, "Nro. de factura ya se encuentra en uso.")
+        })
+
+        document.getElementById("btnCarga").addEventListener("click", () => validarFormularioEdicion(validacion))
+
+        var argsInsert = {
+            TITLE: 'Cambios aplicados!',
+            TEXT: `La factura ha sido generada con éxito`,
+            ICON: 'success'
+        }
         
+        if(sessionStorage.getItem('1') == 1) {
+            window.onload = alerta(argsInsert)
+            sessionStorage.setItem('1', 0);
+        }
+
     </script>
     {% endblock %}
 </body>

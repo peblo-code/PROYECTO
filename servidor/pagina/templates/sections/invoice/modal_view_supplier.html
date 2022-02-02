@@ -79,6 +79,7 @@
                 document.getElementById("proveedor").value = elementosTD.cells.item(2).innerText;
                 document.getElementById("ruc").value = elementosTD.cells.item(1).innerText;
                 var proveedorSeleccionado = elementosTD.cells.item(0).innerText;
+                document.getElementById("id_proveedor").value = proveedorSeleccionado
                 var aux = ""
 
                 {% for timbrado in parameters.listatimbrado %}
