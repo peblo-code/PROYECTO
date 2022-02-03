@@ -2,9 +2,9 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-{% block cuerpo %}
 
 <head>
+    {% block cabecera %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,15 +13,20 @@
     <link rel="stylesheet" href="{% static './css/section-styles/search.css' %}">
     <link rel="stylesheet" href="{% static './css/section-styles/clients/clients.css' %}">
     <link rel="stylesheet" href="{% static 'css/modal.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
     <!-- Fuentes de Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap"
         rel="stylesheet">
     <!-- Fuentes de Google -->
+    {% endblock %}
 </head>
 
 <body>
+    {% block cuerpo %}
     <div class="form-container menu-fade">
         <div class="title-and-back">
             <a href="{% url 'personas' %}" class="back" style="text-decoration: none;">
@@ -40,7 +45,7 @@
             Los clientes que se encuentren en esta lista no aparecerán disponibles para efectuar ventas
         </div>
         {% endif %}
-        <table id="tabla">
+        <table id="tabla" class="table table-striped" style="width: 100%">
             <thead>
                 <tr>
                     <th>Nro. Documento</th>
@@ -99,12 +104,14 @@
     </div>
 
     <script src="{% static 'js/jquery.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
     <script src="{% static 'js/alerts.js' %}"></script>
     <script src="{% static 'js/datatables.js'%}"></script>
     <script src="{% static 'js/functions.js'%}"></script>
-    <script type="text/javascript" src="{% static 'js/DataTables/js/datatables.min.js' %}"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript">
         window.onload = function colorBoton() {
             boton = document.getElementById("btnMostrarOcultar")
@@ -115,7 +122,30 @@
             }
         }
 
-       dataTable()
+        $(document).ready(function(){
+            $('#tabla').DataTable({
+                responsive: true,
+                "language": {
+                "emptyTable":     "La tabla se encuentra vacia.",
+                "info":           "Mostrando _END_ de _MAX_ registros",
+                "infoEmpty":      "",
+                "infoFiltered":   "",
+                "infoPostFix":    "",
+                "thousands":      ",",
+                "lengthMenu":     "Mostrar _MENU_ registros",
+                "loadingRecords": "Cargando...",
+                "processing":     "Procesando...",
+                "search":         "",
+                "zeroRecords":    "No se obtuvo ninguna coincidencia",
+                oPaginate: {
+                    sNext: '<i class="fa fa-forward"></i>',
+                    sPrevious: '<i class="fa fa-backward"></i>',
+                    sFirst: '<i class="fa fa-step-backward"></i>',
+                    sLast: '<i class="fa fa-step-forward"></i>'
+                }
+            }
+            });
+        });
 
         var args = {
             TITLE: 'Precaución!', 

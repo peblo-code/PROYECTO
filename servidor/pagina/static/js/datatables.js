@@ -1,6 +1,7 @@
 function dataTable() {
     $(document).ready(function() {
         $('#tabla').DataTable({
+            responsive: true,
             "language": {
                 "emptyTable":     "La tabla se encuentra vacia.",
                 "info":           "Mostrando _END_ de _MAX_ registros",
