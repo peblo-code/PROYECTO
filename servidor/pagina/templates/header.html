@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{% static './css/animate.css' %}">
     <link rel="stylesheet" href="{% static './css/header.css' %}">
     <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
-    <link rel="stylesheet" type="text/css" href="{% static './css/DataTables/datatables.min.css' %}"/>
  
     <link rel="stylesheet" href="{% static 'css/@fortawesome/fontawesome-free/css/all.min.css' %}" type="text/css">
     <!-- Fuentes de Google -->
@@ -17,9 +16,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap" rel="stylesheet">
     <!-- Fuentes de Google -->
+
+    {% block cabecera %}
+
+    {% endblock %}
 </head>
-<body>
-    <header class="header">
+<body style="width:100%">
+    <header class="header" style="width:100%">
             <figure class="logo">
                 <h1 class="login-title">Automóviles Benedix</h1>
             </figure>
