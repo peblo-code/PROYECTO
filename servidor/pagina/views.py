@@ -353,7 +353,8 @@ def edit_user(request, usu_actual=0):
             {"datos_act":datos_usuario, "usu_actual":usu_actual, "titulo":"Editar Usuario", "tipo_usu":tipo_usu, "listausuario":listausuario})
         else:
             return validar(request, "sections/config/edit_user.html",
-            {"nombre_completo":request.session.get("nombre_completo"), "usu_actual":usu_actual, "titulo":"Cargar Usuario", "tipo_usu":tipo_usu, "listausuario":listausuario})
+            {"nombre_completo":request.session.get("nombre_completo"), "usu_actual":usu_actual, "titulo":"Cargar Usuario", "tipo_usu":tipo_usu,
+             "listausuario":listausuario})
 
     if request.method=="POST":
         if usu_actual==0:

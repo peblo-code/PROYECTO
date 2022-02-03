@@ -3,9 +3,7 @@
     <div class="modal-content">
         <div class="modal-modal-header">
             <h2 class="modal-title">{{parameters.titulo}}</h2>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -59,7 +57,7 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="genero_cliente">Tipo de Usuario</label>
                     </div>
-                    <select name="tipo_usuario" id="tipo_usuario" required>
+                    <select name="tipo_usuario" id="tipo_usuario" class="form-select" required>
                         {% for usuario in parameters.tipo_usu %}
                         {% if usuario.id_tipo_usuario == parameters.datos_act.tipo_usuario %}
                         <option value="{{usuario.id_tipo_usuario}}" id="opcion_select" selected>
@@ -75,7 +73,7 @@
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" id="btnCarga">Confirmar</button>
-            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
+            <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancelar</button>
         </div>
     </div>
 
