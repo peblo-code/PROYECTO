@@ -4,7 +4,7 @@
     display: flex;
     height: 70px;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-evenly;
     flex-wrap: wrap;
     position: sticky;
     top: 0;
@@ -48,7 +48,7 @@ a {
 
 .header ol li {
     height: inherit;
-    font-family: 'Bebas Neue', cursive;
+    font-family: 'Open Sans';
     display: flex;
     align-items: center;
 }
@@ -122,14 +122,14 @@ a {
     }
 
     .header ol {
-        background: #007bb1;
-        border: 1px solid #0081b9;
         border-radius: 5px;
         height: inherit;
         display: flex;
         align-content: center;
-        width: 50%;
-        justify-content: space-around;
+        width: 100%;
+        justify-content: center;
+        gap: 1em;
+        margin-bottom: 1em;
     }
 
     .header ol li {

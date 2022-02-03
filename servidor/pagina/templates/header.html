@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{% static './css/header.css' %}">
     <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
     <link rel="stylesheet" type="text/css" href="{% static './css/DataTables/datatables.min.css' %}"/>
+ 
     <link rel="stylesheet" href="{% static 'css/@fortawesome/fontawesome-free/css/all.min.css' %}" type="text/css">
     <!-- Fuentes de Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,23 +20,22 @@
 </head>
 <body>
     <header class="header">
-        <div class="container">
             <figure class="logo">
                 <h1 class="login-title">Automóviles Benedix</h1>
             </figure>
             <nav class="menu">
                 <ol>
                     <li>
-                        <span class="menu-userinfo">Bienvenido <span class="menu-username">{{nombre_completo}}</span></span>
+                        <span class="badge bg-primary">Bienvenido {{nombre_completo}}</span>
                     </li>
                     <li>
                         <a class="link" href="./salir" style="text-decoration: none;"><span class="icon-enter"></a>
                     </li>
                 </ol>
             </nav>
-        </div>
     </header>
     <script src="{% static 'js/jquery.js' %}"></script>
+
     {% block cuerpo%}
     
     {% endblock %}
