@@ -3,9 +3,7 @@
     <div class="modal-content">
         <div class="modal-modal-header">
             <h2 class="modal-title">Timbrados</h2>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -92,7 +90,7 @@
 
         <div class="modal-footer">
             <button class="btn btn-success" onclick="return mostrarFormularioTabla(this)">Nuevo Timbrado</button>
-            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
+            <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancelar</button>
         </div>
 
         <div class="modal fade" id="edicion" role="dialog">
@@ -102,6 +100,7 @@
 
     <script src="{% static 'js/alerts.js' %}"></script>
     <script src="{% static 'js/validate.js' %}"></script>
+    <script src="{% static 'js/datatable.js' %}"></script>
 
     <script type="text/javascript">
         var $ = jQuery.noConflict();
@@ -129,29 +128,7 @@
             } 
         }
 
-        $(document).ready(function() {
-            $('#tabla').DataTable({
-                    "language": {
-                        "emptyTable":     "La tabla se encuentra vacia.",
-                        "info":           "Mostrando _END_ de _MAX_ registros",
-                        "infoEmpty":      "",
-                        "infoFiltered":   "",
-                        "infoPostFix":    "",
-                        "thousands":      ",",
-                        "lengthMenu":     "Mostrar _MENU_ registros",
-                        "loadingRecords": "Cargando...",
-                        "processing":     "Procesando...",
-                        "search":         "",
-                        "zeroRecords":    "No se obtuvo ninguna coincidencia",
-                        oPaginate: {
-                            sNext: '<i class="fa fa-forward"></i>',
-                            sPrevious: '<i class="fa fa-backward"></i>',
-                            sFirst: '<i class="fa fa-step-backward"></i>',
-                            sLast: '<i class="fa fa-step-forward"></i>'
-                        }
-                    }
-            });
-        });
+        dataTableId("tabla")
 
         var validacion = true
 
