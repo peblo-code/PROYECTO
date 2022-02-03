@@ -3,9 +3,7 @@
     <div class="modal-content" style="margin: 0 auto;">
         <div class="modal-modal-header">
             <h2 class="modal-title">{{parameters.titulo}}</h2>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +12,7 @@
         <div class="modal-body">
 
             <form action="{% url 'parameters_modal_client' parameters.paisCiudad_actual parameters.tipo_carga parameters.redirigir %}" method="POST"
-                id="cargarPaisCiudad">
+                id="cargarPaisCiudad" style="display: flex; flex-direction: column;">
                 {% csrf_token %}
                 {% if parameters.tipo_carga == 0%}
                 <div class="input-group mb-3">
@@ -40,7 +38,7 @@
                 </div>
                 {% elif parameters.tipo_carga == 2 %}
                 <div class="input-group">
-                    <select class="custom-select" name="pais" id="pais">
+                    <select class="form-select" name="pais" id="pais">
                         {% for pais in parameters.listapais %}
                         {% if pais.id_pais == parameters.datos_act.id_pais_id %}
                         <option value="{{pais.id_pais}}" id="opcion_select" class="pais_select" selected>{{pais.descripcion_pais}}
@@ -67,7 +65,7 @@
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" id="btnCarga">Confirmar</button>
-            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
+            <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancelar</button>
         </div>
 
         <script src="{% static './js/functions.js' %}"></script>
