@@ -2,9 +2,10 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-{% block cuerpo %}
+
 
 <head>
+    {% block cabecera %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,34 +13,39 @@
     <link rel="stylesheet" href="{% static './css/index.css' %}">
     <link rel="stylesheet" href="{% static './css/section-styles/clients/clients.css' %}">
     <link rel="stylesheet" href="{% static 'css/modal.css' %}">
+    <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
+    <link rel="stylesheet" href="{% static './css/DataTables/dataTables.bootstrap5.min.css' %}">
+    <link rel="stylesheet" href="{% static './css/DataTables/responsive.dataTables.min.css' %}">
     <!-- Fuentes de Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap"
         rel="stylesheet">
     <!-- Fuentes de Google -->
+    {% endblock %}
 </head>
 
 <body>
-    <div class="form-container menu-fade">
-        <div class="title-and-back">
-            <a href="{% url 'personas' %}" class="back" style="text-decoration: none;">
-                <span class="icon-circle-left"></span>
-            </a>
-            <h1>Proveedores</h1>
-            <a href="{% url 'edit_proveedor' 0 %}">
-                <button class="btn btn-dark">Nuevo Proveedor</button>
-            </a>
-            <a href="{% url 'proveedores' parameters.urlSwitch %}">
-                <button class="btn " id="btnMostrarOcultar">{{parameters.buttonText}}</button>
-            </a>
-        </div>
+    {% block cuerpo %}
+    <div class="title-and-back">
+        <a href="{% url 'personas' %}" class="back" style="text-decoration: none;">
+            <span class="icon-circle-left"></span>
+        </a>
+        <h1>Proveedores</h1>
+        <a href="{% url 'edit_proveedor' 0 %}">
+            <button class="btn btn-dark">Nuevo Proveedor</button>
+        </a>
+        <a href="{% url 'proveedores' parameters.urlSwitch %}">
+            <button class="btn " id="btnMostrarOcultar">{{parameters.buttonText}}</button>
+        </a>
+    </div>
+    <div class="container menu-fade">
         {% if parameters.mode == 1%}
         <div class="alert alert-warning" role="alert">
             Los clientes que se encuentren en esta lista no aparecerán disponibles para efectuar ventas
         </div>
         {% endif %}
-        <table id="tablaProveedor">
+        <table id="tablaProveedor" class="table table-striped" style="width: 100%">
             <thead>
                 <tr>
                     <th>RUC</th>
@@ -90,13 +96,39 @@
     </div>
 
     <script src="{% static 'js/jquery.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
     <script src="{% static 'js/alerts.js' %}"></script>
-    <script src="{% static 'js/datatables.js'%}"></script>
     <script src="{% static 'js/functions.js'%}"></script>
-    <script type="text/javascript" src="{% static 'js/DataTables/js/datatables.min.js' %}"></script>
+    <script src="{% static 'js/DataTables/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/DataTables/js/dataTables.bootstrap5.min.js' %}"></script>
+    <script src="{% static 'js/DataTables/js/dataTables.responsive.min.js' %}"></script>
     <script type="text/javascript">
+        $(document).ready(function(){
+            $('#tablaProveedor').DataTable({
+                responsive: true,
+                "language": {
+                "emptyTable":     "La tabla se encuentra vacia.",
+                "info":           "Mostrando _END_ de _MAX_ registros",
+                "infoEmpty":      "",
+                "infoFiltered":   "",
+                "infoPostFix":    "",
+                "thousands":      ",",
+                "lengthMenu":     "Mostrar _MENU_ registros",
+                "loadingRecords": "Cargando...",
+                "processing":     "Procesando...",
+                "search":         "",
+                "zeroRecords":    "No se obtuvo ninguna coincidencia",
+                oPaginate: {
+                    sNext: '<i class="fa fa-forward"></i>',
+                    sPrevious: '<i class="fa fa-backward"></i>',
+                    sFirst: '<i class="fa fa-step-backward"></i>',
+                    sLast: '<i class="fa fa-step-forward"></i>'
+                }
+            }
+            });
+        });
+
+
         window.onload = function colorBoton() {
             boton = document.getElementById("btnMostrarOcultar")
             if(boton.innerHTML == 'Ver deshabilitados') {
@@ -106,7 +138,12 @@
             }
         }
 
-       dataTableId('tablaProveedor')
+        var $ = jQuery.noConflict();
+        function abrirModalEdicion(url) {
+            $('#edicion').load(url, function () {
+                $(this).modal('show');
+            })
+        }
 
         var args = {
             TITLE: 'Precaución!', 
@@ -128,13 +165,6 @@
             TITLE: 'Cambios aplicados!',
             TEXT: `El producto ha sido cargado con éxito`,
             ICON: 'success'
-        }
-
-        var $ = jQuery.noConflict();
-        function abrirModalEdicion(url) {
-            $('#edicion').load(url, function () {
-                $(this).modal('show');
-            })
         }
 
         if(sessionStorage.getItem('1') == 1) {

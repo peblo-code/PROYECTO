@@ -379,10 +379,10 @@ def delete_user(request, usu_actual):
     return redirect("../users")
 
 def cancelar_pagare(request):
-    return render(request, 'pay-fee.html')
+    return validar(request, 'pay-fee.html')
 
 def personas(request):
-    return render(request,'sections/people.html')
+    return validar(request,'sections/people.html')
 
 def proveedores(request, mode=0):
     listaproveedor = proveedor.objects.all()

@@ -2,24 +2,26 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-    {% block cuerpo %}
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio: Automotores Benedix</title>
-    <link rel="stylesheet" href="{% static './css/globals.css' %}">
-    <link rel="stylesheet" href="{% static './css/header.css' %}">
-    <link rel="stylesheet" href="{% static './css/index.css' %}">
-     <!-- Fuentes de Google -->
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap" rel="stylesheet">
-     <!-- Fuentes de Google -->
-</head>
+    <head>
+        {% block cabecera %}
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Inicio: Automotores Benedix</title>
+        <link rel="stylesheet" href="{% static './css/globals.css' %}">
+        <link rel="stylesheet" href="{% static './css/header.css' %}">
+        <link rel="stylesheet" href="{% static './css/index.css' %}">
+        <!-- Fuentes de Google -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap" rel="stylesheet">
+        <!-- Fuentes de Google -->
+        {% endblock %}
+    </head>
 <body>
+    {% block cuerpo %}
     <section class="menu-card menu-entry">
-        <div class="container">
+        <div class="container-global">
             <div class="card">
                 <div class="card-icon">
                     <span class="icon-box-add"></span>
@@ -75,8 +77,8 @@
             </div>
     
             <p id="msjError" style="display: none">
-                {% if mensaje %}
-                    <p class="message-error" hidden>{{mensaje}}</p>
+                {% if parameters.mensaje %}
+                    <p id="message-error">{{parameters.mensaje}}</p>
                 {% endif %}
             </p>
             {% if parameters.datos_usuario.tipo_usuario == 1 %}
@@ -93,17 +95,18 @@
     </section>
     <script src="{% static 'js/alerts.js' %}"></script>
     <script>
-        var mensaje = document.getElementsByClassName("message-error")
+        var mensaje = document.getElementById("message-error")
+        console.log(mensaje)
         setTimeout(showAlert, 200) 
         function showAlert() {
-            if(mensaje[0]) {
+            if(mensaje) {
                 alerta(args)
             }
         }
 
         var args = {
             TITLE: 'Ups!', 
-            TEXT: `${mensaje[0].innerHTML} 😅`,
+            TEXT: `${mensaje.innerHTML} 😅`,
             ICON: 'error', 
             typeOfMethod: '',
             btnId: 'cargarCliente'

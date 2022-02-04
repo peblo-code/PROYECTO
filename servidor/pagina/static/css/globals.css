@@ -106,7 +106,6 @@ body {
   color: white;
 }
 
-
 :root {
     --background:#F2F2F2;
     --mark-title: #212121;
@@ -117,8 +116,19 @@ body {
     --button-hover: #3e8f41;
 }
 
+html, body {
+  height: 100%;
+}
+
+.container {
+  height: 100%;
+}
+
 body {
     background-color: var(--background);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     margin: 0;
     padding: 0;
 }
@@ -128,7 +138,7 @@ iframe {
     height: 5em;
 }
 
-.container {
+.container-global {
     width: 100%;
     flex: 1;
     margin: 0 auto;
