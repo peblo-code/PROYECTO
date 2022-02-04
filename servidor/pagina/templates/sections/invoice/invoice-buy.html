@@ -2,18 +2,17 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-    {% block cuerpo %}
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/globals.css' %}">
+    {% block cabecera %}
     <link rel="stylesheet" href="{% static 'css/section-styles/invoice.css' %}">
     <link rel="stylesheet" href="{% static 'css/section-styles/globals-section.css' %}">
-    <link rel="stylesheet" href="{% static 'css/section-styles/invoice.css' %}">
+    <link rel="stylesheet" href="{% static './css/DataTables/dataTables.bootstrap5.min.css' %}">
+    <link rel="stylesheet" href="{% static './css/DataTables/responsive.dataTables.min.css' %}">
     <title>Generar Compra</title>
+    {% endblock %}
 </head>
 <body>
+    {% block cuerpo %}
     <div class="form-container">
         <div class="title-and-back">
             <a href="factura" style="text-decoration: none">
@@ -189,7 +188,7 @@
             <div class="card-body">
                 <h3>Vehiculos</h3>
                 <div class="div-tabla">
-                    <table id="tabla" class="table table-borderless table-hover" >
+                    <table id="tabla" class="table table-striped table-borderless table-hover" style="width:100%">
                         <thead class="table-dark">
                             <tr>
                                 <th>Marca</th>
@@ -260,12 +259,38 @@
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
     <script src="{% static 'js/alerts.js' %}"></script>
-    <script src="{% static 'js/datatables.js'%}"></script>
     <script src="{% static 'js/functions.js'%}"></script>
     <script src="{% static 'js/validate.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/DataTables/js/datatables.min.js' %}"></script>
+    <script src="{% static 'js/DataTables/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/DataTables/js/dataTables.bootstrap5.min.js' %}"></script>
+    <script src="{% static 'js/DataTables/js/dataTables.responsive.min.js' %}"></script>
     <script>
-        dataTable()
+        $(document).ready(function(){
+            $('#tabla').DataTable({
+                responsive: true,
+                "language": {
+                "emptyTable":     "La tabla se encuentra vacia.",
+                "info":           "Mostrando _END_ de _MAX_ registros",
+                "infoEmpty":      "",
+                "infoFiltered":   "",
+                "infoPostFix":    "",
+                "thousands":      ",",
+                "lengthMenu":     "Mostrar _MENU_ registros",
+                "loadingRecords": "Cargando...",
+                "processing":     "Procesando...",
+                "search":         "",
+                "zeroRecords":    "No se obtuvo ninguna coincidencia",
+                oPaginate: {
+                    sNext: '<i class="fa fa-forward"></i>',
+                    sPrevious: '<i class="fa fa-backward"></i>',
+                    sFirst: '<i class="fa fa-step-backward"></i>',
+                    sLast: '<i class="fa fa-step-forward"></i>'
+                }
+            }
+            });
+        });
+
+
         var $ = jQuery.noConflict();
         function abrirModalEdicion(url) {
             $('#edicion').load(url, function () {

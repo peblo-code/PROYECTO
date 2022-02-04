@@ -2,36 +2,33 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-{% block cuerpo %}
+
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block cabecera %}
     <title>Ciudad</title>
+    <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
+    <link rel="stylesheet" href="{% static './css/DataTables/dataTables.bootstrap5.min.css' %}">
+    <link rel="stylesheet" href="{% static './css/DataTables/responsive.dataTables.min.css' %}">
     <link rel="stylesheet" href="{% static './css/index.css' %}">
     <link rel="stylesheet" href="{% static './css/tables.css' %}">
     <link rel="stylesheet" href="{% static './css/section-styles/config/users.css' %}">
     <link rel="stylesheet" href="{% static './css/section-styles/products/products.css'%}">
     <link rel="stylesheet" href="{% static 'css/modal.css' %}">
-    <!-- Fuentes de Google -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap"
-        rel="stylesheet">
-    <!-- Fuentes de Google -->
+    {% endblock %}
 </head>
 
 <body>
-    <div class="form-container menu-fade">
-        <div class="title-and-back">
-            <a href="parameters_clients" class="back" style="text-decoration: none;">
-                <span class="icon-circle-left"></span>
-            </a>
-            <h1>Ciudades</h1>
-                <button class="btn btn-dark" onclick="abrirModalEdicion('{% url 'parameters_modal_client' 0 2 3 %}')">Nueva Ciudad</button>
-        </div>
-        <table id="tabla">
+    {% block cuerpo %}
+    <div class="title-and-back">
+        <a href="parameters_clients" class="back" style="text-decoration: none;">
+            <span class="icon-circle-left"></span>
+        </a>
+        <h1>Ciudades</h1>
+            <button class="btn btn-dark" onclick="abrirModalEdicion('{% url 'parameters_modal_client' 0 2 3 %}')">Nueva Ciudad</button>
+    </div>
+    <div class="container menu-fade">
+        <table id="tabla" class="table table-striped" style="width: 100%">
             <thead>
                 <tr>
                     <th>País</th>
@@ -46,7 +43,7 @@
                 <tr>
                     <td>{{pais.descripcion_pais}}</td>
                     <td>{{ciudad.descripcion_ciudad}}</td>
-                    <td class="actions" style="justify-content:end">
+                    <td class="actions">
                         <button class="btn btn-danger" onclick="detectForeing('{% url 'delete_city' ciudad.id_ciudad %}', '{{pais.id_pais}}')">
                             Borrar
                         </button>
@@ -64,13 +61,35 @@
     </div>
 
     <script src="{% static 'js/jquery.js' %}"></script>
-    <script src="{% static 'js/search.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/alerts.js' %}"></script>
-    <script src="{% static 'js/datatables.js'%}"></script>
-    <script type="text/javascript" src="{% static 'js/DataTables/js/datatables.min.js' %}"></script>
+    <script src="{% static 'js/DataTables/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/DataTables/js/dataTables.bootstrap5.min.js' %}"></script>
+    <script src="{% static 'js/DataTables/js/dataTables.responsive.min.js' %}"></script>
     <script type="text/javascript">
-        dataTable()
+        $(document).ready(function(){
+            $('#tabla').DataTable({
+                responsive: true,
+                "language": {
+                "emptyTable":     "La tabla se encuentra vacia.",
+                "info":           "Mostrando _END_ de _MAX_ registros",
+                "infoEmpty":      "",
+                "infoFiltered":   "",
+                "infoPostFix":    "",
+                "thousands":      ",",
+                "lengthMenu":     "Mostrar _MENU_ registros",
+                "loadingRecords": "Cargando...",
+                "processing":     "Procesando...",
+                "search":         "",
+                "zeroRecords":    "No se obtuvo ninguna coincidencia",
+                oPaginate: {
+                    sNext: '<i class="fa fa-forward"></i>',
+                    sPrevious: '<i class="fa fa-backward"></i>',
+                    sFirst: '<i class="fa fa-step-backward"></i>',
+                    sLast: '<i class="fa fa-step-forward"></i>'
+                }
+            }
+            });
+        });
 
         var $ = jQuery.noConflict();
         function abrirModalEdicion(url) {

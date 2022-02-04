@@ -2,25 +2,18 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-    {% block cuerpo %}
+    
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block cabecera %}
     <title>Parametros de Productos: Automotores Benedix</title>
-    <link rel="stylesheet" href="{% static './css/globals.css' %}">
-    <link rel="stylesheet" href="{% static './css/header.css' %}">
     <link rel="stylesheet" href="{% static './css/index.css' %}">
     <link rel="stylesheet" href="{% static './css/section-styles/config.css' %}">
-     <!-- Fuentes de Google -->
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap" rel="stylesheet">
-     <!-- Fuentes de Google -->
+    {% endblock %}
 </head>
 <body>
+    {% block cuerpo %}
     <section class="menu-card menu-top">
-        <div class="container">
+        <div class="container-global">
             <div class="card">
                 <div class="card-icon" style="background: #191919;">
                 </div>

@@ -8,6 +8,9 @@
             <title>Proveedores</title>
             <link rel="stylesheet" href="{% static 'css/modal.css' %}">
             <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
+            <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
+    <link rel="stylesheet" href="{% static './css/DataTables/dataTables.bootstrap5.min.css' %}">
+    <link rel="stylesheet" href="{% static './css/DataTables/responsive.dataTables.min.css' %}">
             <!-- Fuentes de Google -->
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +24,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </div>
         <div class="modal-body">
-            <table id="tablaProveedor">
+            <table id="tablaProveedor" class="table table-striped" style="width: 100%">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -57,12 +60,36 @@
         <script src="{% static 'js/bootstrap/bootstrap.js' %}"></script>
         <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
         <script src="{% static 'js/alerts.js' %}"></script>
-        <script src="{% static 'js/datatables.js'%}"></script>
         <script src="{% static 'js/functions.js'%}"></script>
-        <script type="text/javascript" src="{% static 'js/DataTables/js/datatables.min.js' %}"></script>
+        <script src="{% static 'js/DataTables/js/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'js/DataTables/js/dataTables.bootstrap5.min.js' %}"></script>
+        <script src="{% static 'js/DataTables/js/dataTables.responsive.min.js' %}"></script>
         <script type="text/javascript">
 
-            dataTableId('tablaProveedor')
+            $(document).ready(function(){
+                $('#tablaProveedor').DataTable({
+                    responsive: true,
+                    "language": {
+                    "emptyTable":     "La tabla se encuentra vacia.",
+                    "info":           "Mostrando _END_ de _MAX_ registros",
+                    "infoEmpty":      "",
+                    "infoFiltered":   "",
+                    "infoPostFix":    "",
+                    "thousands":      ",",
+                    "lengthMenu":     "Mostrar _MENU_ registros",
+                    "loadingRecords": "Cargando...",
+                    "processing":     "Procesando...",
+                    "search":         "",
+                    "zeroRecords":    "No se obtuvo ninguna coincidencia",
+                    oPaginate: {
+                        sNext: '<i class="fa fa-forward"></i>',
+                        sPrevious: '<i class="fa fa-backward"></i>',
+                        sFirst: '<i class="fa fa-step-backward"></i>',
+                        sLast: '<i class="fa fa-step-forward"></i>'
+                    }
+                }
+            });
+        });
 
             function obtenerValores(e) {
                 var SELECT = document.getElementById("nro_timbrado")
