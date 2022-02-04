@@ -116,11 +116,12 @@ body {
     --button-hover: #3e8f41;
 }
 
-html, body {
+
+.container {
   height: 100%;
 }
 
-.container {
+html {
   height: 100%;
 }
 
@@ -128,7 +129,7 @@ body {
     background-color: var(--background);
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    height: 100%;
     margin: 0;
     padding: 0;
 }

@@ -80,7 +80,7 @@ function formatearFecha(msg) {
 
 $(document).ready(function(){
  
-  if(window.innerWidth < 768){
+  if(window.innerWidth < 768 && !document.getElementsByTagName("form")){
       $('.btn').addClass('btn-sm');
   }
 
