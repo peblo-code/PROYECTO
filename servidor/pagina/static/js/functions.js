@@ -80,8 +80,11 @@ function formatearFecha(msg) {
 
 $(document).ready(function(){
  
-  if(window.innerWidth < 768 && !document.getElementsByTagName("form")){
-      $('.btn').addClass('btn-sm');
+  if(window.innerWidth < 768 && document.getElementsByTagName("form")){
+      var botones = document.getElementsByClassName("btn")
+      for(let i = 0; i < botones.length; i++) {
+        botones[i].className += " btn-sm"
+      }
   }
 
 });

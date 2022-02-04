@@ -40,30 +40,3 @@ body {
     gap: 1em;
     padding: 2em;
 }
-
-@media screen and (max-width: 768px) {
-    .card {
-        width: 70%;
-        flex-direction: column;
-    }
-}
-@media screen and (max-width: 425px) {
-    .card {
-        padding: 1em;
-        width: 90%; 
-    }
-
-    .icon-circle-left {
-        font-size: 1.5rem;
-    }
-}
-
-@media screen and (max-width: 375px) {
-    .card, .form-section, .title-and-back {
-        gap: .5em;
-    }
-
-    .title-and-back h1 {
-        font-size: 1.5rem;
-    }
-}

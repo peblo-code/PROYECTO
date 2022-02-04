@@ -6,10 +6,6 @@ thead {
     color: white;
 }
 
-tr:nth-child(even) {
-    background-color: #ddd;
-}
-
 tr:hover td{
     background: #369681;
     color: white;

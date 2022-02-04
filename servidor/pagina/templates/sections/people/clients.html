@@ -5,41 +5,36 @@
 
 <head>
     {% block cabecera %}
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clientes</title>
     <link rel="stylesheet" href="{% static './css/index.css' %}">
     <link rel="stylesheet" href="{% static './css/section-styles/search.css' %}">
     <link rel="stylesheet" href="{% static './css/section-styles/clients/clients.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/form-responsive.css' %}">
     <link rel="stylesheet" href="{% static 'css/modal.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tables.css' %}">
     <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
     <link rel="stylesheet" href="{% static './css/DataTables/dataTables.bootstrap5.min.css' %}">
     <link rel="stylesheet" href="{% static './css/DataTables/responsive.dataTables.min.css' %}">
-    <!-- Fuentes de Google -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap"
-        rel="stylesheet">
-    <!-- Fuentes de Google -->
     {% endblock %}
 </head>
 
 <body>
     {% block cuerpo %}
-    <div class="title-and-back">
-        <a href="{% url 'personas' %}" class="back" style="text-decoration: none;">
-            <span class="icon-circle-left"></span>
-        </a>
-        <h1>Clientes</h1>
-        <a href="{% url 'edit_client' 0 %}">
-            <button class="btn btn-dark">Nuevo Cliente</button>
-        </a>
-        <a href="{% url 'clientes' parameters.urlSwitch %}">
-            <button class="btn " id="btnMostrarOcultar">{{parameters.buttonText}}</button>
-        </a>
-    </div>
     <div class="container menu-fade">
+        <div class="title-and-back">
+            <a href="{% url 'personas' %}" class="back" style="text-decoration: none;">
+                <span class="icon-circle-left"></span>
+            </a>
+            <h1>Clientes</h1>
+            <a href="{% url 'edit_client' 0 %}">
+                <button class="btn btn-dark">Nuevo Cliente</button>
+            </a>
+        </div>
+        <div class="title-and-back">
+            <a href="{% url 'clientes' parameters.urlSwitch %}">
+                <button class="btn" id="btnMostrarOcultar">{{parameters.buttonText}}</button>
+            </a>
+        </div>
 
         <table id="tabla" class="table table-striped" style="width: 100%">
             <thead>
@@ -82,7 +77,7 @@
                             Deshabilitar
                         </button>
                             {% else %}
-                        <button class="btn btn-success"
+                        <button class="btn btn-success btn-sm"
                         onclick="alertaConfirmar('{% url 'disable_client' cliente.id_cliente 0 %}', args2)">
                             Habilitar
                         </button>
@@ -136,9 +131,9 @@
         window.onload = function colorBoton() {
             boton = document.getElementById("btnMostrarOcultar")
             if(boton.innerHTML == 'Ver deshabilitados') {
-                boton.className = "btn btn-danger"
+                boton.className = "btn btn-danger btn-sm"
             } else {
-                boton.className = "btn btn-dark"
+                boton.className = "btn btn-dark btn-sm"
             }
         }
 

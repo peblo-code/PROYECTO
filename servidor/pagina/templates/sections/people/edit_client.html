@@ -2,25 +2,18 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-{% block cuerpo %}
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static './css/globals.css' %}">
+    {% block cabecera %}
     <link rel="stylesheet" href="{% static './css/section-styles/globals-section.css' %}">
     <link rel="stylesheet" href="{% static './css/section-styles/clients/edit_client.css' %}">
-    <!-- Fuentes de Google -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap"
-        rel="stylesheet">
-    <!-- Fuentes de Google -->
     <title>{{ parameters.titulo }}</title>
+    <link rel="stylesheet" href="{% static './css/section-styles/form-responsive.css' %}">
+    {% endblock %}
 </head>
 
 <body>
+    {% block cuerpo %}
     <div class="form-container">
         <div class="title-and-back">
             <a href="../clientes/0" style="text-decoration: none">

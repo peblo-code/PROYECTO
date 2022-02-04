@@ -2,28 +2,24 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-{% block cuerpo %}
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block cabecera %}
     <title>Marcas</title>
+    <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
+    <link rel="stylesheet" href="{% static './css/DataTables/dataTables.bootstrap5.min.css' %}">
+    <link rel="stylesheet" href="{% static './css/DataTables/responsive.dataTables.min.css' %}">
     <link rel="stylesheet" href="{% static './css/index.css' %}">
     <link rel="stylesheet" href="{% static './css/tables.css' %}">
     <link rel="stylesheet" href="{% static './css/section-styles/config/users.css' %}">
     <link rel="stylesheet" href="{% static './css/section-styles/products/products.css'%}">
     <link rel="stylesheet" href="{% static 'css/modal.css' %}">
-    <!-- Fuentes de Google -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap"
-        rel="stylesheet">
-    <!-- Fuentes de Google -->
+    {% endblock %}
 </head>
 
 <body>
-    <div class="form-container menu-fade">
+    {% block cuerpo %}
+    <div class="container menu-fade">
         <div class="title-and-back">
             <a href="parameters_products" class="back" style="text-decoration: none;">
                 <span class="icon-circle-left"></span>
@@ -31,7 +27,7 @@
             <h1>Colores</h1>
                 <button class="btn btn-dark" onclick="abrirModalEdicion('{% url 'mark_and_model' 0 3 1 %}')">Nuevo Color</button>
         </div>
-        <table id="tabla">
+        <table id="tabla" class="table table-striped" style="width: 100%">
             <thead>
                 <tr>
                     <th>Color</th>
@@ -59,15 +55,37 @@
     <div class="modal fade" id="edicion" role="dialog">
 
     </div>
-
+    
     <script src="{% static 'js/jquery.js' %}"></script>
-    <script src="{% static 'js/search.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/alerts.js' %}"></script>
-    <script src="{% static 'js/datatables.js'%}"></script>
-    <script type="text/javascript" src="{% static 'js/DataTables/js/datatables.min.js' %}"></script>
+    <script src="{% static 'js/DataTables/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/DataTables/js/dataTables.bootstrap5.min.js' %}"></script>
+    <script src="{% static 'js/DataTables/js/dataTables.responsive.min.js' %}"></script>
     <script type="text/javascript">
-        dataTable()
+        $(document).ready(function(){
+            $('#tabla').DataTable({
+                responsive: true,
+                "language": {
+                "emptyTable":     "La tabla se encuentra vacia.",
+                "info":           "Mostrando _END_ de _MAX_ registros",
+                "infoEmpty":      "",
+                "infoFiltered":   "",
+                "infoPostFix":    "",
+                "thousands":      ",",
+                "lengthMenu":     "Mostrar _MENU_ registros",
+                "loadingRecords": "Cargando...",
+                "processing":     "Procesando...",
+                "search":         "",
+                "zeroRecords":    "No se obtuvo ninguna coincidencia",
+                oPaginate: {
+                    sNext: '<i class="fa fa-forward"></i>',
+                    sPrevious: '<i class="fa fa-backward"></i>',
+                    sFirst: '<i class="fa fa-step-backward"></i>',
+                    sLast: '<i class="fa fa-step-forward"></i>'
+                }
+            }
+            });
+        });
 
         function detectForeing(url, id_color) { //funcion que comprueba si el color contiene una clave foranea
             var flag = 0;
