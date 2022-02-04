@@ -67,8 +67,9 @@ def productos(request):
     listamarca = marca.objects.all()
     listamodelo = modelo.objects.all()
     listacolor = color.objects.all()
+    listafacturacompra = factura_compra.objects.all()
     return validar(request, 'sections/products/products.html',{"listaproducto":listaproducto, "listamarca":listamarca, 
-    "listamodelo": listamodelo, "listacolor":listacolor})
+    "listamodelo": listamodelo, "listacolor":listacolor, "listafacturacompra":listafacturacompra})
 
 def edit_product(request, product_actual = 0):
     listamarca = marca.objects.all()

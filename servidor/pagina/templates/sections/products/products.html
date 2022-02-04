@@ -91,9 +91,9 @@
                     <td class="actions">
                         <button onclick="abrirModalEdicion('{% url 'modal_info' lista.id_vehiculo %}')" class="btn btn-info">Info</button>
                         <button onclick="abrirModalEdicion('{% url 'edit_product' lista.id_vehiculo %}')"
-                            class="btn btn-warning">Editar</button>
+                            class="btn btn-warning" {% if lista.estado_vehiculo == 1 %} disabled {% endif %}>Editar</button>
                         <button class="btn btn-danger"
-                            onclick="alertaConfirmar('{% url 'delete_product' lista.id_vehiculo %}', args)">
+                            onclick="detectForeing('{% url 'delete_product' lista.id_vehiculo %}', '{{lista.id_vehiculo}}')">
                             Borrar
                         </button>
                     </td>
@@ -139,6 +139,29 @@
             }
             });
         });
+
+        function detectForeing(url, id_vehiculo) { //funcion que comprueba si la marca contiene una clave foranea
+            var flag = 0;
+            {% for factura_compra in parameters.listafacturacompra %}  // bucle de los id de modelos 
+                var id_factura_compra = {{ factura_compra.id_vehiculo_id }}
+
+                if(id_vehiculo == id_factura_compra) { //se existe un id de marca en la tabla de modelos la bandera pasa a ser 1
+                    flag = 1
+                }
+            {% endfor %}
+
+            if(!flag) { //si la bandera es 0 quiere decir que no existe clave foranea, por la tanto es posible borrar
+                alertaConfirmar(url, args)
+            } else {
+                alerta(args1)
+            }
+        }
+
+        var args1 = {
+            TITLE: 'Error!', 
+            TEXT: 'No puedes eliminar esta marca porque ya tiene uno o mas modelos asociados!',
+            ICON: 'error', 
+        }
 
         formatText("precio") //formatear numeros
 
