@@ -163,7 +163,7 @@ iframe {
     width: auto;
     font-family: 'Roboto', sans-serif;
     justify-content:center;
-    margin-top: 1em;
+    margin: 1em 0;
 }
 
 .form-container {
@@ -217,5 +217,11 @@ iframe {
 
   .form-section {
       grid-gap: 2em;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .title-and-back h1 {
+      font-size: 1.5rem;
   }
 }

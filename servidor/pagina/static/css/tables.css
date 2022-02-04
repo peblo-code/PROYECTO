@@ -14,3 +14,15 @@ tr:hover td{
     background: #369681;
     color: white;
 }
+
+@media screen and (max-width: 767px) {
+    .row {
+        gap: 1em;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .icon-circle-left {
+        font-size: 1.5rem;
+    }
+}
