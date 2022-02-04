@@ -12,6 +12,9 @@
             <link rel="stylesheet" href="{% static './css/section-styles/config/users.css' %}">
             <link rel="stylesheet" href="{% static './css/section-styles/products/products.css'%}">
             <link rel="stylesheet" href="{% static 'css/modal.css' %}">
+            <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
+            <link rel="stylesheet" href="{% static './css/DataTables/dataTables.bootstrap5.min.css' %}">
+            <link rel="stylesheet" href="{% static './css/DataTables/responsive.dataTables.min.css' %}">
             <!-- Fuentes de Google -->
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,31 +33,33 @@
         </div>
 
         <div class="modal-body" id="body">
-            <table id="tabla">
-                <thead>
-                    <tr>
-                        <th>Nro. Timbrado</th>
-                        <th>Fecha de Vencimiento</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for timbrado in parameters.listatimbrado %}
-                    {% if timbrado.id_proveedor_id == parameters.proveedor_actual %}
-                    <tr>
-                        <td>{{ timbrado.nro_timbrado }}</td>
-                        <td>{{ timbrado.fch_vencimiento_timbrado }}</td>
-                        <td>
-                            <button class="btn btn-danger"
-                                onclick="detectForeing('{% url 'delete_timbrado' timbrado.nro_timbrado %}', {{timbrado.id_proveedor_id}})">
-                                Borrar
-                            </button>
-                        </td>
-                    </tr>
-                    {% endif %}
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div class="container">
+                <table id="tabla" class="table table-striped" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Nro. Timbrado</th>
+                            <th>Fecha de Vencimiento</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for timbrado in parameters.listatimbrado %}
+                        {% if timbrado.id_proveedor_id == parameters.proveedor_actual %}
+                        <tr>
+                            <td>{{ timbrado.nro_timbrado }}</td>
+                            <td>{{ timbrado.fch_vencimiento_timbrado }}</td>
+                            <td>
+                                <button class="btn btn-danger"
+                                    onclick="detectForeing('{% url 'delete_timbrado' timbrado.nro_timbrado %}', {{timbrado.id_proveedor_id}})">
+                                    Borrar
+                                </button>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="form-container" id="div-form" style="display: none">
@@ -100,9 +105,37 @@
 
     <script src="{% static 'js/alerts.js' %}"></script>
     <script src="{% static 'js/validate.js' %}"></script>
-    <script src="{% static 'js/datatable.js' %}"></script>
+    <script src="{% static 'js/DataTables/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/DataTables/js/dataTables.bootstrap5.min.js' %}"></script>
+    <script src="{% static 'js/DataTables/js/dataTables.responsive.min.js' %}"></script>
 
     <script type="text/javascript">
+        $(document).ready(function(){
+            $('#tabla').DataTable({
+                responsive: true,
+                "language": {
+                "emptyTable":     "La tabla se encuentra vacia.",
+                "info":           "Mostrando _END_ de _MAX_ registros",
+                "infoEmpty":      "",
+                "infoFiltered":   "",
+                "infoPostFix":    "",
+                "thousands":      ",",
+                "lengthMenu":     "Mostrar _MENU_ registros",
+                "loadingRecords": "Cargando...",
+                "processing":     "Procesando...",
+                "search":         "",
+                "zeroRecords":    "No se obtuvo ninguna coincidencia",
+                oPaginate: {
+                    sNext: '<i class="fa fa-forward"></i>',
+                    sPrevious: '<i class="fa fa-backward"></i>',
+                    sFirst: '<i class="fa fa-step-backward"></i>',
+                    sLast: '<i class="fa fa-step-forward"></i>'
+                }
+            }
+            });
+        });
+
+
         var $ = jQuery.noConflict();
         function abrirModalEdicion(url) {
             $('#edicion').load(url, function () {
@@ -127,8 +160,6 @@
 
             } 
         }
-
-        dataTableId("tabla")
 
         var validacion = true
 
