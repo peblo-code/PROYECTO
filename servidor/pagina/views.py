@@ -218,7 +218,6 @@ def factura_comprar(request):
     listacolor = color.objects.all()
     listafacturacompra = factura_compra.objects.all()
 
-
     if request.method == 'GET':
 
         return validar(request, 'sections/invoice/invoice-buy.html', {
@@ -314,7 +313,7 @@ def cash_register(request):
     return redirect('./cash_register')
 
 def close_cash_register(request, id_caja_actual):
-    detalle_caja_personalizada = detalle_caja.objects.raw("SELECT pagina_detalle_caja.id_detalle_caja, sum(pagina_detalle_caja.monto_detalle_caja) AS saldo_actual FROM pagina_detalle_caja, pagina_caja WHERE pagina_detalle_caja.id_caja_id = " + str(id_caja_actual))
+    detalle_caja_personalizada = detalle_caja.objects.raw("SELECT pagina_detalle_caja.id_detalle_caja, sum(pagina_detalle_caja.monto_detalle_caja) AS saldo_actual FROM pagina_detalle_caja WHERE pagina_detalle_caja.id_caja_id = " + str(id_caja_actual))
     monto_detalle_caja = 0
     for detalle_cajita in detalle_caja_personalizada:
         monto_detalle_caja = detalle_cajita.saldo_actual
