@@ -1,0 +1,231 @@
+{% extends 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% block cabecera %}
+    <link rel="stylesheet" href="{% static './css/section-styles/globals-section.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/invoice/cash_register.css' %}">
+    <title>{{ parameters.titulo }}</title>
+    <link rel="stylesheet" href="{% static './css/section-styles/form-responsive.css' %}">
+    <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
+    <link rel="stylesheet" href="{% static './css/DataTables/dataTables.bootstrap5.min.css' %}">
+    <link rel="stylesheet" href="{% static './css/DataTables/responsive.dataTables.min.css' %}">
+    {% endblock %}
+</head>
+
+<body>
+    {% block cuerpo %}
+    <div class="title-and-back">
+        <a href="factura" style="text-decoration: none">
+            <span class="icon-circle-left"></span>
+        </a>
+        <h1>{{ parameters.titulo }}</h1>
+    </div>
+    <div class="form-container">
+        <div class="card menu-fade" style="justify-content: center">
+            {% if parameters.estado_caja == 0 %}
+            <h1 class="display-3">Saldo Anterior: <p> 0Gs</p></h1>
+            <button type="button" class="btn btn-outline-success" onclick="mostrarApertura(this)">Abrir Caja</button>
+            {% else %}
+            <h1 class="display-3">Saldo: <p style="color: green;" class="saldo">{{parameters.saldo_actual}}Gs</p></h1>
+            <button type="button" class="btn btn-outline-primary" onclick="mostrarApertura(this)">Extracción</button>
+            <button type="button" class="btn btn-outline-danger" onclick="alertaConfirmar('{% url 'close_cash_register' parameters.id_caja_actual %}', args)">Cerrar Caja</button>
+            {% endif %}
+        </div>
+        <form action="" method="POST" class="card menu-entry" id="cargarCaja" onsubmit="sessionStorage.setItem('1', 1);" style="display: none;">
+            {% csrf_token %}
+            <input type="text" name="id_usuario" value="{{parameters.id_usuario}}" style="display: none">
+            {% if parameters.estado_caja == 0 %}
+            <h1>Apertura</h1>
+            <div class="form-div-invoice">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="transmision">Fecha Act.</label>
+                    </div>
+                    <input type="date" name="fch_actual" id="fch_actual" value={{parameters.fecha_act}}
+                    class="form-control validar" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Monto</span>
+                </div>
+                <input type="text" name="monto_caja" id="monto_caja" value=""
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" onkeydown="format(this)" onchange="format(this)" autocomplete="off" required>
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Gs.</span>
+                </div>
+            </div>
+            <button type="button" class="btn btn-success" id="btnCarga">Abir Caja</button>
+            {% else %}
+            <h1>Extraer</h1>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Motivo</span>
+                </div>
+                <input type="text" name="descripcion_caja" id="descripcion_caja" value=""
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" autocomplete="off" required>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Monto</span>
+                </div>
+                <input type="text" name="monto_caja" id="monto_caja" value=""
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" onkeydown="format(this)" onchange="format(this)" autocomplete="off" required>
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Gs.</span>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success">Extraer Monto</button>
+            {% endif %}
+        </form>
+    </div>
+    {% if parameters.estado_caja == 1 %}
+    <div class="container menu-fade">
+        <table id="tabla" class="table table-striped" width="100%">
+            <thead>
+                <tr>
+                    <th>Descripcion</th>
+                    <th>Tipo Movimiento</th>
+                    <th>Monto</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cajadetalle in parameters.listacajadetalle %}
+                {% if cajadetalle.id_caja_id == parameters.id_caja_actual %}
+                <tr>
+                    <td>{{ cajadetalle.descripcion_detalle_caja }}</td>
+                    
+                    {% if cajadetalle.tipo_movimiento_detalle_caja == 0 %}
+                    <td style="color: green">Ingreso</td>
+                    {% else %}
+                    <td style="color: red"> Egreso </td>
+                    {% endif %}
+                    
+                    <td class="monto">{{cajadetalle.monto_detalle_caja}}</td>
+                    
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <div class="modal fade" id="edicion" role="dialog">
+
+    </div>
+
+    <script src="{% static './js/jquery.js' %}"></script>
+    <script src="{% static 'js/alerts.js' %}"></script>
+    <script src="{% static 'js/validate.js' %}"></script>
+    <script src="{% static 'js/functions.js' %}"></script>
+    <script src="{% static 'js/DataTables/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/DataTables/js/dataTables.bootstrap5.min.js' %}"></script>
+    <script src="{% static 'js/DataTables/js/dataTables.responsive.min.js' %}"></script>
+    <script>
+
+        $(document).ready(function(){
+            $('#tabla').DataTable({
+                responsive: true,
+                "language": {
+                "emptyTable":     "La tabla se encuentra vacia.",
+                "info":           "Mostrando _END_ de _MAX_ registros",
+                "infoEmpty":      "",
+                "infoFiltered":   "",
+                "infoPostFix":    "",
+                "thousands":      ",",
+                "lengthMenu":     "Mostrar _MENU_ registros",
+                "loadingRecords": "Cargando...",
+                "processing":     "Procesando...",
+                "search":         "",
+                "zeroRecords":    "No se obtuvo ninguna coincidencia",
+                oPaginate: {
+                    sNext: '<i class="fa fa-forward"></i>',
+                    sPrevious: '<i class="fa fa-backward"></i>',
+                    sFirst: '<i class="fa fa-step-backward"></i>',
+                    sLast: '<i class="fa fa-step-forward"></i>'
+                }
+            }
+            });
+        });
+
+        if(sessionStorage.getItem('1') == 1) {
+            window.onload = alerta(argsInsert)
+            sessionStorage.setItem('1', 0);
+        }
+
+        formatText("saldo")
+        formatText("monto") //formatear numeros
+        
+        flagBtn = 0
+        function mostrarApertura(event) {
+            if (flagBtn == 0) {
+                {% if parameters.estado_caja == 0 %}
+                event.className = "btn btn-outline-danger"
+
+                {% else %}
+                event.className = "btn btn-outline-secondary"
+
+                {% endif %}
+                event.innerText = "Cerrar Menu"
+                document.getElementById("cargarCaja").style = "display: flex" //muestro mediante id
+                flagBtn = 1
+
+            } else {
+                {% if parameters.estado_caja == 0 %}
+                event.className = "btn btn-outline-success"
+                event.innerText = "Abrir Caja"
+                
+                {% else %}
+                event.className = "btn btn-outline-primary"
+                event.innerText = "Extracción"
+
+                {% endif %}
+                $('#cargarCaja').hide(500); //oculto mediante id
+                flagBtn = 0
+            } 
+        }
+
+        var $ = jQuery.noConflict();
+        function abrirModalEdicion(url) {
+            console.log(url)
+            $('#edicion').load(url, function () {
+                $(this).modal('show');
+            })
+        }
+
+        var args = {
+            TITLE: 'Precaución!', 
+            TEXT: 'Estás seguro de cerrar la caja?',
+            ICON: 'warning', 
+            successPhrase:'cerrado',
+            typeOfMethod:'url',
+        }
+
+        var argsModal = {
+            TITLE: 'Advertencia!', 
+            TEXT: `Estás seguro de generar la apertura con ese monto?`,
+            ICON: 'warning', 
+            successPhrase:'generado',
+            typeOfMethod:'confirm',
+            btnId: 'cargarCaja'
+        }
+
+        var validacion = true
+
+        document.getElementById("btnCarga").addEventListener("click", () => validarFormularioEdicion(validacion))
+
+        var argsInsert = {
+            TITLE: 'Cambios aplicados!',
+            TEXT: `La apertura de caja se generó con éxito`,
+            ICON: 'success'
+        }
+
+    </script>
+    {% endblock %}
+</body>
+
+</html>

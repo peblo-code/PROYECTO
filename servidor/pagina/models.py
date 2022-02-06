@@ -78,6 +78,7 @@ class timbrado(models.Model):
     id_proveedor = models.ForeignKey(proveedor, on_delete=models.CASCADE)
     fch_vencimiento_timbrado = models.DateField()
 
+
 class factura_compra(models.Model):
     id_factura_compra = models.AutoField(primary_key=True)
     id_proveedor = models.ForeignKey(proveedor, on_delete=models.CASCADE)
@@ -87,3 +88,37 @@ class factura_compra(models.Model):
     fch_factura_compra = models.DateField()
     condicion_factura_compra = models.IntegerField()
 
+class factura_parametros(models.Model):
+    id_factura_parametros = models.AutoField(primary_key=True)
+    nro_inicio_factura_parametros = models.IntegerField()
+    nro_actual_factura_parametros = models.IntegerField()
+    nro_fin_factura_parametros = models.IntegerField()
+
+class timbrado_parametros(models.Model):
+    nro_timbrado_parametros = models.IntegerField(primary_key=True)
+    id_factura_parametros = models.ForeignKey(factura_parametros, on_delete=models.CASCADE)
+    fch_vencimiento_parametros = models.DateField()
+
+class factura_venta(models.Model):
+    id_factura_venta = models.AutoField(primary_key=True)
+    id_cliente = models.ForeignKey(cliente, on_delete=models.CASCADE)
+    nro_timbrado_parametros = models.ForeignKey(timbrado_parametros, on_delete=models.CASCADE)
+    id_vehiculo = models.ForeignKey(vehiculo, on_delete=models.CASCADE)
+    nro_factura_venta = models.IntegerField()
+    fch_factura_venta = models.DateField()
+    condicion_factura_venta = models.IntegerField()
+
+class caja(models.Model):
+    id_caja = models.AutoField(primary_key=True)
+    id_usuario = models.ForeignKey(usuarios, on_delete=models.CASCADE)
+    fch_apertura_caja = models.DateField()
+    inicio_caja = models.IntegerField()
+    fch_cierre_caja = models.DateField(null=True)
+    cierre_caja = models.IntegerField(null=True)
+    
+class detalle_caja(models.Model):
+    id_detalle_caja = models.AutoField(primary_key=True)
+    id_caja = models.ForeignKey(caja, on_delete=models.CASCADE)
+    tipo_movimiento_detalle_caja = models.IntegerField()
+    descripcion_detalle_caja = models.CharField(max_length=100)
+    monto_detalle_caja = models.IntegerField()

@@ -1,3 +1,4 @@
+from ast import Not
 from distutils.log import error
 from django.shortcuts import redirect, render
 from pagina.models import usuarios
@@ -13,6 +14,8 @@ from pagina.models import cliente
 from pagina.models import proveedor
 from pagina.models import timbrado
 from pagina.models import factura_compra
+from pagina.models import caja
+from pagina.models import detalle_caja
 from django.http import HttpResponse, JsonResponse, response
 from django.core import serializers
 from datetime import date
@@ -200,8 +203,6 @@ def mark_and_model(request, marcaModelo_actual = 0, tipo_carga = 0, redirigir = 
             response.status_code = 201
             return response
 
-    #return redirect('../../edit_product/0')
-
 def informes(request):
     return validar(request, 'sections/informs.html')
 
@@ -244,6 +245,86 @@ def factura_comprar(request):
         modificar_vehiculo.save()
 
     return redirect('./factura_compra')
+
+def cash_register(request):
+    listacaja = caja.objects.all()
+    listacajadetalle = detalle_caja.objects.all()
+    id_ultima_caja=caja.objects.all().last().id_caja
+
+    detalle_caja_personalizada = detalle_caja.objects.raw("SELECT pagina_detalle_caja.id_detalle_caja, sum(pagina_detalle_caja.monto_detalle_caja) AS saldo_actual FROM pagina_detalle_caja WHERE pagina_detalle_caja.id_caja_id = " + str(id_ultima_caja))
+    monto_detalle_caja = 0
+    for detalle_cajita in detalle_caja_personalizada:
+        monto_detalle_caja = detalle_cajita.saldo_actual
+
+    caja_personalizada = caja.objects.raw("SELECT id_caja, fch_apertura_caja, fch_cierre_caja FROM pagina_caja ORDER BY id_caja DESC LIMIT 1")
+    estado_caja = 0 #cerrado
+    for cajita in caja_personalizada:
+        if cajita.fch_apertura_caja:
+            estado_caja = 1 #abierto
+        if cajita.fch_cierre_caja:
+            estado_caja = 0 #cerrado
+    if request.method == 'GET':
+        return validar(request, "sections/invoice/cash_register.html", 
+            {
+                "estado_caja": estado_caja,
+                "listacaja": listacaja,
+                "listacajadetalle": listacajadetalle,
+                "id_caja_actual": id_ultima_caja,
+                "id_usuario": request.session.get("id_usuario"),
+                "saldo_actual": monto_detalle_caja,
+                "titulo":"Caja",
+                "fecha_act": date.today().isoformat()
+            }
+        )
+    
+    if request.method == 'POST':
+
+        if estado_caja == 0: #SI CAJA ESTA CERRADA
+            nueva_caja=caja(
+                id_usuario_id = request.POST.get('id_usuario'),
+                fch_apertura_caja = date.today().isoformat(),
+                inicio_caja=request.POST.get('monto_caja').replace(".",""),
+            )
+            nueva_caja.save()
+
+            id_nueva_caja=caja.objects.all().last().id_caja
+
+            nuevo_detalle_caja=detalle_caja(
+                id_caja_id = id_nueva_caja,
+                tipo_movimiento_detalle_caja = 0, #0 Representa INGRESO
+                descripcion_detalle_caja = "Apertura de Caja",
+                monto_detalle_caja = request.POST.get('monto_caja').replace(".",""),
+            )
+
+            nuevo_detalle_caja.save()
+
+        else:  #SI CAJA ESTA ABIERTA
+            id_caja_actual=caja.objects.all().last().id_caja
+            monto_detalle_caja = request.POST.get('monto_caja').replace(".","")
+
+            detalle_caja_actual=detalle_caja(
+                id_caja_id = id_caja_actual,
+                tipo_movimiento_detalle_caja = 1, #1 Representa EGRESO
+                descripcion_detalle_caja = request.POST.get('descripcion_caja'),
+                monto_detalle_caja = int(monto_detalle_caja) * (-1),
+            )
+
+            detalle_caja_actual.save()
+    
+    return redirect('./cash_register')
+
+def close_cash_register(request, id_caja_actual):
+    detalle_caja_personalizada = detalle_caja.objects.raw("SELECT pagina_detalle_caja.id_detalle_caja, sum(pagina_detalle_caja.monto_detalle_caja) AS saldo_actual FROM pagina_detalle_caja, pagina_caja WHERE pagina_detalle_caja.id_caja_id = " + str(id_caja_actual))
+    monto_detalle_caja = 0
+    for detalle_cajita in detalle_caja_personalizada:
+        monto_detalle_caja = detalle_cajita.saldo_actual
+
+    caja_actual=caja.objects.get(id_caja=id_caja_actual)
+    caja_actual.fch_cierre_caja = date.today().isoformat()
+    caja_actual.cierre_caja = monto_detalle_caja
+    caja_actual.save()
+
+    return redirect('../cash_register')
 
 def config(request):
     return validar(request, 'sections/config.html')
@@ -451,11 +532,9 @@ def timbrados(request, proveedor_actual=0):
         response.status_code = 201
         return response 
 
-
 def delete_timbrado(request, timbra_actual=0):
     timbrado.objects.filter(nro_timbrado=timbra_actual).delete()
     return redirect("../proveedores/0")
-
 
 def clientes(request, mode=0):
     listaclientes = cliente.objects.all()
