@@ -37,6 +37,7 @@
         <table id="tabla" class="table table-striped" style="width: 100%">
             <thead>
                 <tr>
+                    <th>ID de Caja</th>
                     <th>Fecha Apertura</th>
                     <th>Monto de Apertura</th>
                     <th>Monto de Cierre</th>
@@ -48,6 +49,7 @@
             <tbody>
                 {% for caja in parameters.listacaja %}
                 <tr>
+                    <td>{{ caja.id_caja }}</td>
 
                     <td>{{ caja.fch_apertura_caja }}</td>
 
@@ -84,6 +86,7 @@
     <div class="modal fade" id="edicion" role="dialog">
 
     </div>
+
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
     <script src="{% static 'js/alerts.js' %}"></script>
@@ -167,6 +170,7 @@
                 $(this).modal('show');
             })
         }
+
 
     </script>
     {% endblock %}

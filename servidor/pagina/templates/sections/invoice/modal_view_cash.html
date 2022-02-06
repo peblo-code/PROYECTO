@@ -5,26 +5,27 @@
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Proveedores</title>
+            <title>{{parameters.titulo}} - ID de Caja Nro. {{parameters.caja_actual}}</title>
             <link rel="stylesheet" href="{% static 'css/modal.css' %}">
             <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
             <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
-    <link rel="stylesheet" href="{% static './css/DataTables/dataTables.bootstrap5.min.css' %}">
-    <link rel="stylesheet" href="{% static './css/DataTables/responsive.dataTables.min.css' %}">
+            <link rel="stylesheet" href="{% static './css/DataTables/dataTables.bootstrap5.min.css' %}">
+            <link rel="stylesheet" href="{% static './css/DataTables/responsive.dataTables.min.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'js/Buttons-2.2.2/css/buttons.bootstrap5.min.css' %}"/>
             <!-- Fuentes de Google -->
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap"
                 rel="stylesheet">
             <!-- Fuentes de Google -->
-            <h2 class="modal-title">{{parameters.titulo}}</h2>
+            <h2 class="modal-title">{{parameters.titulo}} - ID de Caja Nro. {{parameters.caja_actual}}</h2>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </div>
         <div class="modal-body">
-            <table id="tabla" class="table table-striped" width="100%">
+            <table id="tabla-cajaDetalle" class="table table-striped" width="100%">
                 <thead>
                     <tr>
                         <th>Descripcion</th>
@@ -53,7 +54,7 @@
             </table>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancelar</button>
+            <button class="btn btn-danger" type="button" data-bs-dismiss="modal" onclick="document.title = 'Historial de Caja'">Cancelar</button>
         </div>
 
         <script src="{% static 'js/jquery.min.js' %}"></script>
@@ -64,12 +65,19 @@
         <script src="{% static 'js/DataTables/js/jquery.dataTables.min.js' %}"></script>
         <script src="{% static 'js/DataTables/js/dataTables.bootstrap5.min.js' %}"></script>
         <script src="{% static 'js/DataTables/js/dataTables.responsive.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/JSZip-2.5.0/jszip.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/pdfmake-0.1.36/pdfmake.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/pdfmake-0.1.36/vfs_fonts.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/Buttons-2.2.2/js/dataTables.buttons.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/Buttons-2.2.2/js/buttons.bootstrap5.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/Buttons-2.2.2/js/buttons.html5.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/Buttons-2.2.2/js/buttons.print.min.js' %}"></script>
         <script type="text/javascript">
 
-            $(document).ready(function(){
-                $('#tablaProveedor').DataTable({
-                    responsive: true,
-                    "language": {
+        $(document).ready(function() {   
+            document.title = "{{parameters.titulo}} - ID de Caja Nro. {{parameters.caja_actual}}" 
+            $('#tabla-cajaDetalle').DataTable({        
+                "language": {
                     "emptyTable":     "La tabla se encuentra vacia.",
                     "info":           "Mostrando _END_ de _MAX_ registros",
                     "infoEmpty":      "",
@@ -87,8 +95,31 @@
                         sFirst: '<i class="fa fa-step-backward"></i>',
                         sLast: '<i class="fa fa-step-forward"></i>'
                     }
-                }
-            });
+                },
+                //para usar los botones   
+                responsive: "true",
+                dom: 'Bfrtilp',       
+                buttons:[ 
+	        		{
+	        			extend:    'excelHtml5',
+	        			text:      '<i class="fas fa-file-excel"></i> ',
+	        			titleAttr: 'Exportar a Excel',
+	        			className: 'btn btn-success'
+	        		},
+	        		{
+	        			extend:    'pdfHtml5',
+	        			text:      '<i class="fas fa-file-pdf"></i> ',
+	        			titleAttr: 'Exportar a PDF',
+	        			className: 'btn btn-danger'
+	        		},
+	        		{
+	        			extend:    'print',
+	        			text:      '<i class="fa fa-print"></i> ',
+	        			titleAttr: 'Imprimir',
+	        			className: 'btn btn-info'
+	        		},
+	        	]	        
+            });     
         });
 
 
