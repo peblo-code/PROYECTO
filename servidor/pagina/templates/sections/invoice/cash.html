@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personas: Automotores Benedix</title>
+    <title>Caja: Automotores Benedix</title>
     <link rel="stylesheet" href="{% static './css/globals.css' %}">
     <link rel="stylesheet" href="{% static './css/header.css' %}">
     <link rel="stylesheet" href="{% static './css/index.css' %}">
@@ -21,16 +21,16 @@
             <div class="card">
                 <div class="card-icon" style="background: #191919;">
                 </div>
-                <h4>Clientes</h4>
+                <h4>Gestionar Caja</h4>
                 <p>Administre lista de Marcas</p>
-                <a href="{% url 'clientes' 0 %}">Ingresar</a>
+                <a href="cash_register">Ingresar</a>
             </div>
             <div class="card">
                 <div class="card-icon" style="background: #2D4263;">
                 </div>
-                <h4>Proveedores</h4>
+                <h4>Historial de Caja</h4>
                 <p>Administre lista de Modelos.</p>
-                <a href="{% url 'proveedores' 0 %}">Ingresar</a>
+                <a href="cash_history">Ingresar</a>
             </div>
             <div class="card">
                 <div class="card-icon">
@@ -38,7 +38,7 @@
                 </div>
                 <h4>Regresar</h4>
                 <p>Regresa al menu principal</p>
-                <a href="{% url 'inicio' %}">Ingresar</a>
+                <a href="factura">Ingresar</a>
             </div>
         </div>
     </section>

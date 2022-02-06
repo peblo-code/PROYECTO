@@ -1,0 +1,97 @@
+{% load static %}
+<div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Proveedores</title>
+            <link rel="stylesheet" href="{% static 'css/modal.css' %}">
+            <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
+            <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
+    <link rel="stylesheet" href="{% static './css/DataTables/dataTables.bootstrap5.min.css' %}">
+    <link rel="stylesheet" href="{% static './css/DataTables/responsive.dataTables.min.css' %}">
+            <!-- Fuentes de Google -->
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap"
+                rel="stylesheet">
+            <!-- Fuentes de Google -->
+            <h2 class="modal-title">{{parameters.titulo}}</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        </div>
+        <div class="modal-body">
+            <table id="tabla" class="table table-striped" width="100%">
+                <thead>
+                    <tr>
+                        <th>Descripcion</th>
+                        <th>Tipo Movimiento</th>
+                        <th>Monto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cajadetalle in parameters.listacajadetalle %}
+                    {% if cajadetalle.id_caja_id == parameters.caja_actual %}
+                    <tr>
+                        <td>{{ cajadetalle.descripcion_detalle_caja }}</td>
+                        
+                        {% if cajadetalle.tipo_movimiento_detalle_caja == 0 %}
+                        <td style="color: green">Ingreso</td>
+                        {% else %}
+                        <td style="color: red"> Egreso </td>
+                        {% endif %}
+                        
+                        <td class="monto" {% if cajadetalle.tipo_movimiento_detalle_caja == 0 %} style="color: green" {% else %} style="color: red" {% endif %}>{{cajadetalle.monto_detalle_caja}}</td>
+                        
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap/bootstrap.js' %}"></script>
+        <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
+        <script src="{% static 'js/alerts.js' %}"></script>
+        <script src="{% static 'js/functions.js'%}"></script>
+        <script src="{% static 'js/DataTables/js/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'js/DataTables/js/dataTables.bootstrap5.min.js' %}"></script>
+        <script src="{% static 'js/DataTables/js/dataTables.responsive.min.js' %}"></script>
+        <script type="text/javascript">
+
+            $(document).ready(function(){
+                $('#tablaProveedor').DataTable({
+                    responsive: true,
+                    "language": {
+                    "emptyTable":     "La tabla se encuentra vacia.",
+                    "info":           "Mostrando _END_ de _MAX_ registros",
+                    "infoEmpty":      "",
+                    "infoFiltered":   "",
+                    "infoPostFix":    "",
+                    "thousands":      ",",
+                    "lengthMenu":     "Mostrar _MENU_ registros",
+                    "loadingRecords": "Cargando...",
+                    "processing":     "Procesando...",
+                    "search":         "",
+                    "zeroRecords":    "No se obtuvo ninguna coincidencia",
+                    oPaginate: {
+                        sNext: '<i class="fa fa-forward"></i>',
+                        sPrevious: '<i class="fa fa-backward"></i>',
+                        sFirst: '<i class="fa fa-step-backward"></i>',
+                        sLast: '<i class="fa fa-step-forward"></i>'
+                    }
+                }
+            });
+        });
+
+
+        </script>
+    </div>
+</div>

@@ -245,6 +245,21 @@ def factura_comprar(request):
 
     return redirect('./factura_compra')
 
+def cash(request):
+
+    return validar(request, "sections/invoice/cash.html")
+
+def cash_history(request):
+    listacaja = caja.objects.all()
+    listausuario = usuarios.objects.all()
+
+    return validar(request, "sections/invoice/cash_history.html", {"listacaja":listacaja, "listausuario":listausuario})
+
+def modal_view_cash(request, caja_actual=0):
+    listacajadetalle = detalle_caja.objects.all()
+    
+    return validar(request, "sections/invoice/modal_view_cash.html", {"listacajadetalle": listacajadetalle, "caja_actual":caja_actual, "titulo": "Detalle Caja"})
+
 def cash_register(request):
     listacaja = caja.objects.all()
     listacajadetalle = detalle_caja.objects.all()

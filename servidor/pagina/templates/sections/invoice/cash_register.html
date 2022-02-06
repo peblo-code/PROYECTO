@@ -23,7 +23,7 @@
         }
     </style>
     <div class="title-and-back">
-        <a href="factura" style="text-decoration: none">
+        <a href="cash" style="text-decoration: none">
             <span class="icon-circle-left"></span>
         </a>
         <h1>{{ parameters.titulo }}</h1>
@@ -109,7 +109,7 @@
                     <td style="color: red"> Egreso </td>
                     {% endif %}
                     
-                    <td class="monto">{{cajadetalle.monto_detalle_caja}}</td>
+                    <td class="monto" {% if cajadetalle.tipo_movimiento_detalle_caja == 0 %} style="color: green" {% else %} style="color: red" {% endif %}>{{cajadetalle.monto_detalle_caja}}</td>
                     
                 </tr>
                 {% endif %}
