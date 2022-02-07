@@ -36,7 +36,14 @@
             {% else %}
             <h1 class="display-3">Saldo <p style="color: green;" class="saldo">{{parameters.saldo_actual}}Gs</p></h1>
             <button type="button" class="btn btn-outline-primary" onclick="mostrarApertura(this)">Extracción</button>
-            <button type="button" class="btn btn-outline-danger" onclick="alertaConfirmar('{% url 'close_cash_register' parameters.id_caja_actual %}', args)">Cerrar Caja</button>
+            <button type="button" class="btn btn-outline-danger" 
+            {% for caja in parameters.listacaja %}  
+                {% if parameters.id_ultimo_usuario == parameters.id_usuario %}
+                    onclick="alertaConfirmar('{% url 'close_cash_register' parameters.id_caja_actual %}', args)"
+                {% else %}
+                    onclick="alerta(argsErrorCaja)"
+                {% endif %}
+            {% endfor %}>Cerrar Caja</button>
             {% endif %}
         </div>
         <form action="" method="POST" class="card menu-entry" id="cargarCaja" onsubmit="sessionStorage.setItem('1', 1);" style="display: none;">
@@ -95,6 +102,7 @@
                     <th>Descripcion</th>
                     <th>Tipo Movimiento</th>
                     <th>Monto</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -110,7 +118,11 @@
                     {% endif %}
                     
                     <td class="monto" {% if cajadetalle.tipo_movimiento_detalle_caja == 0 %} style="color: green" {% else %} style="color: red" {% endif %}>{{cajadetalle.monto_detalle_caja}}</td>
-                    
+                    <td>
+                        <a href="{% url 'cash_detail_delete' cajadetalle.id_detalle_caja %}">
+                            <button class="btn btn-danger" {% if cajadetalle.descripcion_detalle_caja == 'Apertura de Caja' %} disabled {% endif %}>Deshacer</button>
+                        </a>
+                    </td>
                 </tr>
                 {% endif %}
                 {% endfor %}
@@ -209,13 +221,25 @@
             })
         }
 
-        var args = {
-            TITLE: 'Precaución!', 
-            TEXT: 'Estás seguro de cerrar la caja?',
-            ICON: 'warning', 
-            successPhrase:'cerrado',
-            typeOfMethod:'url',
-        }
+            var args = {
+                TITLE: 'Precaución!', 
+                TEXT: 'Estás seguro de cerrar la caja?',
+                ICON: 'warning', 
+                successPhrase:'cerrado',
+                typeOfMethod:'url',
+            }
+
+            {% for usuario in parameters.listausuario %}
+                {% if usuario.id_usuario == parameters.id_ultimo_usuario %}
+                    var argsErrorCaja = {
+                        TITLE: 'Atención!', 
+                        TEXT: 'Esta caja fue abierta por {{usuario.nombre_completo}}, por lo tanto solo puede cerrar el usuario que lo generó.',
+                        ICON: 'error', 
+                    }
+                {% endif %}
+            {% endfor%}
+
+
 
         {% if parameters.estado_caja == 0 %}
         var argsModal = {

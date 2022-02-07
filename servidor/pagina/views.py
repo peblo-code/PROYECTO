@@ -209,6 +209,24 @@ def informes(request):
 def factura(request):
     return validar(request, 'sections/invoice.html')
 
+def compra(request):
+    return validar(request, "sections/invoice/buy.html")
+
+def historial_compra(request):
+    listaproveedor = proveedor.objects.all()
+    listavehiculo = vehiculo.objects.all()
+    listafacturacompra = factura_compra.objects.all()
+    listamarca = marca.objects.all()
+    listamodelo = modelo.objects.all()
+
+    return validar(request, "sections/invoice/buy_history.html", {
+        "listaproveedor": listaproveedor,
+        "listavehiculo": listavehiculo,
+        "listafacturacompra": listafacturacompra,
+        "listamarca": listamarca,
+        "listamodelo": listamodelo
+    })
+
 def factura_comprar(request):
     listaproveedor = proveedor.objects.all()
     listatimbrado = timbrado.objects.all()
@@ -263,27 +281,33 @@ def modal_view_cash(request, caja_actual=0):
 def cash_register(request):
     listacaja = caja.objects.all()
     listacajadetalle = detalle_caja.objects.all()
+    listausuario = usuarios.objects.all()
     id_ultima_caja=caja.objects.all().last().id_caja
+    id_ultimo_usuario = 0
 
     detalle_caja_personalizada = detalle_caja.objects.raw("SELECT pagina_detalle_caja.id_detalle_caja, sum(pagina_detalle_caja.monto_detalle_caja) AS saldo_actual FROM pagina_detalle_caja WHERE pagina_detalle_caja.id_caja_id = " + str(id_ultima_caja))
     monto_detalle_caja = 0
     for detalle_cajita in detalle_caja_personalizada:
         monto_detalle_caja = detalle_cajita.saldo_actual
 
-    caja_personalizada = caja.objects.raw("SELECT id_caja, fch_apertura_caja, fch_cierre_caja FROM pagina_caja ORDER BY id_caja DESC LIMIT 1")
+    caja_personalizada = caja.objects.raw("SELECT id_caja, fch_apertura_caja, fch_cierre_caja, id_usuario_id FROM pagina_caja ORDER BY id_caja DESC LIMIT 1")
     estado_caja = 0 #cerrado
     for cajita in caja_personalizada:
         if cajita.fch_apertura_caja:
             estado_caja = 1 #abierto
         if cajita.fch_cierre_caja:
             estado_caja = 0 #cerrado
+        id_ultimo_usuario = cajita.id_usuario_id
+
     if request.method == 'GET':
         return validar(request, "sections/invoice/cash_register.html", 
             {
                 "estado_caja": estado_caja,
                 "listacaja": listacaja,
                 "listacajadetalle": listacajadetalle,
+                "listausuario": listausuario,
                 "id_caja_actual": id_ultima_caja,
+                "id_ultimo_usuario": id_ultimo_usuario,
                 "id_usuario": request.session.get("id_usuario"),
                 "saldo_actual": monto_detalle_caja,
                 "titulo":"Caja",
@@ -326,6 +350,10 @@ def cash_register(request):
             detalle_caja_actual.save()
     
     return redirect('./cash_register')
+
+def cash_detail_delete(request, detalle_caja_actual = 0):
+    detalle_caja.objects.filter(id_detalle_caja=detalle_caja_actual).delete()
+    return redirect("../cash_register")
 
 def close_cash_register(request, id_caja_actual):
     detalle_caja_personalizada = detalle_caja.objects.raw("SELECT pagina_detalle_caja.id_detalle_caja, sum(pagina_detalle_caja.monto_detalle_caja) AS saldo_actual FROM pagina_detalle_caja WHERE pagina_detalle_caja.id_caja_id = " + str(id_caja_actual))

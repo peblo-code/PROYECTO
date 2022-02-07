@@ -1,0 +1,46 @@
+{% extends 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block cabecera %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caja: Automotores Benedix</title>
+    <link rel="stylesheet" href="{% static './css/globals.css' %}">
+    <link rel="stylesheet" href="{% static './css/header.css' %}">
+    <link rel="stylesheet" href="{% static './css/index.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/config.css' %}">
+    {% endblock %}
+</head>
+<body>
+    {% block cuerpo %}
+    <section class="menu-card menu-top">
+        <div class="container-global">
+            <div class="card">
+                <div class="card-icon" style="background: #191919;">
+                </div>
+                <h4>Generar Compra</h4>
+                <p>Administre lista de Marcas</p>
+                <a href="factura_compra">Ingresar</a>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: #2D4263;">
+                </div>
+                <h4>Historial de Compra</h4>
+                <p>Administre lista de Modelos.</p>
+                <a href="historial_compra">Ingresar</a>
+            </div>
+            <div class="card">
+                <div class="card-icon">
+                </div>
+                <h4>Regresar</h4>
+                <p>Regresa al menu principal</p>
+                <a href="factura">Ingresar</a>
+            </div>
+        </div>
+    </section>
+    {% endblock %}
+</body>
+</html>
