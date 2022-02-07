@@ -6,8 +6,10 @@
     {% block cabecera %}
     <link rel="stylesheet" href="{% static 'css/section-styles/invoice.css' %}">
     <link rel="stylesheet" href="{% static 'css/section-styles/globals-section.css' %}">
+    <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
     <link rel="stylesheet" href="{% static './css/DataTables/dataTables.bootstrap5.min.css' %}">
     <link rel="stylesheet" href="{% static './css/DataTables/responsive.dataTables.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'js/Buttons-2.2.2/css/buttons.bootstrap5.min.css' %}"/>
     <title>Generar Compra</title>
     {% endblock %}
 </head>
@@ -81,7 +83,7 @@
                                   <span class="input-group-text" id="inputGroup-sizing-default">Nro. Factura</span>
                                 </div>
                                 <input type="number" name="nro_factura" id="nro_factura" value="{{ parameters.datos_act.motor_vehiculo }}"
-                                class="form-control validar" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
+                                class="form-control item-documento" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
                             </div>
                             <div class="input-group mb-3" id="item-documento" style="display: none;">
 
@@ -389,7 +391,7 @@
             validacion = validarFormulario("item-documento", flag, "Nro. de factura ya se encuentra en uso.")
         })
 
-        document.getElementById("btnCarga").addEventListener("click", () => validarFormularioEdicion(validacion))
+        document.getElementById("btnCarga").addEventListener("click", () => validarFormularioEdicion(validacion, "item-documento"))
 
         var argsInsert = {
             TITLE: 'Cambios aplicados!',

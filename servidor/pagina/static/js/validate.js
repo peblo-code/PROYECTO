@@ -50,7 +50,7 @@ function validarFormulario(divValor, flag, message) {
     
     let flag = true
     for(let i=0; i < inputs.length; i++) {
-        if(inputs[i].value === '') {
+        if(inputs[i].value === '' || inputs[i].value == undefined) {
             alerta(argsValidacion)
             flag = false
             i = inputs.length
