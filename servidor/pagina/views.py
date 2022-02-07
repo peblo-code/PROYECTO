@@ -418,6 +418,54 @@ def parameters_products(request):
 def parameters_clients(request):
     return validar(request, 'sections/config/parameters_clients.html')
 
+def parameters_sell(request):
+    return validar(request, "sections/config/parameters_sell.html")
+
+def timbrado_sell(request):
+    listatimbradoparametros = timbrado_parametros.objects.all()
+    return validar(request, "sections/config/parameters_sell/timbrado_sell.html", 
+    {
+        "listatimbradoparametros": listatimbradoparametros,
+    })
+
+def edit_timbrado_sell(request, timbrado_actual = 0):
+    listatimbradoparametros = timbrado_parametros.objects.all()
+    listafacturaventa = factura_venta.objects.all()
+
+    if request.method == "GET":
+        timbra_actual=timbrado_parametros.objects.filter(nro_timbrado_parametros=timbrado_actual).exists()
+        if timbra_actual:
+            datos_timbrado=timbrado_parametros.objects.filter(nro_timbrado_parametros=timbrado_actual).first()
+            return validar(request, "sections/config/parameters_sell/edit_timbrado_sell.html", {
+                "listatimbradoparametros": listatimbradoparametros,
+                "listafacturaventa": listafacturaventa,
+                "titulo": "Carga Timbrado Venta",
+                "datos_act": datos_timbrado,
+                "timbrado_actual": timbrado_actual
+            })
+        else:
+            return validar(request, "sections/config/parameters_sell/edit_timbrado_sell.html", {
+                "listatimbradoparametros": listatimbradoparametros,
+                "listafacturaventa": listafacturaventa,
+                "titulo": "Carga Timbrado Venta",
+                "timbrado_actual": timbrado_actual
+            })
+    if request.method == "POST":
+        if timbrado_actual == 0:
+            timbrado_parametros_nuevo=timbrado_parametros(
+                nro_timbrado_parametros=request.POST.get('nro_timbrado'),
+                fch_vencimiento_timbrado_parametros=request.POST.get('fch_vencimiento')
+            )
+            timbrado_parametros_nuevo.save()
+        else:
+            print(timbrado_actual)
+            timbrado_parametros_actual=timbrado_parametros.objects.get(nro_timbrado_parametros=timbrado_actual)
+            timbrado_parametros_actual.fch_vencimiento_timbrado_parametros = request.POST.get('fch_vencimiento')
+            timbrado_parametros_actual.save()
+
+        return redirect("../timbrado_sell")
+        
+
 def mark(request):
     listamarca = marca.objects.all()
     listamodelo = modelo.objects.all()

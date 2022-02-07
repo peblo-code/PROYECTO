@@ -87,16 +87,16 @@ class factura_compra(models.Model):
     fch_factura_compra = models.DateField()
     condicion_factura_compra = models.IntegerField()
 
+class timbrado_parametros(models.Model):
+    nro_timbrado_parametros = models.IntegerField(primary_key=True)
+    fch_vencimiento_timbrado_parametros = models.DateField()
+
 class factura_parametros(models.Model):
     id_factura_parametros = models.AutoField(primary_key=True)
+    nro_timbrado_parametros = models.ForeignKey(timbrado_parametros, on_delete=models.CASCADE, null=True)
     nro_inicio_factura_parametros = models.IntegerField()
     nro_actual_factura_parametros = models.IntegerField()
     nro_fin_factura_parametros = models.IntegerField()
-
-class timbrado_parametros(models.Model):
-    nro_timbrado_parametros = models.IntegerField(primary_key=True)
-    id_factura_parametros = models.ForeignKey(factura_parametros, on_delete=models.CASCADE)
-    fch_vencimiento_parametros = models.DateField()
 
 class factura_venta(models.Model):
     id_factura_venta = models.AutoField(primary_key=True)
