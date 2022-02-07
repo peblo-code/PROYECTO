@@ -5,7 +5,7 @@
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Proveedores</title>
+            <title>Clientes</title>
             <link rel="stylesheet" href="{% static 'css/modal.css' %}">
             <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
             <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
@@ -26,26 +26,55 @@
         </div>
         <div class="modal-body">
             <div class="container">
-                <table id="tablaProveedor" class="table table-striped" style="width: 100%">
+                <table id="tablaCliente" class="table table-striped" style="width: 100%">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>RUC</th>
-                            <th>Razon Social</th>
+                            <th>Nombre y Apellido</th>
+                            <th>Tipo Documento</th>
+                            <th>Nro. Documento</th>
                             <th>Telefono</th>
                             <th>Direccion</th>
+                            <th>Género</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for proveedor in parameters.listaproveedor  %}
-                        {% if proveedor.estado_proveedor == 0 %}
+                        {% for cliente in parameters.listacliente  %}
+                        {% if cliente.estado_cliente == 0 %}
                         <tr>
-                            <td>{{ proveedor.id_proveedor }}</td>
-                            <td class="documento">{{ proveedor.ruc_proveedor }}</td>
-                            <td>{{ proveedor.razon_social_proveedor}}</td>
-                            <td>{{ proveedor.telefono_proveedor }}</td>
-                            <td>{{ proveedor.direccion_proveedor }}</td>
+                            <td>{{cliente.id_cliente}}</td>
+
+                            <td>{{ cliente.nombre_cliente }} {{ cliente.apellido_cliente }}</td>
+
+
+                        {% for documento in parameters.listadocumentos %}
+                            {% if documento.id_tipo_documento == cliente.id_tipo_documento_id %}
+                                <td>{{documento.descripcion_tipo_documento}}</td>
+                            {% endif %}
+                        {% endfor %}
+
+                            <td class="documento">{{ cliente.documento_cliente }}</td>
+
+                            <td>{{ cliente.telefono_cliente }}</td>
+
+                            <td>
+                                {% for pais in parameters.listapais %}
+                                    {% if pais.id_pais == cliente.id_pais_id %}
+                                        {{pais.descripcion_pais}},
+                                    {% endif %}
+                                {% endfor %}
+                                {% for ciudad in parameters.listaciudad %}
+                                    {% if ciudad.id_ciudad == cliente.id_ciudad_id %}
+                                        {{ciudad.descripcion_ciudad}}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        {% if cliente.genero_cliente == 0 %}
+                            <td>Femenino</td>
+                        {% else %}
+                            <td>Masculino</td>
+                        {%endif%}
                             <td class="actions">
                                 <button class="btn btn-primary boton-seleccionar" data-bs-dismiss="modal" onclick="obtenerValores(this)">
                                     Seleccionar
@@ -70,7 +99,7 @@
         <script type="text/javascript">
 
             $(document).ready(function(){
-                $('#tablaProveedor').DataTable({
+                $('#tablaCliente').DataTable({
                     responsive: true,
                     "language": {
                     "emptyTable":     "La tabla se encuentra vacia.",
@@ -95,35 +124,16 @@
         });
 
             function obtenerValores(e) {
-                var SELECT = document.getElementById("nro_timbrado")
-                
-                for(var i = SELECT.options.length ; i >=0 ; i--) {
-                    SELECT.remove(i)
-                }
-
                 // vamos al elemento padre (<tr>) y buscamos todos los elementos <td>
                 // que contenga el elemento padre
                 var elementosTD=e.parentElement.parentElement
                 
                 // recorremos cada uno de los elementos del array de elementos <td>
-                document.getElementById("proveedor").value = elementosTD.cells.item(2).innerText;
-                document.getElementById("ruc").value = elementosTD.cells.item(1).innerText;
+                document.getElementById("cliente").value = elementosTD.cells.item(1).innerText;
+                document.getElementById("documento").value = elementosTD.cells.item(3).innerText;
                 var proveedorSeleccionado = elementosTD.cells.item(0).innerText;
-                document.getElementById("id_proveedor").value = proveedorSeleccionado
-                var aux = ""
+                document.getElementById("id_cliente").value = proveedorSeleccionado
 
-                {% for timbrado in parameters.listatimbrado %}
-                    aux = "{{timbrado.id_proveedor_id}}"
-                    if(proveedorSeleccionado == aux){
-                        const option = document.createElement('option');
-                        option.id = "opcion_select"
-                        option.value = "{{timbrado.nro_timbrado}}";
-                        option.text = "{{timbrado.nro_timbrado}}";
-                        SELECT.appendChild(option);
-                    }
-                {% endfor %}
-
-                cargarFecha(document.getElementById("nro_timbrado"))
                 $('#btn-ver-vehiculo').show(500); //muestro mediante id
             }
 

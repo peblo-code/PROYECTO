@@ -13,7 +13,9 @@ from pagina.models import ciudad
 from pagina.models import cliente
 from pagina.models import proveedor
 from pagina.models import timbrado
+from pagina.models import timbrado_parametros
 from pagina.models import factura_compra
+from pagina.models import factura_venta
 from pagina.models import caja
 from pagina.models import detalle_caja
 from django.http import HttpResponse, JsonResponse, response
@@ -211,6 +213,45 @@ def factura(request):
 
 def compra(request):
     return validar(request, "sections/invoice/buy.html")
+
+def venta(request):
+    return validar(request, "sections/invoice/sell.html")
+
+def factura_vender(request):
+    listacliente = cliente.objects.all()
+    listatimbradoparametros = timbrado_parametros.objects.all()
+    listaproducto = vehiculo.objects.all()
+    listamarca = marca.objects.all()
+    listamodelo = modelo.objects.all()
+    listacolor = color.objects.all()
+    listafacturaventa = factura_venta.objects.all()
+
+    if request.method == 'GET':
+
+        return validar(request, 'sections/invoice/invoice-sell.html', {
+            'listacliente': listacliente, "listatimbradoparametros":listatimbradoparametros, 
+            "listaproducto": listaproducto, "listamarca": listamarca, "listamodelo": listamodelo,
+            "listacolor": listacolor,
+            "listafacturaventa": listafacturaventa,
+            "fecha_act": date.today().isoformat()
+        })
+
+    if request.method == 'POST':
+        nueva_compra=factura_compra(
+            id_proveedor_id = request.POST.get('id_proveedor'),
+            nro_timbrado_id = request.POST.get('nro_timbrado'),
+            id_vehiculo_id = request.POST.get('id_vehiculo'),
+            nro_factura_compra = request.POST.get('nro_factura'),
+            fch_factura_compra = date.today().isoformat(),
+            condicion_factura_compra = request.POST.get('condicion_factura')
+        )
+        nueva_compra.save()
+
+        modificar_vehiculo=vehiculo.objects.get(id_vehiculo=request.POST.get('id_vehiculo'))
+        modificar_vehiculo.estado_vehiculo = 1
+        modificar_vehiculo.save()
+
+    return redirect('./factura_compra')
 
 def historial_compra(request):
     listaproveedor = proveedor.objects.all()
@@ -556,6 +597,21 @@ def modal_view_proveedor(request):
     listatimbrado = timbrado.objects.all()
 
     return validar(request, 'sections/invoice/modal_view_supplier.html', {"listaproveedor":listaproveedor, "listatimbrado":listatimbrado, "titulo": "Proveedores"})
+
+def modal_view_cliente(request):
+    listacliente = cliente.objects.all()
+    listadocumentos = tipo_documento.objects.all()
+    listapais = pais.objects.all()
+    listaciudad = ciudad.objects.all()
+
+    return validar(request, 'sections/invoice/modal_view_client.html', 
+    {
+        "listacliente":listacliente, 
+        "listadocumentos":listadocumentos,
+        "listapais": listapais,
+        "listaciudad": listaciudad, 
+        "titulo": "Clientes"
+    })
 
 def timbrados(request, proveedor_actual=0):
     listatimbrado = timbrado.objects.all()
