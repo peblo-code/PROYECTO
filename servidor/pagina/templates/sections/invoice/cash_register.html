@@ -31,7 +31,13 @@
     <div class="form-container">
         <div class="card menu-fade" style="justify-content: center">
             {% if parameters.estado_caja == 0 %}
-            <h1 class="display-3">Saldo Anterior <p class="saldo" style="color: gray;">{{parameters.saldo_actual}}Gs</p></h1>
+            <h1 class="display-3">Saldo Anterior <p class="saldo" style="color: gray;">
+                {% if parameters.saldo_actual %}
+                    {{parameters.saldo_actual}}Gs
+                {% else %}
+                    0
+                {% endif%}
+            </p></h1>
             <button type="button" class="btn btn-outline-success" onclick="mostrarApertura(this)">Abrir Caja</button>
             {% else %}
             <h1 class="display-3">Saldo <p style="color: green;" class="saldo">{{parameters.saldo_actual}}Gs</p></h1>
@@ -181,7 +187,9 @@
             sessionStorage.setItem('1', 0);
         }
 
-        formatText("saldo")
+        {% if parameters.saldo_actual %}
+            formatText("saldo")
+        {% endif %}
         formatText("monto") //formatear numeros
         
         flagBtn = 0

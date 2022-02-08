@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timbrados</title>
+    <title>Facturas</title>
     <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
     <link rel="stylesheet" href="{% static './css/DataTables/dataTables.bootstrap5.min.css' %}">
     <link rel="stylesheet" href="{% static './css/DataTables/responsive.dataTables.min.css' %}">
@@ -26,27 +26,35 @@
         <a href="parameters_sell" class="back" style="text-decoration: none;">
             <span class="icon-circle-left"></span>
         </a>
-        <h1>Timbrados Venta</h1>
-            <button class="btn btn-dark" onclick="abrirModalEdicion('{% url 'edit_timbrado_sell' 0 %}')">Nuevo Timbrado</button>
+        <h1>Facturas Venta</h1>
+            <button class="btn btn-dark" onclick="abrirModalEdicion('{% url 'edit_factura_sell' 0 %}')">Nuevo Timbrado</button>
     </div>
     <div class="container menu-fade">
-        <table id="tabla" class="table table-striped" style="width: 100%">
+        <table id="tabla" class="table table-striped" style="width: 100%; text-align: center;">
             <thead>
                 <tr>
                     <th>Nro. Timbrado</th>
-                    <th>Fch. Vencimiento</th>
-                    <th style="text-align: end">Acciones</th>
+                    <th>Nro. Desde</th>
+                    <th>Nro. Actual</th>
+                    <th>Nro. Hasta</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                {% for timbradoparametros in parameters.listatimbradoparametros %}
+                {% for facturaparametros in parameters.listafacturaparametros %}
                 <tr>
-                    <td style="text-align: center">{{timbradoparametros.nro_timbrado_parametros}}</td>
-                    <td style="text-align: center">{{timbradoparametros.fch_vencimiento_timbrado_parametros}}</td>
+                    <td>{{facturaparametros.nro_timbrado_parametros_id}}</td>
+
+                    <td>{{facturaparametros.nro_inicio_factura_parametros}}</td>
+
+                    <td>{{facturaparametros.nro_actual_factura_parametros}}</td>
+
+                    <td>{{facturaparametros.nro_fin_factura_parametros}}</td>
+
                     <td class="actions" style="justify-content:center">
-                        <button onclick="abrirModalEdicion('{% url 'edit_timbrado_sell' timbradoparametros.nro_timbrado_parametros %}')"
+                        <button onclick="abrirModalEdicion('{% url 'edit_factura_sell' facturaparametros.id_factura_parametros %}')"
                         class="btn btn-warning">Editar</button>
-                        <button class="btn btn-danger" onclick="detectForeing('{% url 'edit_timbrado_sell' timbradoparametros.nro_timbrado_parametros %}', '{{timbradoparametros.nro_timbrado_parametros}}')">
+                        <button class="btn btn-danger" onclick="detectForeing('{% url 'delete_factura_sell' facturaparametros.id_factura_parametros %}', '{{facturaparametros.id_factura_parametros}}')">
                             Borrar
                         </button>
                     </td>
@@ -91,12 +99,12 @@
             });
         });
 
-        function detectForeing(url, nro_timbrado) { //funcion que comprueba si la marca contiene una clave foranea
+        function detectForeing(url, nro_factura) { //funcion que comprueba si la marca contiene una clave foranea
             var flag = 0;
             {% for facturaventa in parameters.listafacturaventa %}  // bucle de los id de modelos 
-                var id_factura_venta = {{ facturaventa.nro_timbrado_id }}
+                var id_factura_venta = {{ facturaventa.nro_factura_id }}
 
-                if(nro_timbrado == id_factura_venta) { //se existe un id de marca en la tabla de modelos la bandera pasa a ser 1
+                if(nro_factura == id_factura_venta) { //se existe un id de marca en la tabla de modelos la bandera pasa a ser 1
                     flag = 1
                 }
             {% endfor %}
@@ -110,7 +118,7 @@
 
         var argsDelete = {
             TITLE: 'Precaución!', 
-            TEXT: 'Estás seguro de eliminar este Producto?',
+            TEXT: 'Estás seguro de eliminar este Parametro?',
             ICON: 'warning', 
             successPhrase:'eliminado',
             typeOfMethod:'url',
@@ -118,7 +126,7 @@
 
         var args1 = {
             TITLE: 'Error!', 
-            TEXT: 'No puedes eliminar esta marca porque ya tiene uno o mas modelos asociados!',
+            TEXT: 'No puedes eliminar este parametro porque esta siendo utilizado!',
             ICON: 'error', 
         }
 

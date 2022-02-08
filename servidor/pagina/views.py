@@ -18,9 +18,11 @@ from pagina.models import factura_compra
 from pagina.models import factura_venta
 from pagina.models import caja
 from pagina.models import detalle_caja
+from pagina.models import factura_parametros
 from django.http import HttpResponse, JsonResponse, response
 from django.core import serializers
 from datetime import date
+
 
 # Create your views here.
 def validar(request, pageSuccess, parameters={}):
@@ -323,7 +325,11 @@ def cash_register(request):
     listacaja = caja.objects.all()
     listacajadetalle = detalle_caja.objects.all()
     listausuario = usuarios.objects.all()
-    id_ultima_caja=caja.objects.all().last().id_caja
+
+    if caja.objects.all().last():
+        id_ultima_caja=caja.objects.all().last().id_caja
+    else:
+        id_ultima_caja=1
     id_ultimo_usuario = 0
 
     detalle_caja_personalizada = detalle_caja.objects.raw("SELECT pagina_detalle_caja.id_detalle_caja, sum(pagina_detalle_caja.monto_detalle_caja) AS saldo_actual FROM pagina_detalle_caja WHERE pagina_detalle_caja.id_caja_id = " + str(id_ultima_caja))
@@ -424,9 +430,16 @@ def parameters_sell(request):
 def timbrado_sell(request):
     listatimbradoparametros = timbrado_parametros.objects.all()
     return validar(request, "sections/config/parameters_sell/timbrado_sell.html", 
-    {
-        "listatimbradoparametros": listatimbradoparametros,
-    })
+        {
+            "listatimbradoparametros": listatimbradoparametros,
+        })
+
+def factura_sell(request):
+    listafacturaparametros = factura_parametros.objects.all()
+    return validar(request, "sections/config/parameters_sell/factura_sell.html", 
+        {
+            "listafacturaparametros": listafacturaparametros
+        })
 
 def edit_timbrado_sell(request, timbrado_actual = 0):
     listatimbradoparametros = timbrado_parametros.objects.all()
@@ -458,13 +471,57 @@ def edit_timbrado_sell(request, timbrado_actual = 0):
             )
             timbrado_parametros_nuevo.save()
         else:
-            print(timbrado_actual)
             timbrado_parametros_actual=timbrado_parametros.objects.get(nro_timbrado_parametros=timbrado_actual)
             timbrado_parametros_actual.fch_vencimiento_timbrado_parametros = request.POST.get('fch_vencimiento')
             timbrado_parametros_actual.save()
 
         return redirect("../timbrado_sell")
-        
+
+def edit_factura_sell(request, factura_actual = 0):
+    listafacturaparametros = factura_parametros.objects.all()
+    listatimbradoparametros = timbrado_parametros.objects.all()
+
+    if request.method == "GET":
+        timbra_actual=factura_parametros.objects.filter(id_factura_parametros=factura_actual).exists()
+        if timbra_actual:
+            datos_timbrado=factura_parametros.objects.filter(id_factura_parametros=factura_actual).first()
+            return validar(request, "sections/config/parameters_sell/edit_factura_sell.html", {
+                "listafacturaparametros": listafacturaparametros,
+                "listatimbradoparametros": listatimbradoparametros,
+                "titulo": "Actualizar Factura Venta",
+                "datos_act": datos_timbrado,
+                "factura_actual": factura_actual
+            })
+        else:
+            return validar(request, "sections/config/parameters_sell/edit_factura_sell.html", {
+                "listafacturaparametros": listafacturaparametros,
+                "listatimbradoparametros": listatimbradoparametros,
+                "titulo": "Carga Factura Venta",
+                "factura_actual": factura_actual
+            })
+    if request.method == "POST":
+        if factura_actual == 0:
+            factura_parametros_nuevo=factura_parametros(
+                nro_timbrado_parametros_id=request.POST.get('timbrado'),
+                nro_inicio_factura_parametros=request.POST.get('nro_desde'),
+                nro_actual_factura_parametros=request.POST.get('nro_actual'),
+                nro_fin_factura_parametros=request.POST.get('nro_final')
+            )
+            factura_parametros_nuevo.save()
+        else:
+            print(factura_actual)
+            factura_parametros_actual=factura_parametros.objects.get(id_factura_parametros=factura_actual)
+            factura_parametros_actual.nro_timbrado_parametros_id = request.POST.get('timbrado')
+            factura_parametros_actual.nro_inicio_factura_parametros = request.POST.get('nro_desde')
+            factura_parametros_actual.nro_actual_factura_parametros = request.POST.get('nro_actual')
+            factura_parametros_actual.nro_fin_factura_parametros = request.POST.get('nro_final')
+            factura_parametros_actual.save()
+
+        return redirect("../factura_sell")
+
+def delete_factura_sell(request, factura_actual=0):
+    factura_parametros.objects.filter(id_factura_parametros=factura_actual).delete()
+    return redirect("../factura_sell")
 
 def mark(request):
     listamarca = marca.objects.all()

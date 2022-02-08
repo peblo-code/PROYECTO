@@ -1,0 +1,117 @@
+{% load static %}
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" style="margin: 0 auto;">
+        <div class="modal-modal-header">
+            <h2 class="modal-title">{{parameters.titulo}}</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="{% static './css/section-styles/products/modalAdd.css' %}">
+            <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
+        </div>
+        <div class="modal-body">
+            <div class="container-md">
+                <form action="{% url 'edit_factura_sell' parameters.factura_actual %}" method="POST" id="editarFactura">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="timbrado">Timbrado</label>
+                        </div>
+                        <select class="form-select" name="timbrado" id="elemento-1" required>
+                            {% for timbradoparametros in parameters.listatimbradoparametros %}
+                            {% if timbradoparametros.nro_timbrado_parametros == parameters.datos_act.nro_timbrado_parametros_id %}
+                            <option value={{timbradoparametros.nro_timbrado_parametros}} id="opcion_select" selected>
+                                {{timbradoparametros.nro_timbrado_parametros}}</option>
+                            {% else %}
+                            <option value={{timbradoparametros.nro_timbrado_parametros}} id="opcion_select">
+                                {{timbradoparametros.nro_timbrado_parametros}}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="input-group mb-3 editar-marca" id="item-marca" style="display: none">
+                    
+                    </div>
+                    <div class="input-group mb-3 editar-marca">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Nro. Desde Factura</span>
+                        </div>
+                        <input type="number" id="nro_desde" name="nro_desde" class="form-control" aria-label="Default" onkeyup="colocarValorMinimo(this)"
+                            aria-describedby="inputGroup-sizing-default" value="{{parameters.datos_act.nro_inicio_factura_parametros}}">
+                    </div>
+                    <div class="input-group mb-3 editar-marca">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Nro. Actual Factura</span>
+                        </div>
+                        <input type="number" id="nro_actual" name="nro_actual" class="form-control" aria-label="Default" onkeyup="chequear(this)"
+                            aria-describedby="inputGroup-sizing-default" value="{{parameters.datos_act.nro_actual_factura_parametros}}">
+                    </div>
+                    <div class="input-group mb-3 editar-marca">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default" onclick="">Nro. Hasta Factura</span>
+                        </div>
+                        <input type="number" id="nro_final" name="nro_final" id="nro_final" class="form-control" aria-label="Default" onkeyup="colocarValorMaximo(this)"
+                            aria-describedby="inputGroup-sizing-default" value="{{parameters.datos_act.nro_fin_factura_parametros}}">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" id="btnCarga">Confirmar</button>
+            <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+
+        <script src="{% static './js/functions.js' %}"></script>
+        <script src="{% static './js/validate.js' %}"></script>
+        <script src="{% static './js/alerts.js' %}"></script>
+        <script>
+            var nro_actual = document.getElementById("nro_actual")
+
+            function colocarValorMinimo(event) {
+                var nro_hasta = document.getElementById("nro_final").value;
+
+                if(parseInt(event.value) >= parseInt(nro_hasta)) {
+                    event.value = `${nro_hasta - 1}`
+                }
+
+                nro_actual.value = event.value
+                nro_actual.min = event.value
+            }
+
+            function chequear(event){
+                var nro_desde = document.getElementById("nro_desde").value;
+                var nro_hasta = document.getElementById("nro_final").value;
+
+                if(parseInt(event.value) < parseInt(nro_desde)) {
+                    event.value = nro_desde
+                }
+
+                if(parseInt(event.value) > parseInt(nro_hasta)) {
+                    event.value = nro_hasta
+                }
+            }
+
+            function colocarValorMaximo(event) {
+                var nro_desde = document.getElementById("nro_desde").value;
+                if(parseInt(event.value) <= parseInt(nro_desde)) {
+                    event.value = `${parseInt(nro_desde) + 1}`
+                }
+
+                nro_actual.max = event.value
+            }            
+
+            var argsModal = {
+                TITLE: 'Advertencia!',
+                TEXT: 'Estás seguro de cargar este Parametro?',
+                ICON: 'warning', 
+                successPhrase:'actualizado',
+                typeOfMethod:'confirm',
+                btnId: 'editarFactura'
+            }
+
+            var validacion = true
+
+            document.getElementById("btnCarga").addEventListener("click", () => validarFormularioEdicion(validacion))
+        </script>
+    </div>
