@@ -241,14 +241,17 @@ def factura_vender(request):
         })
 
     if request.method == 'POST':
-        print(request.POST.get('nro_factura'))
         nueva_venta=factura_venta(
             id_cliente_id = request.POST.get('id_cliente'),
             nro_timbrado_parametros_id = request.POST.get('nro_timbrado'),
             id_vehiculo_id = request.POST.get('id_vehiculo'),
             nro_factura_venta = request.POST.get('nro_factura'),
             fch_factura_venta = date.today().isoformat(),
-            condicion_factura_venta = request.POST.get('condicion_factura')
+            condicion_factura_venta = request.POST.get('condicion_factura'),
+            subtotal_factura_venta = request.POST.get('subtotal'),
+            iva10_factura_venta = request.POST.get('iva10'),
+            total_factura_venta = request.POST.get('total'),
+            estado_factura_venta = 0,
         )
         nueva_venta.save()
 
@@ -259,7 +262,31 @@ def factura_vender(request):
         modificar_factura_parametros=factura_parametros.objects.get(id_factura_parametros=request.POST.get('id_factura_parametros'))
         modificar_factura_parametros.nro_actual_factura_parametros = int(request.POST.get('nro_factura')) + 1
         modificar_factura_parametros.save()
-    return redirect('./factura_venta')
+    factura_personalizada = factura_venta.objects.raw("SELECT id_factura_venta FROM pagina_factura_venta ORDER BY id_factura_venta DESC LIMIT 1")
+    id_factura = 0
+    for facturita in factura_personalizada:
+        id_factura = facturita.id_factura_venta
+
+    return redirect('./get_cash/' + str(id_factura))
+
+def get_cash(request, factu_actual=0):
+    listafacturaventa = factura_venta.objects.all()
+    if request.method=="GET":
+        factura_actual=factura_venta.objects.filter(id_factura_venta=factu_actual).exists()
+        if factura_actual:
+            datos_factura=factura_venta.objects.filter(id_factura_venta=factu_actual).first()
+            return validar(request, 'sections/invoice/get_cash.html',
+            {"datos_act":datos_factura, "factu_actual":factu_actual, "titulo":"Generar Cobro", 
+             "listafacturaventa":listafacturaventa})
+
+    if request.method=="POST":
+        modificar_factura_venta=factura_venta.objects.get(id_factura_venta=factu_actual)
+        modificar_factura_venta.monto_cobrado_factura_venta = float(request.POST.get("monto_cobrado").replace(",","."))
+        modificar_factura_venta.estado_factura_venta = 1
+        modificar_factura_venta.fch_cobrado_factura_venta = date.today().isoformat()
+        modificar_factura_venta.save()
+        
+    return redirect("../factura_venta")
 
 def historial_compra(request):
     listaproveedor = proveedor.objects.all()

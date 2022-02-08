@@ -1,0 +1,87 @@
+{% extends 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% block cabecera %}
+    <link rel="stylesheet" href="{% static './css/section-styles/globals-section.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/clients/edit_client.css' %}">
+    <title>{{ parameters.titulo }}</title>
+    <link rel="stylesheet" href="{% static './css/section-styles/form-responsive.css' %}">
+    {% endblock %}
+</head>
+
+<body>
+    {% block cuerpo %}
+    <div class="form-container">
+        <div class="title-and-back">
+            <h1>{{ parameters.titulo }}</h1>
+        </div>
+        <form action="{% url 'get_cash' parameters.factu_actual %}" method="POST" class="card menu-fade" id="cargarCobranza" onsubmit="sessionStorage.setItem('1', 1);">
+            {% csrf_token %}
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">SubTotal</span>
+                </div>
+                <input type="text" name="subtotal" id="subtotal" value="{{ parameters.datos_act.subtotal_factura_venta }}"
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" onkeydown="format(this)" onchange="format(this)" required>
+            </div>
+
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">I.V.A 10%</span>
+                </div>
+                <input type="text" name="iva10" value="{{ parameters.datos_act.iva10_factura_venta }}"
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" readonly>
+            </div>
+
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Total</span>
+                </div>
+                <input type="text" name="total" value="{{ parameters.datos_act.total_factura_venta }}"
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" readonly>
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Monto a Cobrar</span>
+                </div>
+                <input type="text" name="monto_cobrado" value="{{ parameters.datos_act.total_factura_venta }}"
+                    class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" readonly>
+            </div>
+
+        </form>
+        <div class="modal fade" id="edicion" role="dialog">
+
+        </div>
+        <button class="btn btn-success" style="margin-top: 1em" form="cargarCobranza" id="cargar" onclick="return verificarFormulario(this)">{{ parameters.titulo }}</button>
+        
+        <a class="btn btn-secondary" style="margin-top: 1em" href="../factura_venta" >Cobrar mas tarde</a>
+    </div>
+    <script src="{% static './js/jquery.js' %}"></script>
+    <script src="{% static './js/jquery.chained.js' %}"></script>
+    <script src="{% static 'js/alerts.js' %}"></script>
+    <script src="{% static 'js/validate.js' %}"></script>
+    <script src="{% static 'js/functions.js' %}"></script>
+    <script>
+
+    validarFormularioEdicion(true, form-control)
+
+        var $ = jQuery.noConflict();
+        function abrirModalEdicion(url) {
+            console.log(url)
+            $('#edicion').load(url, function () {
+                $(this).modal('show');
+            })
+        }
+
+    </script>
+    {% endblock %}
+</body>
+
+</html>

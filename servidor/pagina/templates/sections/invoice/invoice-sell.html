@@ -31,6 +31,9 @@
                     <input type="text" id="id_cliente" name="id_cliente" style="display: none;">
                     <input type="text" id="id_factura_parametros" name="id_factura_parametros" style="display: none;">
                     <input type="text" id="id_vehiculo" name="id_vehiculo" style="display: none;">
+                    <input type="text" id="subtotal_send" name="subtotal" style="display: none;">
+                    <input type="text" id="iva10_send" name="iva10" style="display: none;">
+                    <input type="text" id="total_send" name="total" style="display: none;">
 
                     <div class="form-body" id="proveedor-data">
                         <div class="form-div-invoice">
@@ -405,6 +408,10 @@
                     document.getElementById("subtotal").value = "{{vehiculo.precio_venta}}"
                     document.getElementById("iva10").value = financial(parseInt("{{vehiculo.precio_venta}}") / 11)
                     document.getElementById("total").value = financial((parseInt("{{vehiculo.precio_venta}}") / 11) + parseInt("{{vehiculo.precio_venta}}"))
+                    document.getElementById("subtotal_send").value = "{{vehiculo.precio_venta}}"
+                    document.getElementById("iva10_send").value = financial(parseInt("{{vehiculo.precio_venta}}") / 11)
+                    document.getElementById("total_send").value = financial((parseInt("{{vehiculo.precio_venta}}") / 11) + parseInt("{{vehiculo.precio_venta}}"))
+
                 }
             {% endfor %}
 

@@ -106,6 +106,12 @@ class factura_venta(models.Model):
     nro_factura_venta = models.IntegerField()
     fch_factura_venta = models.DateField()
     condicion_factura_venta = models.IntegerField()
+    subtotal_factura_venta = models.FloatField()
+    iva10_factura_venta = models.FloatField()
+    total_factura_venta = models.FloatField()
+    fch_cobrado_factura_venta = models.DateField(null=True)
+    monto_cobrado_factura_venta = models.FloatField(null=True)
+    estado_factura_venta = models.IntegerField()
 
 class caja(models.Model):
     id_caja = models.AutoField(primary_key=True)
