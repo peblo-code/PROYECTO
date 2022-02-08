@@ -51,7 +51,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroup-sizing-default" onclick="">Nro. Hasta Factura</span>
                         </div>
-                        <input type="number" id="nro_final" name="nro_final" id="nro_final" class="form-control" aria-label="Default" onkeyup="colocarValorMaximo(this)"
+                        <input type="number" id="nro_final" name="nro_final" id="nro_final" class="form-control" aria-label="Default" onfocusout="colocarValorMaximo(this)"
                             aria-describedby="inputGroup-sizing-default" value="{{parameters.datos_act.nro_fin_factura_parametros}}">
                     </div>
                 </form>

@@ -69,6 +69,7 @@
     </div>
 
     <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
     <script src="{% static 'js/alerts.js' %}"></script>
     <script src="{% static 'js/DataTables/js/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'js/DataTables/js/dataTables.bootstrap5.min.js' %}"></script>
@@ -135,6 +136,12 @@
             $('#edicion').load(url, function () {
                 $(this).modal('show');
             })
+        }
+
+        var argsInsert = {
+            TITLE: 'Cambios aplicados!',
+            TEXT: `El producto ha sido cargado con éxito`,
+            ICON: 'success'
         }
 
         if(sessionStorage.getItem('1') == 1) {

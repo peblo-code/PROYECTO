@@ -1,4 +1,4 @@
-from ast import Not
+from ast import Not, mod
 from distutils.log import error
 from django.shortcuts import redirect, render
 from pagina.models import usuarios
@@ -222,6 +222,7 @@ def venta(request):
 def factura_vender(request):
     listacliente = cliente.objects.all()
     listatimbradoparametros = timbrado_parametros.objects.all()
+    listafacturaparametros = factura_parametros.objects.all()
     listaproducto = vehiculo.objects.all()
     listamarca = marca.objects.all()
     listamodelo = modelo.objects.all()
@@ -233,27 +234,32 @@ def factura_vender(request):
         return validar(request, 'sections/invoice/invoice-sell.html', {
             'listacliente': listacliente, "listatimbradoparametros":listatimbradoparametros, 
             "listaproducto": listaproducto, "listamarca": listamarca, "listamodelo": listamodelo,
+            "listafacturaparametros": listafacturaparametros,
             "listacolor": listacolor,
             "listafacturaventa": listafacturaventa,
             "fecha_act": date.today().isoformat()
         })
 
     if request.method == 'POST':
-        nueva_compra=factura_compra(
-            id_proveedor_id = request.POST.get('id_proveedor'),
-            nro_timbrado_id = request.POST.get('nro_timbrado'),
+        print(request.POST.get('nro_factura'))
+        nueva_venta=factura_venta(
+            id_cliente_id = request.POST.get('id_cliente'),
+            nro_timbrado_parametros_id = request.POST.get('nro_timbrado'),
             id_vehiculo_id = request.POST.get('id_vehiculo'),
-            nro_factura_compra = request.POST.get('nro_factura'),
-            fch_factura_compra = date.today().isoformat(),
-            condicion_factura_compra = request.POST.get('condicion_factura')
+            nro_factura_venta = request.POST.get('nro_factura'),
+            fch_factura_venta = date.today().isoformat(),
+            condicion_factura_venta = request.POST.get('condicion_factura')
         )
-        nueva_compra.save()
+        nueva_venta.save()
 
         modificar_vehiculo=vehiculo.objects.get(id_vehiculo=request.POST.get('id_vehiculo'))
-        modificar_vehiculo.estado_vehiculo = 1
+        modificar_vehiculo.estado_vehiculo = 0
         modificar_vehiculo.save()
 
-    return redirect('./factura_compra')
+        modificar_factura_parametros=factura_parametros.objects.get(id_factura_parametros=request.POST.get('id_factura_parametros'))
+        modificar_factura_parametros.nro_actual_factura_parametros = int(request.POST.get('nro_factura')) + 1
+        modificar_factura_parametros.save()
+    return redirect('./factura_venta')
 
 def historial_compra(request):
     listaproveedor = proveedor.objects.all()
@@ -271,8 +277,6 @@ def historial_compra(request):
     })
 
 def factura_comprar(request):
-    listaproveedor = proveedor.objects.all()
-    listatimbrado = timbrado.objects.all()
     listaproducto = vehiculo.objects.all()
     listamarca = marca.objects.all()
     listamodelo = modelo.objects.all()
@@ -282,7 +286,6 @@ def factura_comprar(request):
     if request.method == 'GET':
 
         return validar(request, 'sections/invoice/invoice-buy.html', {
-            'listaproveedor': listaproveedor, "listatimbrado":listatimbrado, 
             "listaproducto": listaproducto, "listamarca": listamarca, "listamodelo": listamodelo,
             "listacolor": listacolor,
             "listafacturacompra": listafacturacompra,
