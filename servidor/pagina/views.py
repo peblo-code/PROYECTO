@@ -217,7 +217,18 @@ def compra(request):
     return validar(request, "sections/invoice/buy.html")
 
 def venta(request):
-    return validar(request, "sections/invoice/sell.html")
+    caja_personalizada = caja.objects.raw("SELECT id_caja, fch_apertura_caja, fch_cierre_caja, id_usuario_id FROM pagina_caja ORDER BY id_caja DESC LIMIT 1")
+    estado_caja = 0 #cerrado
+    for cajita in caja_personalizada:
+        if cajita.fch_apertura_caja:
+            estado_caja = 1 #abierto
+        if cajita.fch_cierre_caja:
+            estado_caja = 0 #cerrado
+
+    return validar(request, "sections/invoice/sell.html", {
+        "estado_caja": estado_caja,
+    })
+
 
 def factura_vender(request):
     listacliente = cliente.objects.all()
@@ -230,7 +241,6 @@ def factura_vender(request):
     listafacturaventa = factura_venta.objects.all()
 
     if request.method == 'GET':
-
         return validar(request, 'sections/invoice/invoice-sell.html', {
             'listacliente': listacliente, "listatimbradoparametros":listatimbradoparametros, 
             "listaproducto": listaproducto, "listamarca": listamarca, "listamodelo": listamodelo,
@@ -271,6 +281,9 @@ def factura_vender(request):
 
 def get_cash(request, factu_actual=0):
     listafacturaventa = factura_venta.objects.all()
+    listaproducto = vehiculo.objects.all()
+    listamarca = marca.objects.all()
+    listamodelo = modelo.objects.all()
     if request.method=="GET":
         factura_actual=factura_venta.objects.filter(id_factura_venta=factu_actual).exists()
         if factura_actual:
@@ -285,8 +298,48 @@ def get_cash(request, factu_actual=0):
         modificar_factura_venta.estado_factura_venta = 1
         modificar_factura_venta.fch_cobrado_factura_venta = date.today().isoformat()
         modificar_factura_venta.save()
+
+        varMarca = ""
+        varModel = ""
+
+        for factura_vent in listafacturaventa:
+            for product in listaproducto:
+                if product.id_vehiculo == factura_vent.id_vehiculo_id:
+                    for mark in listamarca:
+                        if mark.id_marca == product.id_marca_id:
+                            varMarca = mark.descripcion_marca
+                    for mod in listamodelo:
+                        if mod.id_modelo == product.id_modelo_id:
+                            varModel = mod.descripcion_modelo
+
+        id_caja_actual=caja.objects.all().last().id_caja
+
+        detalle_caja_actual=detalle_caja(
+            id_caja_id = id_caja_actual,
+            tipo_movimiento_detalle_caja = 0, #1 Representa EGRESO
+            descripcion_detalle_caja = "Venta de vehiculo " + varMarca + " " + varModel,
+            monto_detalle_caja = request.POST.get('monto_cobrado').replace(".","").replace(",",".")
+        )
+        detalle_caja_actual.save()
+
         
     return redirect("../factura_venta")
+
+def historial_venta(request, mode=0):
+    listacliente = cliente.objects.all()
+    listavehiculo = vehiculo.objects.all()
+    listafacturaventa = factura_venta.objects.all()
+    listamarca = marca.objects.all()
+    listamodelo = modelo.objects.all()
+
+    return validar(request, "sections/invoice/sell_history.html", {
+        "listacliente": listacliente,
+        "listavehiculo": listavehiculo,
+        "listafacturaventa": listafacturaventa,
+        "listamarca": listamarca,
+        "listamodelo": listamodelo,
+        "mode": mode
+    })
 
 def historial_compra(request):
     listaproveedor = proveedor.objects.all()
@@ -337,7 +390,6 @@ def factura_comprar(request):
     return redirect('./factura_compra')
 
 def cash(request):
-
     return validar(request, "sections/invoice/cash.html")
 
 def cash_history(request):
@@ -398,7 +450,7 @@ def cash_register(request):
             nueva_caja=caja(
                 id_usuario_id = request.POST.get('id_usuario'),
                 fch_apertura_caja = date.today().isoformat(),
-                inicio_caja=request.POST.get('monto_caja').replace(".",""),
+                inicio_caja=request.POST.get('monto_caja').replace(".","").replace(",","."),
             )
             nueva_caja.save()
 
@@ -408,14 +460,14 @@ def cash_register(request):
                 id_caja_id = id_nueva_caja,
                 tipo_movimiento_detalle_caja = 0, #0 Representa INGRESO
                 descripcion_detalle_caja = "Apertura de Caja",
-                monto_detalle_caja = request.POST.get('monto_caja').replace(".",""),
+                monto_detalle_caja = request.POST.get('monto_caja').replace(".","").replace(",","."),
             )
 
             nuevo_detalle_caja.save()
 
         else:  #SI CAJA ESTA ABIERTA
             id_caja_actual=caja.objects.all().last().id_caja
-            monto_detalle_caja = request.POST.get('monto_caja').replace(".","")
+            monto_detalle_caja = request.POST.get('monto_caja').replace(".","").replace(",",".")
 
             detalle_caja_actual=detalle_caja(
                 id_caja_id = id_caja_actual,

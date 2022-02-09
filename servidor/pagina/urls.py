@@ -16,6 +16,7 @@ urlpatterns = [
     path('compra', views.compra, name='compra'),
     path('venta', views.venta, name='venta'),
     path('historial_compra', views.historial_compra, name='historial_compra'),
+    path('historial_venta/<int:mode>', views.historial_venta, name='historial_venta'),
     path('factura_compra', views.factura_comprar, name='factura_compra'),
     path('factura_venta', views.factura_vender, name='factura_venta'),
     path('get_cash/<int:factu_actual>', views.get_cash, name='get_cash'),

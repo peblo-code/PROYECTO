@@ -23,14 +23,21 @@
                 </div>
                 <h4>Generar Venta</h4>
                 <p>Administre lista de Marcas</p>
-                <a href="factura_venta">Ingresar</a>
+                <a {%if parameters.estado_caja %} href="factura_venta" {% else %} href="javascript:alerta(args)" {% endif %}>Ingresar</a>
             </div>
             <div class="card">
                 <div class="card-icon" style="background: #2D4263;">
                 </div>
-                <h4>Historial de Venta</h4>
+                <h4>Historial de Ventas Cobradas</h4>
                 <p>Administre lista de Modelos.</p>
-                <a href="historial_venta">Ingresar</a>
+                <a href="historial_venta/1">Ingresar</a>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: #2D4263;">
+                </div>
+                <h4>Facturas sin Cobrar</h4>
+                <p>Administre lista de Modelos.</p>
+                <a href="historial_venta/0">Ingresar</a>
             </div>
             <div class="card">
                 <div class="card-icon">
@@ -41,6 +48,16 @@
             </div>
         </div>
     </section>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
+    <script src="{% static 'js/alerts.js' %}"></script>
+    <script>
+        var args = {
+            TITLE: 'Atención!',
+            TEXT: `Primero se debe generar la apertura de caja!`,
+            ICON: 'warning'
+        }
+    </script>
     {% endblock %}
 </body>
 </html>

@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos</title>
+    <title>Historial de Compra</title>
     <link rel="stylesheet" href="{% static './css/index.css' %}">
     <link rel="stylesheet" href="{% static './css/tables.css' %}">
     <link rel="stylesheet" href="{% static './css/section-styles/config/users.css' %}">
@@ -23,80 +23,69 @@
 <body>
     {% block cuerpo %}
     <div class="title-and-back">
-        <a href="inicio" class="back" style="text-decoration: none;">
+        <a href="../venta" class="back" style="text-decoration: none;">
             <span class="icon-circle-left"></span>
         </a>
-        <h1>Productos</h1>
-        <a href="{% url 'edit_product' 0 %}">
-            <button class="btn btn-dark">Nuevo Producto</button>
-        </a>
+        <h1>Historial de Venta</h1>
     </div>
     <div class="container menu-fade">
         <table id="tabla" class="table table-striped" style="width: 100%">
             <thead>
                 <tr>
-                    <th>Marca</th>
-                    <th>Modelo</th>
-                    <th>Motor</th>
-                    <th>Año</th>
-                    <th>Color</th>
-                    <th>Precio Venta</th>
-                    <th>Estado</th>
+                    <th>Nro. Factura</th>
+                    <th>Nro. Timbrado</th>
+                    <th>Fecha de Venta</th>
+                    <th>Condición de Venta</th>
+                    <th>Proveedor</th>
+                    <th>Vehículo</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                {% for lista in parameters.listaproducto %}
+                {% for factura_venta in parameters.listafacturaventa %}
+                {% if parameters.mode == factura_venta.estado_factura_venta %}
                 <tr>
-                    {% for marca in parameters.listamarca %}
-                    {% if marca.id_marca == lista.id_marca_id %}
-                    <td>{{marca.descripcion_marca}}</td>
-                    {% endif %}
-                    {% endfor %}
+                    <td>{{ factura_venta.nro_factura_venta }}</td>
 
-                    {% for modelo in parameters.listamodelo %}
-                    {% if modelo.id_modelo == lista.id_modelo_id %}
-                    <td>{{modelo.descripcion_modelo}}</td>
-                    {% endif %}
-                    {% endfor %}
+                    <td>{{ factura_venta.nro_timbrado_parametros_id }}</td>
 
-                    <td>{{ lista.motor_vehiculo }}cc</td>
+                    <td>{{ factura_venta.fch_factura_venta }}</td>
 
-                    <td>{{ lista.anio_vehiculo }}</td>
-
-                    {% for color in parameters.listacolor %}
-                    {% if color.id_color == lista.id_color_id %}
-                    <td>{{color.descripcion_color}}</td>
-                    {% endif %}
-                    {% endfor %}
-
-                    <td class="precio">{{ lista.precio_venta }}</td>
-                    
-                    {% if lista.estado_vehiculo == 2 %}
-                    <td>
-                        <span class="badge bg-danger" style="color: white">VENDIDO</span>
-                    </td>
-
-                    {% elif lista.estado_vehiculo == 1 %}
-                    <td>
-                        <span class="badge bg-success" style="color: white">DISPONIBLE</span>
-                    </td>
+                    {% if factura_venta.condicion_factura_venta == 0 %}
+                        <td>Contado</td>
                     {% else %}
-                    <td>
-                        <span class="badge bg-secondary" style="color: white">LISTO</span>
-                    </td>
+                        <td>Crédito</td>
                     {% endif %}
 
-                    <td class="actions">
-                        <button onclick="abrirModalEdicion('{% url 'modal_info' lista.id_vehiculo %}')" class="btn btn-info">Info</button>
-                        <button onclick="abrirModalEdicion('{% url 'edit_product' lista.id_vehiculo %}')"
-                            class="btn btn-warning" {% if lista.estado_vehiculo > 0 %} disabled {% endif %}>Editar</button>
-                        <button class="btn btn-danger"
-                            onclick="detectForeing('{% url 'delete_product' lista.id_vehiculo %}', '{{lista.id_vehiculo}}')">
-                            Borrar
-                        </button>
+                    {% for cliente in parameters.listacliente %}
+                    {% if cliente.id_cliente == factura_venta.id_cliente_id %}
+                        <td>{{cliente.nombre_cliente}} {{cliente.apellido_cliente}}</td>
+                    {% endif %}
+                    {% endfor %}
+
+                    <td>
+                        {% for vehiculo in parameters.listavehiculo %}
+                            {% if vehiculo.id_vehiculo == factura_venta.id_vehiculo_id %}
+                                {% for marca in parameters.listamarca %}
+                                    {% if marca.id_marca == vehiculo.id_marca_id %}
+                                        {{marca.descripcion_marca}}
+                                    {% endif %}
+                                {% endfor %}
+                                {% for modelo in parameters.listamodelo %}
+                                    {% if modelo.id_modelo == vehiculo.id_modelo_id %}
+                                        {{modelo.descripcion_modelo}}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
                     </td>
+
+                    <td>
+                        <button  class="btn btn-info">Info</button>
+                    </td>
+
                 </tr>
+                {% endif %}
                 {% endfor %}
             </tbody>
         </table>
@@ -105,6 +94,7 @@
     <div class="modal fade" id="edicion" role="dialog">
 
     </div>
+
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
     <script src="{% static 'js/alerts.js' %}"></script>
@@ -167,7 +157,6 @@
             });     
         });
 
-
         function detectForeing(url, id_vehiculo) { //funcion que comprueba si la marca contiene una clave foranea
             var flag = 0;
             {% for factura_compra in parameters.listafacturacompra %}  // bucle de los id de modelos 
@@ -187,7 +176,7 @@
 
         var args1 = {
             TITLE: 'Error!', 
-            TEXT: 'No puedes eliminar este vehiculo porque ya esta registrado en una factura!',
+            TEXT: 'No puedes eliminar esta marca porque ya tiene uno o mas modelos asociados!',
             ICON: 'error', 
         }
 
@@ -218,6 +207,7 @@
                 $(this).modal('show');
             })
         }
+
 
     </script>
     {% endblock %}

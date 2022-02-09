@@ -117,13 +117,13 @@ class caja(models.Model):
     id_caja = models.AutoField(primary_key=True)
     id_usuario = models.ForeignKey(usuarios, on_delete=models.CASCADE)
     fch_apertura_caja = models.DateField()
-    inicio_caja = models.IntegerField()
+    inicio_caja = models.FloatField()
     fch_cierre_caja = models.DateField(null=True)
-    cierre_caja = models.IntegerField(null=True)
+    cierre_caja = models.FloatField(null=True)
     
 class detalle_caja(models.Model):
     id_detalle_caja = models.AutoField(primary_key=True)
     id_caja = models.ForeignKey(caja, on_delete=models.CASCADE)
     tipo_movimiento_detalle_caja = models.IntegerField()
     descripcion_detalle_caja = models.CharField(max_length=100)
-    monto_detalle_caja = models.IntegerField()
+    monto_detalle_caja = models.FloatField()
