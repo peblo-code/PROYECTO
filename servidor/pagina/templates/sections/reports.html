@@ -1,0 +1,87 @@
+{% extends 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% block cabecera %}
+        <title>Inicio: Automotores Benedix</title>
+        <link rel="stylesheet" href="{% static './css/index.css' %}">
+        <!-- Fuentes de Google -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Open+Sans&display=swap" rel="stylesheet">
+        <!-- Fuentes de Google -->
+        {% endblock %}
+    </head>
+<body>
+    {% block cuerpo %}
+    <section class="menu-card menu-entry">
+        <div class="container-global">
+            <div class="card">
+                <div class="card-icon" style="background-color: #a8e8f9">
+
+                </div>
+                <h4>Reporte de Clientes</h4>
+                <p>Reporte de Clientes.</p>
+                <a href="reportes_clientes/0">Ingresar</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon" style="background-color: #00537a">
+
+                </div>
+                <h4>Reporte de Proveedores</h4>
+                <p>Reporte de Proveedores.</p>
+                <a href="reportes_proveedores/0">Ingresar</a>
+            </div>
+    
+            <div class="card">
+                <div class="card-icon" style="background-color: #013c58">
+
+                </div>
+                <h4>Reporte de Caja</h4>
+                <p>Reporte de Caja.</p>
+                <a href="reportes_caja">Ingresar</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon" style="background-color: #f5a201">
+
+                </div>
+                <h4>Reporte de Productos</h4>
+                <p>Reporte de Productos</p>
+                <a href="reportes_productos">Ingresar</a>
+            </div>
+    
+            <div class="card">
+                <div class="card-icon" style="background-color: #ffba42">
+
+                </div>
+                <h4>Reporte de Compras</h4>
+                <p>Reporte de Compras.</p>
+                <a href="reportes_compras">Ingresar</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon" style="background-color: #ffd35b">
+
+                </div>
+                <h4>Reporte de Ventas</h4>
+                <p>Reporte de Ventas.</p>
+                <a href="reportes_ventas">Ingresar</a>
+            </div>
+            <div class="card">
+                <div class="card-icon">
+
+                </div>
+                <h4>Regresar</h4>
+                <p>Regresa al menu principal.</p>
+                <a href="inicio">Ingresar</a>
+            </div>
+    
+        </div>
+    </section>
+    <script src="{% static 'js/alerts.js' %}"></script>
+    {% endblock %}
+</body>
+</html>

@@ -1098,3 +1098,84 @@ def parameters_modal_client(request, paisCiudad_actual=0, tipo_carga=0, redirigi
                 ciudad_actual.save()
 
             return redirect(url)
+
+def reportes(request):
+    return validar(request, 'sections/reports.html')
+
+def reportes_clientes(request, mode=0):
+    listaclientes = cliente.objects.all()
+    listadocumentos = tipo_documento.objects.all()
+    listapais = pais.objects.all()
+    listaciudad = ciudad.objects.all()
+
+    if mode == 0:
+        buttonText="Ver deshabilitados"
+        urlSwitch=1
+    else:
+        buttonText="Ocultar deshabilitados"
+        urlSwitch=0
+
+    return validar(request, 'sections/reportes/reporte-cliente.html', {"listadocumentos":listadocumentos, "listapais":listapais, 
+    "listaciudad":listaciudad, "listaclientes":listaclientes, 
+    "buttonText":buttonText, "urlSwitch":urlSwitch, "mode":mode})
+
+def reportes_proveedores(request, mode=0):
+    listaproveedor = proveedor.objects.all()
+
+    if mode == 0:
+        buttonText="Ver deshabilitados"
+        urlSwitch=1
+    else:
+        buttonText="Ocultar deshabilitados"
+        urlSwitch=0
+
+    return validar(request, 'sections/reportes/reporte-proveedores.html', {"listaproveedor": listaproveedor, 
+    "urlSwitch":urlSwitch, "buttonText":buttonText, "mode":mode})
+
+def reportes_caja(request):
+    listacaja = caja.objects.all()
+    listausuario = usuarios.objects.all()
+
+    return validar(request, "sections/reportes/reporte-caja.html", {"listacaja":listacaja, "listausuario":listausuario})
+
+def reportes_productos(request):
+    listafacturacompra = factura_compra.objects.all()
+    listafacturaventa = factura_venta.objects.all()
+    listaproducto = vehiculo.objects.all()
+    listamarca = marca.objects.all()
+    listamodelo = modelo.objects.all()
+    listacolor = color.objects.all()
+    listafacturacompra = factura_compra.objects.all()
+    return validar(request, 'sections/reportes/reporte-productos.html',{"listaproducto":listaproducto, "listamarca":listamarca, 
+    "listamodelo": listamodelo, "listacolor":listacolor, "listafacturacompra":listafacturacompra, "listafacturaventa":listafacturaventa})
+
+def reportes_compras(request):
+    listaproveedor = proveedor.objects.all()
+    listavehiculo = vehiculo.objects.all()
+    listafacturacompra = factura_compra.objects.all()
+    listamarca = marca.objects.all()
+    listamodelo = modelo.objects.all()
+
+    return validar(request, 'sections/reportes/reporte-compras.html', {
+        "listaproveedor": listaproveedor,
+        "listavehiculo": listavehiculo,
+        "listafacturacompra": listafacturacompra,
+        "listamarca": listamarca,
+        "listamodelo": listamodelo
+    })
+
+def reportes_ventas(request):
+    listacliente = cliente.objects.all()
+    listavehiculo = vehiculo.objects.all()
+    listafacturaventa = factura_venta.objects.all()
+    listamarca = marca.objects.all()
+    listamodelo = modelo.objects.all()
+
+    return validar(request, 'sections/reportes/reporte-ventas.html', {
+        "listacliente": listacliente,
+        "listavehiculo": listavehiculo,
+        "listafacturaventa": listafacturaventa,
+        "listamarca": listamarca,
+        "listamodelo": listamodelo,
+    })
+

@@ -71,4 +71,12 @@ urlpatterns = [
     path('parameters_modal_client/<int:paisCiudad_actual>/<int:tipo_carga>/<int:redirigir>', views.parameters_modal_client, name='parameters_modal_client'),
     path('disable_client/<int:clie_actual>/<int:option>', views.disable_client, name='disable_client'),
     path('disable_proveedor/<int:proveedor_actual>/<int:option>', views.disable_proveedor, name='disable_proveedor'),
+    path('reportes', views.reportes, name='reportes'),
+    path('reportes_clientes/<int:mode>', views.reportes_clientes, name='reportes_clientes'),
+    path('reportes_proveedores/<int:mode>', views.reportes_proveedores, name='reportes_proveedores'),
+    path('reportes_caja', views.reportes_caja, name='reportes_caja'),
+    path('reportes_productos', views.reportes_productos, name='reportes_productos'),
+    path('reportes_compras', views.reportes_compras, name='reportes_compras'),
+    path('reportes_ventas', views.reportes_ventas, name='reportes_compras'),
+
 ]

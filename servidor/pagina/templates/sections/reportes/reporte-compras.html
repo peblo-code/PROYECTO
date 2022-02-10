@@ -1,0 +1,174 @@
+{% extends 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block cabecera %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Compra</title>
+    <link rel="stylesheet" href="{% static './css/index.css' %}">
+    <link rel="stylesheet" href="{% static './css/tables.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/config/users.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/products/products.css'%}">
+    <link rel="stylesheet" href="{% static 'css/modal.css' %}">
+    <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
+    <link rel="stylesheet" href="{% static './css/DataTables/dataTables.bootstrap5.min.css' %}">
+    <link rel="stylesheet" href="{% static './css/DataTables/responsive.dataTables.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'js/Buttons-2.2.2/css/buttons.bootstrap5.min.css' %}"/>
+    {% endblock %}
+</head>
+
+<body>
+    {% block cuerpo %}
+    <div class="title-and-back">
+        <a href="reportes" class="back" style="text-decoration: none;">
+            <span class="icon-circle-left"></span>
+        </a>
+        <h1>Reporte de Compras</h1>
+    </div>
+    <div class="container menu-fade">
+        <table id="tabla" class="table table-striped" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>Nro. Factura</th>
+                    <th>Nro. Timbrado</th>
+                    <th>Fecha de Compra</th>
+                    <th>Condición de Compra</th>
+                    <th>Proveedor</th>
+                    <th>Vehículo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for factura_compra in parameters.listafacturacompra %}
+                <tr>
+                    <td>{{ factura_compra.nro_factura_compra }}</td>
+
+                    <td>{{ factura_compra.nro_timbrado_id }}</td>
+
+                    <td>{{ factura_compra.fch_factura_compra }}</td>
+
+                    {% if factura_compra.condicion_factura_compra == 0 %}
+                        <td>Contado</td>
+                    {% else %}
+                        <td>Crédito</td>
+                    {% endif %}
+
+                    {% for proveedor in parameters.listaproveedor %}
+                    {% if proveedor.id_proveedor == factura_compra.id_proveedor_id %}
+                        <td>{{proveedor.razon_social_proveedor}}</td>
+                    {% endif %}
+                    {% endfor %}
+
+                    <td>
+                        {% for vehiculo in parameters.listavehiculo %}
+                            {% if vehiculo.id_vehiculo == factura_compra.id_vehiculo_id %}
+                                {% for marca in parameters.listamarca %}
+                                    {% if marca.id_marca == vehiculo.id_marca_id %}
+                                        {{marca.descripcion_marca}}
+                                    {% endif %}
+                                {% endfor %}
+                                {% for modelo in parameters.listamodelo %}
+                                    {% if modelo.id_modelo == vehiculo.id_modelo_id %}
+                                        {{modelo.descripcion_modelo}}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="edicion" role="dialog">
+
+    </div>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
+    <script src="{% static 'js/alerts.js' %}"></script>
+    <script src="{% static 'js/functions.js'%}"></script>
+    <script src="{% static 'js/DataTables/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/DataTables/js/dataTables.bootstrap5.min.js' %}"></script>
+    <script src="{% static 'js/DataTables/js/dataTables.responsive.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/JSZip-2.5.0/jszip.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/pdfmake-0.1.36/pdfmake.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/pdfmake-0.1.36/vfs_fonts.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/Buttons-2.2.2/js/dataTables.buttons.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/Buttons-2.2.2/js/buttons.bootstrap5.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/Buttons-2.2.2/js/buttons.html5.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/Buttons-2.2.2/js/buttons.print.min.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {    
+            $('#tabla').DataTable({        
+                "language": {
+                    "emptyTable":     "La tabla se encuentra vacia.",
+                    "info":           "Mostrando _END_ de _MAX_ registros",
+                    "infoEmpty":      "",
+                    "infoFiltered":   "",
+                    "infoPostFix":    "",
+                    "thousands":      ",",
+                    "lengthMenu":     "Mostrar _MENU_ registros",
+                    "loadingRecords": "Cargando...",
+                    "processing":     "Procesando...",
+                    "search":         "",
+                    "zeroRecords":    "No se obtuvo ninguna coincidencia",
+                    oPaginate: {
+                        sNext: '<i class="fa fa-forward"></i>',
+                        sPrevious: '<i class="fa fa-backward"></i>',
+                        sFirst: '<i class="fa fa-step-backward"></i>',
+                        sLast: '<i class="fa fa-step-forward"></i>'
+                    }
+                },
+                //para usar los botones   
+                responsive: "true",
+                dom: 'Bfrtilp',       
+                buttons:[ 
+	        		{
+	        			extend:    'excelHtml5',
+	        			text:      '<i class="fas fa-file-excel"></i> ',
+	        			titleAttr: 'Exportar a Excel',
+	        			className: 'btn btn-success'
+	        		},
+	        		{
+	        			extend:    'pdfHtml5',
+	        			text:      '<i class="fas fa-file-pdf"></i> ',
+	        			titleAttr: 'Exportar a PDF',
+	        			className: 'btn btn-danger'
+	        		},
+	        		{
+	        			extend:    'print',
+	        			text:      '<i class="fa fa-print"></i> ',
+	        			titleAttr: 'Imprimir',
+	        			className: 'btn btn-info'
+	        		},
+	        	]	        
+            });     
+        });
+
+
+        formatText("precio") //formatear numeros
+
+
+        if(sessionStorage.getItem('1') == 1) {
+            window.onload = alerta(argsInsert)
+            sessionStorage.setItem('1', 0);
+        }
+
+        var $ = jQuery.noConflict();
+        function abrirModalEdicion(url) {
+            $('#edicion').load(url, function () {
+                $(this).modal('show');
+            })
+        }
+
+
+    </script>
+    {% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,155 @@
+{% extends 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% block cabecera %}
+    <title>Clientes</title>
+    <link rel="stylesheet" href="{% static './css/index.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/search.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/clients/clients.css' %}">
+    <link rel="stylesheet" href="{% static './css/section-styles/form-responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modal.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tables.css' %}">
+    <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
+    <link rel="stylesheet" href="{% static './css/DataTables/dataTables.bootstrap5.min.css' %}">
+    <link rel="stylesheet" href="{% static './css/DataTables/responsive.dataTables.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'js/Buttons-2.2.2/css/buttons.bootstrap5.min.css' %}"/>
+    {% endblock %}
+</head>
+
+<body>
+    {% block cuerpo %}
+    <div class="container menu-fade">
+        <div class="title-and-back">
+            <a href="{% url 'reportes' %}" class="back" style="text-decoration: none;">
+                <span class="icon-circle-left"></span>
+            </a>
+            <h1>Reporte Clientes</h1>
+            <a href="{% url 'reportes_clientes' parameters.urlSwitch %}">
+                <button class="btn" id="btnMostrarOcultar">{{parameters.buttonText}}</button>
+            </a>
+        </div>
+
+        <table id="tabla" class="table table-striped" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>Nro. Documento</th>
+                    <th>Tipo Documento</th>
+                    <th>Nombre y Apellido</th>
+                    <th>Telefono</th>
+                    <th>Genero</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cliente in parameters.listaclientes %}
+                {% if cliente.estado_cliente == parameters.mode %}
+                <tr>
+                    <td class="documento">{{ cliente.documento_cliente }}</td>
+
+                    {% for documento in parameters.listadocumentos %}
+                    {% if documento.id_tipo_documento == cliente.id_tipo_documento_id %}
+                    <td>{{documento.descripcion_tipo_documento}}</td>
+                    {% endif %}
+                    {% endfor %}
+
+                    <td>{{ cliente.nombre_cliente }} {{ cliente.apellido_cliente }}</td>
+
+                    <td>{{ cliente.telefono_cliente }}</td>
+
+                    {% if cliente.genero_cliente == 0 %}
+                        <td>Femenino</td>
+                    {% else %}
+                        <td>Masculino</td>
+                    {%endif%}
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="edicion" role="dialog">
+
+    </div>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
+    <script src="{% static 'js/alerts.js' %}"></script>
+    <script src="{% static 'js/functions.js'%}"></script>
+    <script src="{% static 'js/DataTables/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/DataTables/js/dataTables.bootstrap5.min.js' %}"></script>
+    <script src="{% static 'js/DataTables/js/dataTables.responsive.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/JSZip-2.5.0/jszip.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/pdfmake-0.1.36/pdfmake.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/pdfmake-0.1.36/vfs_fonts.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/Buttons-2.2.2/js/dataTables.buttons.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/Buttons-2.2.2/js/buttons.bootstrap5.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/Buttons-2.2.2/js/buttons.html5.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/Buttons-2.2.2/js/buttons.print.min.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {    
+            $('#tabla').DataTable({        
+                "language": {
+                    "emptyTable":     "La tabla se encuentra vacia.",
+                    "info":           "Mostrando _END_ de _MAX_ registros",
+                    "infoEmpty":      "",
+                    "infoFiltered":   "",
+                    "infoPostFix":    "",
+                    "thousands":      ",",
+                    "lengthMenu":     "Mostrar _MENU_ registros",
+                    "loadingRecords": "Cargando...",
+                    "processing":     "Procesando...",
+                    "search":         "",
+                    "zeroRecords":    "No se obtuvo ninguna coincidencia",
+                    oPaginate: {
+                        sNext: '<i class="fa fa-forward"></i>',
+                        sPrevious: '<i class="fa fa-backward"></i>',
+                        sFirst: '<i class="fa fa-step-backward"></i>',
+                        sLast: '<i class="fa fa-step-forward"></i>'
+                    }
+                },
+                //para usar los botones   
+                responsive: "true",
+                dom: 'Bfrtilp',       
+                buttons:[ 
+	        		{
+	        			extend:    'excelHtml5',
+	        			text:      '<i class="fas fa-file-excel"></i> ',
+	        			titleAttr: 'Exportar a Excel',
+	        			className: 'btn btn-success'
+	        		},
+	        		{
+	        			extend:    'pdfHtml5',
+	        			text:      '<i class="fas fa-file-pdf"></i> ',
+	        			titleAttr: 'Exportar a PDF',
+	        			className: 'btn btn-danger'
+	        		},
+	        		{
+	        			extend:    'print',
+	        			text:      '<i class="fa fa-print"></i> ',
+	        			titleAttr: 'Imprimir',
+	        			className: 'btn btn-info'
+	        		},
+	        	]	        
+            });     
+        });
+
+        window.onload = function colorBoton() {
+            boton = document.getElementById("btnMostrarOcultar")
+            if(boton.innerHTML == 'Ver deshabilitados') {
+                boton.className = "btn btn-danger btn-sm"
+            } else {
+                boton.className = "btn btn-dark btn-sm"
+            }
+        }
+
+
+        formatText("documento") //formatear numeros
+
+    </script>
+    {% endblock %}
+</body>
+
+</html>
