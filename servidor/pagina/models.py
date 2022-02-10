@@ -147,3 +147,12 @@ class detalle_pagare(models.Model):
     monto_pagare_detalle = models.FloatField()
     intereses_pagare_detalle = models.FloatField(null=True)
     fch_pago_detalle_pagare = models.DateField(null=True)
+
+class auditoria(models.Model):
+    id_auditoria = models.AutoField(primary_key=True)
+    usuario_creacion = models.CharField(max_length=100)
+    fecha_creacion = models.DateField()
+    usuario_modificacion = models.CharField(null=True, max_length=100)
+    fecha_modificacion = models.DateField(null=True)
+    id_cambio = models.IntegerField()
+    tabla_cambio = models.IntegerField()

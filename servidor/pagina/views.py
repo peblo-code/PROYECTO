@@ -8,6 +8,15 @@ from datetime import date
 
 
 # Create your views here.
+def auditoria(usr="", table="", id=0, flag=0):
+    if flag==0:
+        auditoria_nueva=auditoria(
+        usuario_creacion=usr,
+        fecha_creacion=date.today().isoformat(),
+        id_cambio=id,
+        tabla_cambio=table)
+        auditoria_nueva.save()
+
 def validar(request, pageSuccess, parameters={}):
     if request.session.get("id_usuario"):
         if (request.session.get("tipo_usuario") == 2) and (pageSuccess == 'sections/config.html'):
