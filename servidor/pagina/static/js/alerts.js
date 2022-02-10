@@ -2,7 +2,7 @@ function alertaConfirmarAccion(url2, successPhrase, typeOfMethod, btnId, ajx, ed
     let timerInterval
     Swal.fire({
         title: 'Cambios aplicados!',
-        html: `El producto ha sido ${successPhrase} con éxito`,
+        html: `El registro ha sido ${successPhrase} con éxito`,
         icon: 'success',
         timer: 2000,
         timerProgressBar: true,

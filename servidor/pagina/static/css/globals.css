@@ -31,11 +31,26 @@
 .icon-file-text2:before {
   content: "\e926";
 }
+.icon-cart:before {
+  content: "\e93a";
+}
+.icon-coin-dollar:before {
+  content: "\e93b";
+}
+.icon-drawer:before {
+  content: "\e95c";
+}
 .icon-box-add:before {
   content: "\e95e";
 }
 .icon-users:before {
   content: "\e972";
+}
+.icon-user-check:before {
+  content: "\e975";
+}
+.icon-user-tie:before {
+  content: "\e976";
 }
 .icon-search:before {
   content: "\e986";
@@ -45,6 +60,9 @@
 }
 .icon-truck:before {
   content: "\e9b0";
+}
+.icon-clipboard:before {
+  content: "\e9b8";
 }
 .icon-man-woman:before {
   content: "\e9de";
@@ -97,7 +115,13 @@ body {
 .icon-cog,
 .icon-users,
 .icon-truck,
-.icon-profile {
+.icon-profile,
+.icon-user-tie,
+.icon-user-check,
+.icon-coin-dollar,
+.icon-clipboard,
+.icon-cart,
+.icon-drawer {
     color: #00b8ff;
     font-size: 6rem;
 }
