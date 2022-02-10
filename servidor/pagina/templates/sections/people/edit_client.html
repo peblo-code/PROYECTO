@@ -144,7 +144,7 @@
     <script src="{% static 'js/functions.js' %}"></script>
     <script>
 
-        $("#elemento3").chained("#elemento2")
+        $("#elemento-3").chained("#elemento-2")
 
         var $ = jQuery.noConflict();
         function abrirModalEdicion(url) {
@@ -172,8 +172,7 @@
             {% endfor %}
             validarFormulario("item-documento", flag, "Nro. de documento ya se encuentra en uso.")
         })
-            
-        
+
 
     </script>
     {% endblock %}

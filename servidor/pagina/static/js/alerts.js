@@ -125,6 +125,7 @@ function actualizarSelect(listaSelect, nombreSelect) {
     var lista = listaSelect[listaSelect.length-1]
 
     var SELECT = document.getElementById(nombreSelect)
+    SELECT.disabled = false
     const option = document.createElement('option');
     option.id = "opcion_select"
     option.value = lista.pk;
