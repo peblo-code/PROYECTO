@@ -1,0 +1,91 @@
+{% load static %}
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">{{parameters.titulo}}</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        </div>
+        <div class="modal-body">
+            <style>
+                form {
+                    display: flex;
+                    flex-direction: column;
+                    margin-top: 0;
+                }
+                .input-group {
+                    margin-bottom: 1em;
+                }
+            </style>
+            <form action="{% url 'pagar_cuota' parameters.paga_actual %}" method="POST" id="cargarCliente">
+                {% csrf_token %}
+    
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Nro. Cuota</span>
+                    </div>
+                    <input type="text" name="" value="{{ parameters.datos_act.nro_cuota_detalle_pagare }}"
+                        class="format form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"
+                        id="documento_cliente" onkeydown="format(this)" onchange="format(this)" readonly>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Fch. Vencimiento</span>
+                    </div>
+                    <input type="text" name="" value="{{ parameters.datos_act.fch_vencimiento_detalle_pagare }}"
+                        class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"
+                        id="documento_cliente" readonly>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Monto Pagaré</span>
+                    </div>
+                    <input type="text" name="monto_cobrado" value="{{ parameters.datos_act.monto_pagare_detalle }}"
+                        class="format form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"
+                        id="documento_cliente" readonly>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Intereses</span>
+                    </div>
+                    <input type="text" name="" value="{{ parameters.datos_act.intereses_pagare_detalle }}"
+                        class="format form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"
+                        id="documento_cliente" readonly>
+                </div>
+    
+    
+            </form>
+ 
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" id="btnCarga">Confirmar</button>
+            <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+    </div>
+    <script src="{% static './js/functions.js' %}"></script>
+    <script src="{% static './js/validate.js' %}"></script>
+    <script src="{% static './js/alerts.js' %}"></script>
+
+    <script>
+        formatInputLoaded('format')
+
+        var argsModal = {
+            TITLE: 'Advertencia!', 
+            TEXT: 'Estás seguro de cancelar este Pagaré?',
+            ICON: 'warning', 
+            successPhrase:'actualizado',
+            typeOfMethod:'confirm',
+            btnId: 'cargarCliente'
+        }
+
+
+        document.getElementById("btnCarga").addEventListener("click", () => validarFormularioEdicion(true))
+    </script>
+
+    <script src="{% static './js/jquery.chained.js' %}"></script>
+    <script>
+        $("#modelo").chained("#marca")
+    </script>
+</div>

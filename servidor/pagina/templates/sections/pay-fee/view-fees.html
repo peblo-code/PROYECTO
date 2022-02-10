@@ -5,17 +5,13 @@
 
 <head>
     {% block cabecera %}
-    <title>Clientes</title>
-    <link rel="stylesheet" href="{% static './css/index.css' %}">
-    <link rel="stylesheet" href="{% static './css/section-styles/search.css' %}">
-    <link rel="stylesheet" href="{% static './css/section-styles/clients/clients.css' %}">
-    <link rel="stylesheet" href="{% static './css/section-styles/form-responsive.css' %}">
-    <link rel="stylesheet" href="{% static 'css/modal.css' %}">
-    <link rel="stylesheet" href="{% static 'css/tables.css' %}">
+    <link rel="stylesheet" href="{% static 'css/section-styles/invoice.css' %}">
+    <link rel="stylesheet" href="{% static 'css/section-styles/globals-section.css' %}">
     <link rel="stylesheet" href="{% static './css/bootstrap/bootstrap.css'%}">
     <link rel="stylesheet" href="{% static './css/DataTables/dataTables.bootstrap5.min.css' %}">
     <link rel="stylesheet" href="{% static './css/DataTables/responsive.dataTables.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'js/Buttons-2.2.2/css/buttons.bootstrap5.min.css' %}"/>
+    <title>Generar Cuotas</title>
     {% endblock %}
 </head>
 
@@ -23,63 +19,54 @@
     {% block cuerpo %}
     <div class="container menu-fade">
         <div class="title-and-back">
-            <a href="{% url 'inicio' %}" class="back" style="text-decoration: none;">
+            <a href="{% url 'cancelar_pagare' %}" class="back" style="text-decoration: none;">
                 <span class="icon-circle-left"></span>
             </a>
-            <h1>Clientes Deudores</h1>
+
+            <h1>Lista Pagarés de {{parameters.datos_act.nombre_cliente}} {{parameters.datos_act.apellido_cliente}}</h1>
+
         </div>
 
-        <table id="tabla" class="table table-striped" style="width: 100%">
-            <thead>
-                <tr>
-                    <th>Nro. Documento</th>
-                    <th>Tipo Documento</th>
-                    <th>Nombre y Apellido</th>
-                    <th>Telefono</th>
-                    <th>Genero</th>
-                    <th>Cuotas Canceladas</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for cliente in parameters.listaclientes %}
-                {% if cliente.estado_cliente == 0 %}
-                {% for pagare in parameters.listapagare %}
-                {% if cliente.id_cliente == pagare.id_cliente_id %}
-                <tr>
-                    <td class="documento">{{ cliente.documento_cliente }}</td>
+        <div class="container menu-fade" id="tabla-vehiculo">
+            
+                <h3 style="width: 100%; text-align: center;">Tabla de Cuotas</h3>
+                <div class="div-tabla">
+                    <table id="tabla" class="table display table-striped table-borderless table-hover" style="width:100%">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Nro. Cuota</th>
+                                <th>Fch. Vencimiento</th>
+                                <th>Monto Pagaré</th>
+                                <th>Intereses</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                           {% for pagaredetalle in parameters.listapagaredetalle %}
+                           {% if pagaredetalle.fch_pago_detalle_pagare is None %}
 
-                    {% for documento in parameters.listadocumentos %}
-                    {% if documento.id_tipo_documento == cliente.id_tipo_documento_id %}
-                    <td>{{documento.descripcion_tipo_documento}}</td>
-                    {% endif %}
-                    {% endfor %}
 
-                    <td>{{ cliente.nombre_cliente }} {{ cliente.apellido_cliente }}</td>
+                           {% if parameters.pagare_actual == pagaredetalle.id_pagare_id %}
+                           <tr>
+                                <td>{{pagaredetalle.nro_cuota_detalle_pagare}}</td>
+                                <td>{{pagaredetalle.fch_vencimiento_detalle_pagare}}</td>
+                                <td class="documento">{{pagaredetalle.monto_pagare_detalle}}</td>
+                                <td>{% if pagaredetalle.intereses_pagare_detalle %}{{pagaredetalle.intereses_pagare_detalle}}{% else %}0{%endif%}Gs</td>
+                                <td>
+                                    <button onclick="abrirModalEdicion('{% url 'pagar_cuota' pagaredetalle.id_pagare_detalle_pagare %}')"
+                                        class="btn btn-warning">Pagar Cuota</button>
+                                </td>
+                            </tr>
+                            {% endif %}
 
-                    <td>{{ cliente.telefono_cliente }}</td>
 
-                    {% if cliente.genero_cliente == 0 %}
-                        <td>Femenino</td>
-                    {% else %}
-                        <td>Masculino</td>
-                    {%endif%}
-
-                    <td>
-                        {{pagare.total_pagares}} cuotas/{%if pagare.cancelados_pagares %}{{pagare.cancelados_pagares}} {% else %}0 {% endif %}cancelados
-                    </td>
-
-                    <td class="actions">
-                        <a href="{% url 'lista_pagare' cliente.id_cliente pagare.id_pagare %}"
-                            class="btn btn-primary">Cancelar Pagare(s)</a>
-                    </td>
-                </tr>
-                {% endif %}
-                {% endfor %}
-                {% endif %}
-                {% endfor %}
-            </tbody>
-        </table>
+                           {% endif %}
+                           {%endfor%}
+                        </tbody>
+                    </table>
+                </div>
+            
+        </div>
     </div>
 
     <div class="modal fade" id="edicion" role="dialog">
@@ -148,14 +135,6 @@
             });     
         });
 
-        window.onload = function colorBoton() {
-            boton = document.getElementById("btnMostrarOcultar")
-            if(boton.innerHTML == 'Ver deshabilitados') {
-                boton.className = "btn btn-danger btn-sm"
-            } else {
-                boton.className = "btn btn-dark btn-sm"
-            }
-        }
 
         var args = {
             TITLE: 'Precaución!', 
@@ -191,7 +170,7 @@
             sessionStorage.setItem('1', 0);
         }
 
-        formatText("documento") //formatear numeros
+
 
     </script>
     {% endblock %}

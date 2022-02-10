@@ -127,3 +127,23 @@ class detalle_caja(models.Model):
     tipo_movimiento_detalle_caja = models.IntegerField()
     descripcion_detalle_caja = models.CharField(max_length=100)
     monto_detalle_caja = models.FloatField()
+
+class pagare(models.Model):
+    id_pagare = models.AutoField(primary_key=True)
+    id_factura_venta = models.ForeignKey(factura_venta, on_delete=models.CASCADE)
+    id_cliente = models.ForeignKey(cliente, on_delete=models.CASCADE)
+    deuda_total_pagare = models.IntegerField()
+    fecha_inicio_pagare = models.DateField(null = True)
+    fecha_final_pagare = models.DateField(null = True)
+    estado_pagare = models.IntegerField()
+    total_pagares = models.IntegerField(null=True)
+    cancelados_pagares = models.IntegerField(null=True)
+
+class detalle_pagare(models.Model):
+    id_pagare_detalle_pagare = models.AutoField(primary_key=True)
+    id_pagare = models.ForeignKey(pagare, on_delete=models.CASCADE)
+    nro_cuota_detalle_pagare = models.IntegerField()
+    fch_vencimiento_detalle_pagare = models.DateField()
+    monto_pagare_detalle = models.FloatField()
+    intereses_pagare_detalle = models.FloatField(null=True)
+    fch_pago_detalle_pagare = models.DateField(null=True)

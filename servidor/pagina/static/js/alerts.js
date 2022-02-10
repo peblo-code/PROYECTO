@@ -48,7 +48,7 @@ function registrarAjx(formId, edit_name, delete_name, foreingFlag, nombreSelect,
 
             var argsInsert = {
                 TITLE: 'Cambios aplicados!',
-                TEXT: `El producto ha sido cargado con éxito`,
+                TEXT: `El valor ha sido cargado con éxito`,
                 ICON: 'success'
             }
     

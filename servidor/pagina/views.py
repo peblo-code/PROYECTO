@@ -1,24 +1,7 @@
 from ast import Not, mod
 from distutils.log import error
 from django.shortcuts import redirect, render
-from pagina.models import usuarios
-from pagina.models import tipo_usuario
-from pagina.models import vehiculo
-from pagina.models import marca
-from pagina.models import modelo
-from pagina.models import color
-from pagina.models import tipo_documento
-from pagina.models import pais
-from pagina.models import ciudad
-from pagina.models import cliente
-from pagina.models import proveedor
-from pagina.models import timbrado
-from pagina.models import timbrado_parametros
-from pagina.models import factura_compra
-from pagina.models import factura_venta
-from pagina.models import caja
-from pagina.models import detalle_caja
-from pagina.models import factura_parametros
+from pagina.models import *
 from django.http import HttpResponse, JsonResponse, response
 from django.core import serializers
 from datetime import date
@@ -239,6 +222,7 @@ def factura_vender(request):
     listamodelo = modelo.objects.all()
     listacolor = color.objects.all()
     listafacturaventa = factura_venta.objects.all()
+    url = './get_cash/'
 
     if request.method == 'GET':
         return validar(request, 'sections/invoice/invoice-sell.html', {
@@ -272,12 +256,29 @@ def factura_vender(request):
         modificar_factura_parametros=factura_parametros.objects.get(id_factura_parametros=request.POST.get('id_factura_parametros'))
         modificar_factura_parametros.nro_actual_factura_parametros = int(request.POST.get('nro_factura')) + 1
         modificar_factura_parametros.save()
+        if(int(request.POST.get('condicion_factura')) == 1):
+            factura_personalizada = factura_venta.objects.raw("SELECT id_factura_venta FROM pagina_factura_venta ORDER BY id_factura_venta DESC LIMIT 1")
+            id_factura = 0
+            for facturita in factura_personalizada:
+                id_factura = facturita.id_factura_venta
+
+            nuevo_pagare=pagare(
+            id_factura_venta_id = id_factura,
+            id_cliente_id = request.POST.get('id_cliente'),
+            deuda_total_pagare = 0,
+            estado_pagare = 0,
+            cancelados_pagares = 0)
+            nuevo_pagare.save()
+
+            url = './generar_pagare/'
+
     factura_personalizada = factura_venta.objects.raw("SELECT id_factura_venta FROM pagina_factura_venta ORDER BY id_factura_venta DESC LIMIT 1")
     id_factura = 0
     for facturita in factura_personalizada:
         id_factura = facturita.id_factura_venta
 
-    return redirect('./get_cash/' + str(id_factura))
+
+    return redirect(url + str(id_factura))
 
 def get_cash(request, factu_actual=0):
     listafacturaventa = factura_venta.objects.all()
@@ -324,6 +325,44 @@ def get_cash(request, factu_actual=0):
 
         
     return redirect("../factura_venta")
+
+def generar_pagare(request, factu_actual=0):
+    factura_actual=factura_venta.objects.filter(id_factura_venta=factu_actual).exists()
+
+    pagare_personalizado = pagare.objects.raw("SELECT id_pagare FROM pagina_pagare ORDER BY id_pagare DESC LIMIT 1")
+    id_pagare = 0
+    for pagaresito in pagare_personalizado:
+        id_pagare = pagaresito.id_pagare
+
+
+    if factura_actual:
+        datos_factura=factura_venta.objects.filter(id_factura_venta=factu_actual).first()
+        return validar(request, "sections/invoice/invoice-fee.html", {
+            "factu_actual":factu_actual, 
+            "id_pagare": id_pagare, 
+            "datos_act":datos_factura 
+            })
+
+def invoice_fee_edit(request):
+    if request.method == "POST":
+        detalle_pagare_nuevo=detalle_pagare(id_pagare_id=request.POST.get('id_pagare'),
+        nro_cuota_detalle_pagare=request.POST.get('nro_cuota_detalle_pagare'),
+        fch_vencimiento_detalle_pagare=request.POST.get("fch_vencimiento_detalle_pagare"),
+        monto_pagare_detalle=request.POST.get("monto_pagare_detalle").replace(".","").replace(",","."),
+        intereses_pagare_detalle=0)
+        detalle_pagare_nuevo.save()
+
+        modificar_pagare=pagare.objects.get(id_pagare=request.POST.get('id_pagare'))
+        modificar_pagare.fecha_inicio_pagare = request.POST.get('fecha_inicio')
+        modificar_pagare.fecha_final_pagare = request.POST.get("fch_vencimiento_detalle_pagare")
+        modificar_pagare.total_pagares = request.POST.get('nro_cuota_detalle_pagare')
+        modificar_pagare.save()
+
+    error = 'No hay error!'
+    response = JsonResponse({'error':error})
+    response.status_code = 201
+    return response
+
 
 def historial_venta(request, mode=0):
     listacliente = cliente.objects.all()
@@ -731,7 +770,79 @@ def delete_user(request, usu_actual):
     return redirect("../users")
 
 def cancelar_pagare(request):
-    return validar(request, 'pay-fee.html')
+    listaclientes = cliente.objects.all()
+    listadocumentos = tipo_documento.objects.all()
+    listapais = pais.objects.all()
+    listaciudad = ciudad.objects.all()
+    listapagare = pagare.objects.all()
+    listapagaredetalle = detalle_pagare.objects.all()
+
+    return validar(request, 'sections/pay-fee.html',
+    {
+        "listaclientes": listaclientes,
+        "listadocumentos": listadocumentos,
+        "listapais": listapais,
+        "listaciudad": listaciudad,
+        "listapagare": listapagare,
+        "listapagaredetalle": listapagaredetalle
+    })
+    
+def lista_pagare(request, client_actual = 0, pagare_actual = 0):
+    listapagare = pagare.objects.all()
+    listapagaredetalle = detalle_pagare.objects.all()
+    cliente_actual=cliente.objects.filter(id_cliente=client_actual).first()
+
+    return validar(request, "sections/pay-fee/view-fees.html", {
+        "client_actual": client_actual,
+        "pagare_actual": pagare_actual,
+        "datos_act": cliente_actual,
+        "listapagare": listapagare,
+        "listapagaredetalle": listapagaredetalle
+    })
+
+def pagar_cuota(request, paga_actual=0):
+    listacliente = cliente.objects.all()
+    if request.method == "GET":
+        pagare_actual=detalle_pagare.objects.filter(id_pagare_detalle_pagare=paga_actual).first()
+        print(paga_actual)
+
+        return validar(request, "sections/pay-fee/cancel-fees.html", {
+            "paga_actual": paga_actual,
+            "datos_act": pagare_actual,
+            "titulo": "Pagar Cuota"
+        })
+
+    if request.method == "POST":
+        pag_actual=detalle_pagare.objects.filter(id_pagare_detalle_pagare=paga_actual).first()
+        pagaresito=pagare.objects.filter(id_pagare=pag_actual.id_pagare_id).first()
+
+        pagare_actual=pagare.objects.get(id_pagare=pag_actual.id_pagare_id)
+        pagare_actual.cancelados_pagares = int(pagaresito.cancelados_pagares) + 1
+        pagare_actual.save()
+
+        pagare_detalle_actual=detalle_pagare.objects.get(id_pagare_detalle_pagare=paga_actual)
+        pagare_detalle_actual.fch_pago_detalle_pagare=date.today().isoformat()
+        pagare_detalle_actual.save()
+
+        id_caja_actual=caja.objects.all().last().id_caja
+        id_cliente_pagare=pagare.objects.all().last().id_cliente_id
+        nombrecompleto = ""
+
+        for client in listacliente:
+            if client.id_cliente == id_cliente_pagare:
+                nombrecompleto = str(client.nombre_cliente) + " " + str(client.apellido_cliente)
+
+        detalle_caja_actual=detalle_caja(
+            id_caja_id = id_caja_actual,
+            tipo_movimiento_detalle_caja = 0, #1 Representa EGRESO
+            descripcion_detalle_caja = "Pago de cuota de " + nombrecompleto,
+            monto_detalle_caja = request.POST.get('monto_cobrado').replace(".","").replace(",",".")
+        )
+        detalle_caja_actual.save() 
+
+       
+    return redirect("../../lista_pagare/" + str(id_cliente_pagare))
+
 
 def personas(request):
     return validar(request,'sections/people.html')

@@ -10,268 +10,34 @@
     <link rel="stylesheet" href="{% static './css/DataTables/dataTables.bootstrap5.min.css' %}">
     <link rel="stylesheet" href="{% static './css/DataTables/responsive.dataTables.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'js/Buttons-2.2.2/css/buttons.bootstrap5.min.css' %}"/>
-    <title>Generar Venta</title>
+    <title>Generar Cuotas</title>
     {% endblock %}
 </head>
 <body>
     {% block cuerpo %}
     <div class="form-container">
         <div class="title-and-back">
-            <a href="venta" style="text-decoration: none">
-                <span class="icon-circle-left"></span>
-            </a>
-            <h1>Generar Venta</h1>
+            <h1>Generar Cuotas</h1>
         </div>
 
         <div class="card menu-fade">
             <div class="card-body">
-                <form action="" method="POST" class="form-invoice" id="cargarVenta">
-                    {% csrf_token %}
 
                     <input type="text" id="id_cliente" name="id_cliente" style="display: none;">
                     <input type="text" id="id_factura_parametros" name="id_factura_parametros" style="display: none;">
                     <input type="text" id="id_vehiculo" name="id_vehiculo" style="display: none;">
                     <input type="text" id="subtotal_send" name="subtotal" style="display: none;">
                     <input type="text" id="iva10_send" name="iva10" style="display: none;">
-                    <input type="text" id="total_send" name="total" style="display: none;">
+                    <input type="text" id="total_send" name="" style="display: none;">
 
-                    <div class="form-body" id="proveedor-data">
-                        <div class="form-div-invoice">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control validar" id="cliente" name="cliente" placeholder="Cliente" aria-describedby="button-addon4" disabled>
-                                  <button class="btn btn-outline-primary" id="mostrarProveedores" type="button" onclick="abrirModalEdicion('{% url 'modal_view_cliente' %}')">Buscar</button>
-                            </div>
-                        </div>
-                        <div class="form-div-invoice">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text" id="inputGroup-sizing-default">Nro. Documento</span>
-                                </div>
-                                <input type="text" name="documento" id="documento"
-                                class="form-control validar" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
-                            </div>
-                        </div>
-                        <div class="form-div-invoice">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="transmision">Fecha Act.</label>
-                                </div>
-                                <input type="date" name="fch_actual" id="fch_actual" value={{parameters.fecha_act}}
-                                class="form-control validar" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-body" id="factura-data">
-                        <div class="form-div-invoice">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                  <label class="input-group-text" for="transmision">Nro. Timbrado</label>
-                                </div>
-                                <select class="form-select validar" id="nro_timbrado" name="nro_timbrado" onchange="completarDatosVenta(this)" required>
-                                    {% for timbradoparametros in parameters.listatimbradoparametros %}
-                                        {% for facturaparametros in parameters.listafacturaparametros %}
-                                            {% if facturaparametros.nro_timbrado_parametros_id == timbradoparametros.nro_timbrado_parametros %}
-                                    <option value="{{timbradoparametros.nro_timbrado_parametros}}">{{timbradoparametros.nro_timbrado_parametros}}</option>
-                                            {% endif %}
-                                        {% endfor %}
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-div-invoice">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="">Fecha Vto.</label>
-                                </div>
-                                <input type="date" name="fch_vencimiento" id="fch_vencimiento"
-                                class="form-control validar" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
-                            </div>
-                        </div>
-                        <div class="form-div-invoice">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text" id="inputGroup-sizing-default">Nro. Factura</span>
-                                </div>
-                                <input type="text" name="nro_factura" id="nro_factura" 
-                                class="form-control item-documento" aria-label="Default" aria-describedby="inputGroup-sizing-default" readonly>
-                            </div>
-                            <div class="input-group mb-3" id="item-documento" style="display: none;">
-
-                            </div>
-                        </div>
-                        <div class="form-div-invoice mb-3" id="condicion-pago">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="condicion_factura" id="flexRadioDefault1" value="0" checked>
-                                <label class="form-check-label" for="flexRadioDefault1">
-                                  Contado
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="condicion_factura" id="flexRadioDefault2" value="1">
-                                <label class="form-check-label" for="flexRadioDefault2">
-                                  Crédito
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <div class="form-footer" id="btn-ver-vehiculo" style="justify-content: center;">
-                    <button class="btn btn-warning" id="btn-vehiculo" onclick="mostrarOcultarTabla(this)">
-                        Ocultar Lista de Vehículos
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="card" id="data-vehiculo" style="display: none">
-            <div class="card-body">
-                <h3 style="margin-bottom: 1em;">Producto Seleccionado</h3>
-                <section class="data-vehiculo-section">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <label class="input-group-text" for="marca">Marca</label>
-                        </div>
-                        <input type="text" id="marca" name="marca" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <label class="input-group-text" for="modelo">Modelo</label>
-                        </div>
-                        <input type="text" id="modelo" name="modelo" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <label class="input-group-text" for="color">Color</label>
-                        </div>
-                        <input type="text" id="color" name="color" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
-                    </div>    
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <label class="input-group-text" for="transmision">Transmision</label>
-                        </div>
-                        <input type="text" id="transmision" name="transmision" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="inputGroup-sizing-default">Motor</span>
-                        </div>
-                        <input type="text" id="motor" name="motor" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="inputGroup-sizing-default">Año</span>
-                        </div>
-                        <input type="text" id="anio" name="anio" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="inputGroup-sizing-default">Chasis</span>
-                        </div>
-                        <input type="text" id="chasis" name="chasis" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="inputGroup-sizing-default">Costo</span>
-                        </div>
-                        <input type="text" id="costo" name="costo" class="format form-control precios" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
-                    </div>
-
-                    <div class="input-group mb-3"> 
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-default">Venta</span>
-                        </div>
-                        <input type="text" id="venta" name="venta" class="format form-control precios" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
-                    </div>
-                </section>
-                <button class="btn btn-success" id="btnCarga">
-                    Generar Factura
-                </button>
-            </div>
-        </div>
-
-        <div class="card menu-fade" id="tabla-vehiculo">
-            <div class="card-body">
-                <h3>Vehiculos</h3>
-                <div class="div-tabla">
-                    <table id="tabla" class="table display table-striped table-borderless table-hover" style="width:100%">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Marca</th>
-                                <th>Modelo</th>
-                                <th>Motor</th>
-                                <th>Año</th>
-                                <th>Color</th>
-                                <th>Precio Venta</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for lista in parameters.listaproducto %}
-                            {% if lista.estado_vehiculo == 1 %}
-                            <tr>
-                                {% for marca in parameters.listamarca %}
-                                {% if marca.id_marca == lista.id_marca_id %}
-                                <td>{{marca.descripcion_marca}}</td>
-                                {% endif %}
-                                {% endfor %}
-            
-                                {% for modelo in parameters.listamodelo %}
-                                {% if modelo.id_modelo == lista.id_modelo_id %}
-                                <td>{{modelo.descripcion_modelo}}</td>
-                                {% endif %}
-                                {% endfor %}
-            
-                                <td>{{ lista.motor_vehiculo }}cc</td>
-            
-                                <td>{{ lista.anio_vehiculo }}</td>
-            
-                                {% for color in parameters.listacolor %}
-                                {% if color.id_color == lista.id_color_id %}
-                                <td>{{color.descripcion_color}}</td>
-                                {% endif %}
-                                {% endfor %}
-            
-                                <td class="precio">{{ lista.precio_venta }}</td>
-            
-                                {% if lista.estado_vehiculo == 1 %}
-                                <td>
-                                    <span class="badge bg-success" style="color: white">DISPONIBLE</span>
-                                </td>
-                                {% else %}
-                                <td>
-                                    <span class="badge bg-secondary" style="color: white">LISTO</span>
-                                </td>
-                                {% endif %}
-            
-                                <td class="actions" style="display: flex; justify-content: center;">
-                                    <button onclick="mostarSeleccionado(this, '{{lista.id_vehiculo}}')" class="btn btn-info">Seleccionar Producto</button>
-                                </td>
-                            </tr>
-                            {% endif %}
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="card menu-fade" id="montos" style="display: none">
-            <div class="card-body">
-                <h3>Monto</h3>
-                <div class="data-vehiculo-section">
+                    <h3>Monto</h3>
+                <div class="container" style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: .5em;">
                     <div class="form-div-invoice">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="inputGroup-sizing-default">SubTotal</span>
                             </div>
-                            <input type="text" name="subtotal" id="subtotal"
+                            <input type="text" name="subtotal" id="subtotal" value="{{parameters.datos_act.subtotal_factura_venta}}"
                             class="form-control precios" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroup-sizing-default">Gs.</span>
@@ -283,29 +49,91 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="inputGroup-sizing-default">I.V.A 10%</span>
                             </div>
-                            <input type="text" name="iva10" id="iva10"
+                            <input type="text" name="iva10" id="iva10" value="{{parameters.datos_act.iva10_factura_venta}}"
                             class="form-control precios" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroup-sizing-default">Gs.</span>
                             </div>
                         </div>
                     </div>
+                    
                     <div class="form-div-invoice">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="inputGroup-sizing-default">Total</span>
                             </div>
-                            <input type="text" name="total" id="total"
-                            class="form-control precios" aria-label="Default" aria-describedby="inputGroup-sizing-default" disabled>
+                            <input type="text" name="total" id="total" value="{{parameters.datos_act.total_factura_venta}}" readonly
+                            class="form-control saldos montoTotal" aria-label="Default" aria-describedby="inputGroup-sizing-default" value="" onkeydown="format(this)" onchange="format(this)" >
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroup-sizing-default">Gs.</span>
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-div-invoice">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" id="inputGroup-sizing-default">Monto de Entrega</span>
+                            </div>
+                            <input type="text" name="monto_entrega" id="monto_entrega"
+                            class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" value="" onkeydown="format(this)" onchange="format(this)" >
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Gs.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-div-invoice">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" id="inputGroup-sizing-default">Fch. Primera Cuota</span>
+                            </div>
+                            <input type="date" name="" id="fecha_desde"
+                            class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                        </div>
+                    </div>
+
+                    <div class="form-div-invoice">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" id="inputGroup-sizing-default">Cant. Cuotas</span>
+                            </div>
+                            <input type="number" name="cant_cuotas" id="cant_cuotas" onkeyup="calcularInteres()"
+                            class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-footer text-muted">
+                <button class="btn btn-primary" id="btn-vehiculo" onclick="agregarFila(true)">
+                    Generar Lista Cuotas
+                </button>
+                <button class="btn btn-success" id="" onclick="agregarFila(false)">
+                    Cargar Cuotas
+                </button>
+              </div>
+        </div>
+
+        <div class="card menu-fade" id="tabla-vehiculo">
+            <div class="card-body">
+                <h3>Tabla de Cuotas</h3>
+                <div class="div-tabla">
+                    <table id="tabla" class="table display table-striped table-borderless table-hover" style="width:100%">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Nro. Cuota</th>
+                                <th>Fch. Vencimiento</th>
+                                <th>Monto Pagaré</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                           
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </div>
 
 
 
@@ -322,35 +150,97 @@
     <script src="{% static 'js/DataTables/js/dataTables.bootstrap5.min.js' %}"></script>
     <script src="{% static 'js/DataTables/js/dataTables.responsive.min.js' %}"></script>
     <script>
-        $(document).ready(function(){
-            $('#tabla').DataTable({
-                responsive: true,
-                "language": {
-                "emptyTable":     "La tabla se encuentra vacia.",
-                "info":           "Mostrando _END_ de _MAX_ registros",
-                "infoEmpty":      "",
-                "infoFiltered":   "",
-                "infoPostFix":    "",
-                "thousands":      ",",
-                "lengthMenu":     "Mostrar _MENU_ registros",
-                "loadingRecords": "Cargando...",
-                "processing":     "Procesando...",
-                "search":         "",
-                "zeroRecords":    "No se obtuvo ninguna coincidencia",
-                oPaginate: {
-                    sNext: '<i class="fa fa-forward"></i>',
-                    sPrevious: '<i class="fa fa-backward"></i>',
-                    sFirst: '<i class="fa fa-step-backward"></i>',
-                    sLast: '<i class="fa fa-step-forward"></i>'
-                }
-            },
-            "scrollY":        "10em",
-            "scrollCollapse": true,
-            "paging":         false,
-            });
-        });
 
-        formatText("precio")
+        formatInputLoaded("precios")
+        var total = document.getElementById("total").value.replaceAll(".","");
+
+        function calcularInteres(){
+            if(parseInt(document.getElementById("cant_cuotas").value) < 10) {
+                var porcentajeInteres = "1.0" + document.getElementById("cant_cuotas").value;
+            } else {
+                var porcentajeInteres = "1." + document.getElementById("cant_cuotas").value;
+            }
+
+            document.getElementById("total").value = parseFloat({{parameters.datos_act.total_factura_venta}}) * parseFloat(porcentajeInteres)
+            formatInputLoaded("montoTotal")
+        }
+
+
+        function agregarFila(flag) {
+            var fechaInicio = document.getElementById("fecha_desde").value
+
+            var anioInicio = parseInt(fechaInicio.substring(0, 4))
+            var mesInicio = parseInt(fechaInicio.substring(5, 7))
+            var diaInicio = fechaInicio.substring(8, 10)
+
+            var cuotas = document.getElementById("cant_cuotas").value;
+            var total = document.getElementById("total").value.replaceAll(".","");
+            var monto_entrega = document.getElementById("monto_entrega").value.replaceAll(".","");
+
+            var montoCuota = (parseInt(total) - parseInt(monto_entrega)) / parseInt(cuotas)
+            montoCuota = parseInt(montoCuota)
+
+            if(flag) {
+                document.getElementById("tabla").innerHTML = 
+                    `
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Nro. Cuota</th>
+                            <th>Fch. Vencimiento</th>
+                            <th>Monto Pagaré</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody"> 
+                    </tbody>
+                    `            
+            }
+            
+            for(let i=0; i < parseInt(cuotas); i++){
+                console.log(parseInt(cuotas))
+                function obtenerFecha(){
+
+                    mesInicio += 1
+                    if(mesInicio > 12) {
+                        mesInicio = 1
+                        anioInicio += 1 
+                    }
+
+                    if(mesInicio < 10) {
+                        mesInicio
+                    }
+
+                    return `${anioInicio}-${((mesInicio < 10) ? '0' + mesInicio : mesInicio)}-${diaInicio}`
+
+                }
+                if(flag){
+                    document.getElementById("tabla").insertRow(-1).innerHTML = `<td>${i+1}</td> <td>${obtenerFecha()}</td> <td class="precio">${montoCuota}</td>`
+                } else {
+                    $.ajax({
+                        url: "{% url 'invoice_fee_edit' %}",
+                        type: 'POST',
+                        data:{
+                            'id_pagare': {{parameters.id_pagare}},
+                            'fecha_inicio': fechaInicio,
+                            'nro_cuota_detalle_pagare': i+1,
+                            'fch_vencimiento_detalle_pagare': obtenerFecha(),
+                            'monto_pagare_detalle': montoCuota,
+                            'csrfmiddlewaretoken': '{{csrf_token}}'
+                        },
+                        success: 
+                        function(data){
+                            console.log(montoCuota)
+                            if(i+1 == parseInt(cuotas)) {
+                                sessionStorage.setItem('1', 1);
+                                location.href = '../factura_venta'
+                            }
+                        }
+                    })
+                }
+
+
+            }
+            formatText("precio")
+        }
 
 
         var $ = jQuery.noConflict();
@@ -361,70 +251,11 @@
         }
         
 
-        flagBtn = 1
-        function mostrarOcultarTabla(event) {
-            if (flagBtn == 0) {
-                event.className = "btn btn-warning"
-                event.innerText = "Ocultar Lista de Vehículos"
-                $('#tabla-vehiculo').show(500); //muestro mediante id
-                $('#data-vehiculo').hide(500); //muestro mediante id
-                $('#montos').hide(500)
-                flagBtn = 1
-
-            } else {
-                event.className = "btn btn-success"
-                event.innerText = "Ver Lista de Vehículos"
-                $('#tabla-vehiculo').hide(500); //oculto mediante id
-                flagBtn = 0
-
-            } 
-        }
-
-        function mostarSeleccionado(event, id_vehiculo) {
-            $('#data-vehiculo').show(500); //muestro mediante id
-            $('#montos').show(500);
-             
-            mostrarOcultarTabla(document.getElementById("btn-vehiculo"))
-            cargarProducto(event, id_vehiculo)
-            formatInputLoaded("precios")
-
-        }
-
         function financial(x) {
             return Number.parseFloat(x).toFixed(2);
         }
 
-        function cargarProducto(event, id_vehiculo) {
 
-            {% for vehiculo in parameters.listaproducto %}
-                if(id_vehiculo == "{{vehiculo.id_vehiculo}}") {
-                    document.getElementById("id_vehiculo").value = "{{vehiculo.id_vehiculo}}"
-                    document.getElementById("transmision").value = "{{vehiculo.transmision_vehiculo}}"
-                    document.getElementById("motor").value = "{{vehiculo.motor_vehiculo}}"
-                    document.getElementById("anio").value = "{{vehiculo.anio_vehiculo}}"
-                    document.getElementById("chasis").value = "{{vehiculo.nro_chassis_vehiculo}}"
-                    document.getElementById("costo").value = "{{vehiculo.precio_costo}}"
-                    document.getElementById("venta").value = "{{vehiculo.precio_venta}}"
-                    document.getElementById("subtotal").value = "{{vehiculo.precio_venta}}"
-                    document.getElementById("iva10").value = financial(parseInt("{{vehiculo.precio_venta}}") / 11)
-                    document.getElementById("total").value = financial((parseInt("{{vehiculo.precio_venta}}") / 11) + parseInt("{{vehiculo.precio_venta}}"))
-                    document.getElementById("subtotal_send").value = "{{vehiculo.precio_venta}}"
-                    document.getElementById("iva10_send").value = financial(parseInt("{{vehiculo.precio_venta}}") / 11)
-                    document.getElementById("total_send").value = financial((parseInt("{{vehiculo.precio_venta}}") / 11) + parseInt("{{vehiculo.precio_venta}}"))
-
-                }
-            {% endfor %}
-
-            // vamos al elemento padre (<tr>) y buscamos todos los elementos <td>
-            // que contenga el elemento padre
-            var elementosTD=event.parentElement.parentElement
-            
-            // recorremos cada uno de los elementos del array de elementos <td>
-            document.getElementById("marca").value = elementosTD.cells.item(0).innerText;
-            document.getElementById("modelo").value = elementosTD.cells.item(1).innerText;
-            document.getElementById("color").value = elementosTD.cells.item(4).innerText;
-
-        }
         var argsModal = {
             TITLE: 'Advertencia!', 
             TEXT: 'Estás seguro de generar esta Factura de Venta?',
@@ -434,32 +265,6 @@
             btnId: 'cargarVenta'
         }
 
-        completarDatosVenta(document.getElementById("nro_timbrado"))
-
-        function completarDatosVenta(event) {
-            var nro_timbrado = event.value
-            var fch_vencimiento = document.getElementById("fch_vencimiento")
-            var nro_factura = document.getElementById("nro_factura")
-            var id_factura = document.getElementById("id_factura_parametros")
-            console.log("Hola")
-            {% for timbradoparametros in parameters.listatimbradoparametros %}
-                if(nro_timbrado == {{timbradoparametros.nro_timbrado_parametros}}) {
-                    fch_vencimiento.value = formatearFecha("{{timbradoparametros.fch_vencimiento_timbrado_parametros}}")
-
-                {% for facturaparametros in parameters.listafacturaparametros %}
-                    if(nro_timbrado == {{facturaparametros.nro_timbrado_parametros_id}}){
-                        nro_factura.value = {{facturaparametros.nro_actual_factura_parametros}}
-                        id_factura.value = {{facturaparametros.id_factura_parametros}}
-                    }
-                {% endfor %}
-                }
-            {% endfor %}
-
-        }
-
-        validacion = true
-
-        document.getElementById("btnCarga").addEventListener("click", () => validarFormularioEdicion(validacion, "item-documento"))
 
         var argsInsert = {
             TITLE: 'Cambios aplicados!',
