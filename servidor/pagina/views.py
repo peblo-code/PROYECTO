@@ -25,6 +25,18 @@ def login(request):
             return render(request, 'login.html')
 
     if request.method == 'POST':
+        listapagaredetalle = detalle_pagare.objects.all()
+        fecha_actual = date.today().isoformat()
+        for pagaredetalle in listapagaredetalle:
+            if int(str(pagaredetalle.fch_vencimiento_detalle_pagare)[5:7]) < int(fecha_actual[5:7]):
+                if int(str(pagaredetalle.fch_vencimiento_detalle_pagare)[0:4]) == int(fecha_actual[0:4]):
+                    if pagaredetalle.fch_pago_detalle_pagare is None:
+                        pagare_detalle_actual=detalle_pagare.objects.get(id_pagare_detalle_pagare=pagaredetalle.id_pagare_detalle_pagare)
+                        pagare_detalle_actual.intereses_pagare_detalle=(int(pagaredetalle.monto_pagare_detalle) * 0.04) * (int(fecha_actual[5:7]) - int(str(pagaredetalle.fch_vencimiento_detalle_pagare)[5:7]))
+                        pagare_detalle_actual.save()
+
+
+
         v_usuario = request.POST.get("usuario")
         v_clave = request.POST.get("clave")
         usuario_actual = usuarios.objects.filter(usuario=v_usuario).exists()
