@@ -205,7 +205,7 @@
                         </thead>
                         <tbody>
                             {% for lista in parameters.listaproducto %}
-                            {% if lista.estado_vehiculo == 2 %}
+                            {% if lista.estado_vehiculo == 0 %}
                             <tr>
                                 {% for marca in parameters.listamarca %}
                                 {% if marca.id_marca == lista.id_marca_id %}
@@ -303,11 +303,13 @@
         function cargarFecha(event) {
             var auxTimbrado = ""
             var inputFch = document.getElementById("fch_vencimiento")
+            console.log("HOLA")
             {% for timbrado in parameters.listatimbrado %}
             auxTimbrado = "{{timbrado.nro_timbrado}}"
+            
                 if(auxTimbrado == event.value) {
                     inputFch.value = formatearFecha("{{timbrado.fch_vencimiento_timbrado}}")
-                    console.log("{{timbrado.fch_vencimiento_timbrado}}")
+                    
                 }
             {% endfor %}
         }

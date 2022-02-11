@@ -125,9 +125,11 @@
                     
                     <td class="monto" {% if cajadetalle.tipo_movimiento_detalle_caja == 0 %} style="color: green" {% else %} style="color: red" {% endif %}>{{cajadetalle.monto_detalle_caja}}</td>
                     <td>
+                        {% if cajadetalle.descripcion_detalle_caja != 'Apertura de Caja' %}
                         <a href="{% url 'cash_detail_delete' cajadetalle.id_detalle_caja %}">
-                            <button class="btn btn-danger" {% if cajadetalle.descripcion_detalle_caja == 'Apertura de Caja' %} disabled {% endif %}>Deshacer</button>
+                            <button class="btn btn-danger">Deshacer</button>
                         </a>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endif %}
