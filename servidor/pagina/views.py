@@ -109,7 +109,7 @@ def edit_product(request, product_actual = 0):
             nro_chassis_vehiculo=request.POST.get("chasis"),
             precio_costo=request.POST.get("costo").replace(".","") ,
             precio_venta=request.POST.get("venta").replace(".","") ,
-            estado_vehiculo=2)
+            estado_vehiculo=0)
             vehiculo_nuevo.save()
         else:
             vehiculo_actual=vehiculo.objects.get(id_vehiculo=product_actual)
@@ -122,7 +122,7 @@ def edit_product(request, product_actual = 0):
             vehiculo_actual.nro_chassis_vehiculo=request.POST.get("chasis")
             vehiculo_actual.precio_costo=request.POST.get("costo").replace(".","")
             vehiculo_actual.precio_venta=request.POST.get("venta").replace(".","")
-            vehiculo_actual.estado_vehiculo=2
+            vehiculo_actual.estado_vehiculo=0
             vehiculo_actual.save()
         return redirect("../productos")
 
@@ -264,12 +264,12 @@ def factura_vender(request):
             subtotal_factura_venta = request.POST.get('subtotal'),
             iva10_factura_venta = request.POST.get('iva10'),
             total_factura_venta = request.POST.get('total'),
-            estado_factura_venta = 0,
+            estado_factura_venta = 2,
         )
         nueva_venta.save()
 
         modificar_vehiculo=vehiculo.objects.get(id_vehiculo=request.POST.get('id_vehiculo'))
-        modificar_vehiculo.estado_vehiculo = 0
+        modificar_vehiculo.estado_vehiculo = 2
         modificar_vehiculo.save()
 
         modificar_factura_parametros=factura_parametros.objects.get(id_factura_parametros=request.POST.get('id_factura_parametros'))
@@ -419,6 +419,7 @@ def factura_comprar(request):
     listamarca = marca.objects.all()
     listamodelo = modelo.objects.all()
     listacolor = color.objects.all()
+    listatimbrado = timbrado.objects.all()
     listafacturacompra = factura_compra.objects.all()
 
     if request.method == 'GET':
@@ -427,6 +428,7 @@ def factura_comprar(request):
             "listaproducto": listaproducto, "listamarca": listamarca, "listamodelo": listamodelo,
             "listacolor": listacolor,
             "listafacturacompra": listafacturacompra,
+            "listatimbrado": listatimbrado,
             "fecha_act": date.today().isoformat()
         })
 
@@ -820,6 +822,7 @@ def lista_pagare(request, client_actual = 0, pagare_actual = 0):
     })
 
 def pagar_cuota(request, paga_actual=0):
+    id_pagare = 0
     listacliente = cliente.objects.all()
     if request.method == "GET":
         pagare_actual=detalle_pagare.objects.filter(id_pagare_detalle_pagare=paga_actual).first()
@@ -832,6 +835,8 @@ def pagar_cuota(request, paga_actual=0):
         })
 
     if request.method == "POST":
+        id_pagare=request.POST.get("id_pagare")
+
         pag_actual=detalle_pagare.objects.filter(id_pagare_detalle_pagare=paga_actual).first()
         pagaresito=pagare.objects.filter(id_pagare=pag_actual.id_pagare_id).first()
 
@@ -845,6 +850,7 @@ def pagar_cuota(request, paga_actual=0):
 
         id_caja_actual=caja.objects.all().last().id_caja
         id_cliente_pagare=pagare.objects.all().last().id_cliente_id
+        id_pagaresito=pagare.objects.all().last().id_pagare
         nombrecompleto = ""
 
         for client in listacliente:
@@ -860,7 +866,7 @@ def pagar_cuota(request, paga_actual=0):
         detalle_caja_actual.save() 
 
        
-    return redirect("../../lista_pagare/" + str(id_cliente_pagare))
+    return redirect("../lista_pagare/" + str(id_cliente_pagare) + "/" + str(id_pagaresito))
 
 
 def personas(request):
