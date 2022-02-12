@@ -41,6 +41,7 @@ function registrarAjx(formId, edit_name, delete_name, foreingFlag, nombreSelect,
         type: $(`#${formId}`).attr('method'),
         success: function(response) {
             if(document.getElementById("tabla")) {
+                debugger
                 actualizarTabla( JSON.parse(response.mensaje), edit_name, delete_name, foreingFlag, marcaForeign)
             } else {
                 actualizarSelect( JSON.parse(response.mensaje), nombreSelect )

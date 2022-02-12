@@ -178,38 +178,36 @@ def mark_and_model(request, marcaModelo_actual = 0, tipo_carga = 0, redirigir = 
             "listaparametros":listaparametros, "listamarca":listamarca})
 
     if request.method=="POST":
-        if request.is_ajax():
-            #Redirige luego de hacer la carga
-            if redirigir == 0:
-                urlPost = '../../../edit_product/0'
-            elif redirigir == 1:
-                urlPost = '../../../mark'
-            elif redirigir == 2:
-                urlPost = '../../../models'
+        #Redirige luego de hacer la carga
+        if redirigir == 0:
+            urlPost = '../../../edit_product/0'
+        elif redirigir == 1:
+            urlPost = '../../../mark'
+        elif redirigir == 2:
+            urlPost = '../../../models'
+        else:
+            urlPost = '../../../colors'
+        if marcaModelo_actual==0:
+            if tipo_carga==0:
+                marca_nueva=marca(descripcion_marca=request.POST.get('marca'))
+                marca_nueva.save()
+                test = serializers.serialize('json', list(listamarca))
+                #return redirect(urlPost)
+            elif tipo_carga==1:
+                modelo_nuevo=modelo(descripcion_modelo=request.POST.get('modelo'),
+                id_marca_id=request.POST.get('marca'))
+                modelo_nuevo.save()
+                test = serializers.serialize('json', list(listamodelo))
+                #return redirect(urlPost)
             else:
-                urlPost = '../../../colors'
-
-            if marcaModelo_actual==0:
-                if tipo_carga==0:
-                    marca_nueva=marca(descripcion_marca=request.POST.get('marca'))
-                    marca_nueva.save()
-                    test = serializers.serialize('json', list(listamarca))
-                    #return redirect(urlPost)
-                elif tipo_carga==1:
-                    modelo_nuevo=modelo(descripcion_modelo=request.POST.get('modelo'),
-                    id_marca_id=request.POST.get('marca'))
-                    modelo_nuevo.save()
-                    test = serializers.serialize('json', list(listamodelo))
-                    #return redirect(urlPost)
-                else:
-                    color_nuevo=color(descripcion_color=request.POST.get('color'))
-                    color_nuevo.save()
-                    test = serializers.serialize('json', list(listacolor))
-                    #return redirect(urlPost)
-            error = 'No hay error!'
-            response = JsonResponse({'mensaje':test, 'error':error})
-            response.status_code = 201
-            return response
+                color_nuevo=color(descripcion_color=request.POST.get('color'))
+                color_nuevo.save()
+                test = serializers.serialize('json', list(listacolor))
+                #return redirect(urlPost)
+        error = 'No hay error!'
+        response = JsonResponse({'mensaje':test, 'error':error})
+        response.status_code = 201
+        return response
 
 def informes(request):
     return validar(request, 'sections/informs.html')
