@@ -22,6 +22,7 @@ urlpatterns = [
     path('generar_pagare/<int:factu_actual>', views.generar_pagare, name='generar_pagare'),
     path('invoice_fee_edit', views.invoice_fee_edit, name='invoice_fee_edit'),
     path('get_cash/<int:factu_actual>', views.get_cash, name='get_cash'),
+    path('imprimir_factura/<int:factu_actual>', views.imprimir_factura, name='imprimir_factura'),
     path('cash', views.cash, name='cash'),
     path('cash_history', views.cash_history, name='cash_history'),
     path('cash_register', views.cash_register, name='cash_register'),

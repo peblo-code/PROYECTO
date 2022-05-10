@@ -349,14 +349,14 @@ def imprimir_factura(request, factura_actual=0):
     factura_actual=factura_venta.objects.filter(id_factura_venta=factura_actual).exists()
     if factura_actual:
         datos_factura=factura_venta.objects.filter(id_factura_venta=factura_actual).first()
-        return validar(request, 'sections/invoice/imprimir_factura.html',
+        return validar(request, 'sections/invoice/print_invoice.html',
         {
             "datos_act":datos_factura, "factura_actual":factura_actual, "titulo":"Imprimir Factura",
             "listafacturaventa":factura_venta.objects.all()
         })
 
     return redirect("../factura_venta")
-    
+
 
 def generar_pagare(request, factu_actual=0):
     factura_actual=factura_venta.objects.filter(id_factura_venta=factu_actual).exists()
